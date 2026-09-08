@@ -185,13 +185,13 @@ const W2=D.wb2;
  let t1='<div style="font-weight:700;color:var(--blue);margin:8px 0 6px">整体库存（周序列；进销存报表口径）</div>';
  const r36=W2.series.find(r=>String(r.week).endsWith('36')), r35=W2.series.find(r=>String(r.week).endsWith('35'));
  const pct1=v36=>r35?r35.cols.map((v35,i)=>{if(!r36)return '-';if(v36===null||v36===undefined||!v35)return '-';const p=(v36[i]-v35)/v35*100;return p>0?'<span class="up">+'+p.toFixed(1)+'%</span>':(p<0?'<span class="dn">'+p.toFixed(1)+'%</span>':'0%')}):H1.slice(1).map(()=>'-');
- const cmpRow=['<b>对比(近2周%)</b>'].concat(r36?pct1(r36.cols):H1.slice(1).map(()=>'-'));
+ const cmpRow=['<b>对比(近2周)</b>'].concat(r36?pct1(r36.cols):H1.slice(1).map(()=>'-'));
  t1+=mkTable(H1,W2.series.map(r=>[`<b>${r.week}</b>`].concat(r.cols.map(f1))).concat([cmpRow]));
  const H2=['类别','SKU数','FBA可用','FBA在途','海外仓可用','本地仓可用','采购在途','FBA30天销量','FBA库销比','fba离岸库销比'];
  const rows2=W2.newold_rows.filter(r=>String(r.week).indexOf('对比')<0).map(r=>[`<b>${r.week}</b>`,`<span style="${r.cat==='新品'?'color:#2E75B6;font-weight:600':'color:#888'}">${r.cat}</span>`].concat(r.vals.map(f1)));
  const t2='<div style="font-weight:700;color:var(--blue);margin:16px 0 6px">新品 VS 老品 库存（近2周 W36 vs W35）</div>';
  const pctFmt=v=>v===null||v===undefined?'-':(v>0?'<span class="up">+'+(v).toFixed(1)+'%</span>':(v<0?'<span class="dn">'+(v).toFixed(1)+'%</span>':'0%'));
- const cmpRows=(W2.cmp2||[]).map(c=>['<b>近2周%</b>',`<span style="${c.cat==='新品'?'color:#2E75B6;font-weight:600':'color:#888'}">${c.cat}</span>`].concat(c.pct?c.pct.map((v,i)=>i===0?'-':pctFmt(v)):H2.slice(1).map(()=>'-')));
+ const cmpRows=(W2.cmp2||[]).map(c=>['<b>近2周对比</b>',`<span style="${c.cat==='新品'?'color:#2E75B6;font-weight:600':'color:#888'}">${c.cat}</span>`].concat(c.pct?c.pct.map((v,i)=>i===0?'-':pctFmt(v)):H2.slice(1).map(()=>'-')));
  $('iv2').innerHTML=t1+t2+mkTable(['周'].concat(H2),rows2.concat(cmpRows));
  const an=W2.cmp2||[];
  const anTxt=an.map(c=>{if(!c.pct)return '';const p=c.pct;
@@ -205,13 +205,13 @@ const W2=D.wb2;
  }).filter(x=>x);
  const nw=an.find(x=>x.cat==='新品'), od=an.find(x=>x.cat==='老品');
  const note=(nw&&od&&nw.pct&&od.pct)?`新品动销放量中（FBA30天销量${nw.pct[6].toFixed(1)}%、可用${nw.pct[1].toFixed(1)}%、库销比${nw.pct[7].toFixed(1)}%周转加快）；老品供给收紧（可用${od.pct[1].toFixed(1)}%、在途${od.pct[2].toFixed(1)}%）——补货优先级：老品＞新品。`:'';
- // 表3: 库存周趋势(新品/老品 库销比&FBA30) + 近2周%对比行
+ // 表3: 库存周趋势(新品/老品 库销比&FBA30) + 近2周对比行
  const trs=W2.trend_rows||[];
  let t3='';
  if(trs.length){
   const H3=['周','新品FBA库销比','老品FBA库销比','新品离岸库销比','老品离岸库销比','新品FBA30天销量','老品FBA30天销量'];
   const t36=trs.find(r=>String(r.week).indexOf('W36')>=0), t35=trs.find(r=>String(r.week).indexOf('W35')>=0);
-  const cmpT3=t36&&t35?['<b>近2周%</b>'].concat(H3.slice(1).map((h,i)=>{const a=t36.vals[i],b=t35.vals[i];if(a===null||a===undefined||!b)return '-';const p=(a-b)/b*100;return p>0?'<span class="up">+'+p.toFixed(1)+'%</span>':(p<0?'<span class="dn">'+p.toFixed(1)+'%</span>':'0%')})):[];
+  const cmpT3=t36&&t35?['<b>近2周对比</b>'].concat(H3.slice(1).map((h,i)=>{const a=t36.vals[i],b=t35.vals[i];if(a===null||a===undefined||!b)return '-';const p=(a-b)/b*100;return p>0?'<span class="up">+'+p.toFixed(1)+'%</span>':(p<0?'<span class="dn">'+p.toFixed(1)+'%</span>':'0%')})):[];
   const rows3=trs.map(r=>[`<b>${r.week}</b>`].concat(r.vals.map(v=>v===null||v===undefined?'-':(Number.isInteger(v)?num(v):v.toFixed(2)))));
   if(cmpT3.length)rows3.push(cmpT3);
   t3='<div style="font-weight:700;color:var(--blue);margin:16px 0 6px">库存周趋势（新品/老品 FBA库销比 & 离岸库销比 & FBA30天销量，每周追加）</div>'+mkTable(H3,rows3);
