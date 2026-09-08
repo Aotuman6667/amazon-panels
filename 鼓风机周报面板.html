@@ -172,12 +172,12 @@ const W2=D.wb2;
  if(!W2.series){$('iv2').innerHTML='<span style="color:#C00000">工作簿2未读取到，请确认桌面存在《工作簿2.xlsx》</span>';return;}
  const H1=['周','FBA可用库存','FBA在途库存','海外仓可用库存','本地仓可用库存','采购在途库存','FBA30天销量','FBA库销比','fba离岸库销比'];
  const f1=v=>v===null||v===undefined?'-':(typeof v==='number'?(Number.isInteger(v)?num(v):v.toFixed(2)):String(v));
- let t1='<div style="font-weight:700;color:var(--blue);margin:8px 0 6px">二、库存情况 · 整体库存（周序列；进销存报表口径）</div>'+mkTable(H1,W2.series.map(r=>[`<b>${r.week}</b>`].concat(r.cols.map(f1))));
+ let t1='<div style="font-weight:700;color:var(--blue);margin:8px 0 6px">整体库存（周序列；进销存报表口径）</div>';
  const cmpRow=['<b>对比</b>'].concat(W2.cmp1?W2.cmp1.map(v=>v===null?'-':(v>0?'<span class="up">+'+(v*100).toFixed(1)+'%</span>':(v<0?'<span class="dn">'+(v*100).toFixed(1)+'%</span>':'0%'))):H1.slice(1).map(()=>'-'));
- t1+='<div style="margin-top:6px">'+mkTable(['周','FBA可用库存','FBA在途库存','海外仓可用库存','本地仓可用库存','采购在途库存','FBA30天销量','FBA库销比','fba离岸库销比'],[cmpRow])+'</div>';
+ t1+=mkTable(H1,W2.series.map(r=>[`<b>${r.week}</b>`].concat(r.cols.map(f1))).concat([cmpRow]));
  const H2=['类别','SKU数','FBA可用','FBA在途','海外仓可用','本地仓可用','采购在途','FBA30天销量','FBA库销比','fba离岸库销比'];
  const rows2=W2.newold_rows.map(r=>[`<b>${r.week}</b>`,`<span style="${r.cat==='新品'?'color:#2E75B6;font-weight:600':'color:#888'}">${r.cat}</span>`].concat(r.vals.map(f1)));
- const t2='<div style="font-weight:700;color:var(--blue);margin:16px 0 6px">二、库存情况 · 新品 VS 老品 库存</div>'+mkTable(['周'].concat(H2),rows2);
+ const t2='<div style="font-weight:700;color:var(--blue);margin:16px 0 6px">新品 VS 老品 库存</div>'+mkTable(['周'].concat(H2),rows2);
  $('iv2').innerHTML=t1+t2;
 })();
 (function(){const A9=IV.iv91.all, B8=IV.iv98.all, A9n=IV.iv91['新品'], B8n=IV.iv98['新品'], B8o=IV.iv98['老品'];
@@ -219,7 +219,7 @@ $('ad').innerHTML=mkTable(['周','广告花费','点击数','CPC','广告CVR','�
  s.push(`<b>【新品】</b>销量${NO.new.q35}→<b>${NO.new.qty}单(${chgPct(NO.new.qty,NO.new.q35)})</b>——放量主力（增量${nlQty(NO.new)}单，占整体销量${((NO.new.qty-NO.new.q35)/Math.max(1,(K.qty||0)-(D.qty[3]||0))*100).toFixed(0)}%）；毛利${NO.new.gm.toFixed(1)}%>老品，ACOS ${NO.new.acos===null?'-':NO.new.acos+'%'}；FBA30天动销${NM.sold30}/${NM.total}（${NM.rate.toFixed(0)}%），未动销${NM.nosold}个待推。`);
  s.push(`<b>【老品】</b>${NO.old.q35}→${NO.old.qty}单(${chgPct(NO.old.qty,NO.old.q35)})——基本盘企稳但退款${NO.old.rf===null?'-':NO.old.rf.toFixed(1)+'%'}侵蚀利润（毛利仅${NO.old.gm.toFixed(1)}%）；低库存+缺货${IV['老品'].oos_n+IV['老品'].low_n}个SKU为最大供给风险。`);
  s.push(`<b>【捆绑】</b>日系${BD.jp.q35}→${BD.jp.qty}单 vs 美系${BD.us.q35}→${BD.us.qty}单——日系放量更强且退款低(${fmtRf(BD.jp.rf)})；美系退款${fmtRf(BD.us.rf)}偏高需适配整改。`);
- s.push(`<b>【库存】</b>可用${Math.round(IV.all.avail)}/在途${Math.round(IV.all.onway)}（MCP 9/8）；进销存口径可用周减${Math.round(A.all.avail-B.all.avail)}件、库销比${B.all.ratio.toFixed(2)}个月、离岸${B.all.offshore.toFixed(2)}个月；断货${IV.all.oos_n}个、低库存${IV.all.low_n}个。`);
+ s.push(`<b>【库存】</b>可用${Math.round(IV.all.avail)}/在途${Math.round(IV.all.onway)}（MCP 9/8）；进销存口径可用周减${Math.round(IV.iv91.all.avail-IV.iv98.all.avail)}件、库销比${IV.iv98.all.ratio.toFixed(2)}个月、离岸${IV.iv98.all.offshore.toFixed(2)}个月；断货${IV.all.oos_n}个、低库存${IV.all.low_n}个。`);
  s.push(`<b>【广告诊断】</b>花费5周连升(${money(D.spend[0])}→${money(D.spend[4])})，ACOS ${K.acos}（${K.acos_d}）仍在健康线，但广告CVR ${K.ad_cvr}${K.ad_cvr_d}为最大变量——花费增量未转化为等量广告单时立即按ACOS>20%降bid（见P0/P1）。`);
  s.push(`<b>【P0】</b><span class="p0">老品断货/低库存补货+移仓；退款集中SKU定位；断货ETA确认。</span> <b>【P1】</b><span class="p1">广告>20%ACOS降bid；美系捆绑退款ASIN核查；未动销新品开广告。</span> <b>【P2】</b><span class="p2">老品listing整改；新品动销率推至70%+；补货优先级重排。</span> <b>【P3】</b><span class="p3">广告CVR周趋势；竞品动作；退款月度趋势。</span>`);
  $('summary').innerHTML=s.join('<br>');
