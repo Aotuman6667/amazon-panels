@@ -27,6 +27,7 @@ th{background:var(--blue);color:#fff;padding:5px 4px;font-weight:600;white-space
 td{padding:6px 4px;border:1px solid #e2e6ee;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.35;}
 td:first-child{text-align:left;}
 td.wrap{white-space:normal;word-break:break-all;text-align:left;}
+.wrap{white-space:normal;word-break:break-all;display:block;line-height:1.5;text-align:left;}
 tr:nth-child(even) td{background:#f5f7fb;}
 .badge{color:#fff;border-radius:9px;padding:1px 7px;font-size:10.5px;}
 .foot{font-size:11.5px;color:#666;background:#fff;border-radius:10px;padding:10px 14px;line-height:2;margin-top:4px;}
@@ -76,10 +77,11 @@ tr:nth-child(even) td{background:#f5f7fb;}
 <div class="panel"><h3>📦 库存概览 A · MCP实时（2026-09-08 13:44）</h3><div id="inv"></div>
 <div class="note">可用=ERP实时(与进销存同源)；在途=亚马逊全阶段；缺货/低库存=库存健康标签。自动拉取。</div></div>
 
-<div class="panel"><h3>📦 库存概览 B · 进销存报表双周对比（9/1 vs 9/8）</h3>
+<div class="panel"><h3>📦 库存概览 B · 库存周序列（进销存报表口径）</h3>
   <div id="iv2"></div>
+  <div id="iv2b"></div>
   <div class="diag" id="iv2-diag"></div>
-  <div class="note">FBA库销比=FBA可用÷FBA30天销量；离岸库销比=(FBA可用+FBA在途)÷FBA30天销量。数据源=91进销存报表(14) & 98进销存报表(19)。</div>
+  <div class="note">FBA库销比=FBA可用÷FBA30天销量；离岸库销比=(FBA可用+FBA在途)÷FBA30天销量。数据源=进销存报表（周序列存档，202629-36）。</div>
 </div>
 
 <div class="panel"><h3>⚠️ 断货/低库存预警（可用=0 或 供货≤60天 或 缺货/低库存）</h3><div id="warn"></div></div>
@@ -191,6 +193,19 @@ const W2=D.wb2;
  const pctFmt=v=>v===null||v===undefined?'-':(v>0?'<span class="up">+'+(v).toFixed(1)+'%</span>':(v<0?'<span class="dn">'+(v).toFixed(1)+'%</span>':'0%'));
  const cmpRows=(W2.cmp2||[]).map(c=>['<b>近2周%</b>',`<span style="${c.cat==='新品'?'color:#2E75B6;font-weight:600':'color:#888'}">${c.cat}</span>`].concat(c.pct?c.pct.map((v,i)=>i===0?'-':pctFmt(v)):H2.slice(1).map(()=>'-')));
  $('iv2').innerHTML=t1+t2+mkTable(['周'].concat(H2),rows2.concat(cmpRows));
+ const an=W2.cmp2||[];
+ const anTxt=an.map(c=>{if(!c.pct)return '';const p=c.pct;
+  let parts=[];
+  parts.push(`<b style="color:${c.cat==='新品'?'#2E75B6':'#888'}">${c.cat}</b>`);
+  parts.push(`FBA可用${p[1]===null?'-':p[1].toFixed(1)+'%'}`);
+  parts.push(`在途${p[2]===null?'-':p[2].toFixed(1)+'%'}`);
+  parts.push(`FBA30天销量${p[6]===null?'-':p[6].toFixed(1)+'%'}`);
+  parts.push(`库销比${p[7]===null?'-':p[7].toFixed(1)+'%'}`);
+  return parts.join('｜');
+ }).filter(x=>x);
+ const nw=an.find(x=>x.cat==='新品'), od=an.find(x=>x.cat==='老品');
+ const note=(nw&&od&&nw.pct&&od.pct)?`新品动销放量中（FBA30天销量${nw.pct[6].toFixed(1)}%、可用${nw.pct[1].toFixed(1)}%、库销比${nw.pct[7].toFixed(1)}%周转加快）；老品供给收紧（可用${od.pct[1].toFixed(1)}%、在途${od.pct[2].toFixed(1)}%）——补货优先级：老品＞新品。`:'';
+ $('iv2b').innerHTML=(anTxt.length?'<div class="note" style="margin:8px 0 0;line-height:1.7"><b>📊 近2周对比分析（W36 vs W35，百分比口径）：</b>'+anTxt.join('；')+'。'+note+'</div>':'');
 })();
 (function(){const s36=W2.series.find(r=>String(r.week).endsWith('36')),s35=W2.series.find(r=>String(r.week).endsWith('35'));
 if(!s36||!s35){$('iv2-diag').innerHTML='';return;}const c36=s36.cols,c35=s35.cols;
@@ -200,11 +215,11 @@ $('iv2-diag').innerHTML='<b>近2周分析（W35→W36）：</b>FBA可用'+num(c3
 // 预警
 const wr=D.warn;
 const wb=r=>r.fba_avail<=0||r.health==='缺货'?'<span class="badge" style="background:#C00000">断货</span>':((r.dos!==null&&r.dos!==undefined&&r.dos<=30)?'<span class="badge" style="background:#E36C09">告急(≤30天)</span>':'<span class="badge" style="background:#BF8F00">偏低(≤60天)</span>');
-$('warn').innerHTML=mkTable(['商品编码','ASIN','新老品','FBA可用','FBA在途','FBA30天','供货天数','预警','本周销量','补货/备货建议'],wr.map(r=>[`<b>${esc(r.sku)}</b>`,r.asin||'-',tcol(r.type),r.fba_avail,r.fba_onway,r.fba30||0,r.dos===null||r.dos===undefined?'-':Math.round(r.dos),wb(r),r.qty,`<span class="wrap">${esc(r.suggest||'')}</span>`]),[9,13,7,7,7,7,7,9,6,28]);
+$('warn').innerHTML=mkTable(['商品编码','ASIN','新老品','FBA可用','FBA在途','FBA30天','供货天数','预警','补货/备货建议'],wr.map(r=>[`<b>${esc(r.sku)}</b>`,r.asin||'-',tcol(r.type),r.fba_avail,r.fba_onway,r.fba30||0,r.dos===null||r.dos===undefined?'-':Math.round(r.dos),wb(r),`<span class="wrap">${esc(r.suggest||'')}</span>`]),[11,14,8,8,8,8,8,13,22]);
 
 // 重点链接
 const KL=D.key_links;
-$('key').innerHTML=mkTable(['商品编码','ASIN','平台sku','新老品','W36销量','销售额','毛利率','退款率','FBA可用','在途','供货天数'],KL.map(r=>[`<b>${esc(r.sku)}</b>`,r.asin||'-',r.platform_sku||'-',tcol(r.type),r.qty,money(r.amt),r.gm_rate.toFixed(1)+'%',fmtRf(r.refund_rate),r.fba_avail,r.fba_onway,r.dos===null||r.dos===undefined?'-':Math.round(r.dos)]));
+$('key').innerHTML=mkTable(['商品编码','ASIN','平台sku','新老品','W36销量','销售额','毛利率','退款率','FBA可用','FBA在途','供货天数'],KL.map(r=>[`<b>${esc(r.sku)}</b>`,r.asin||'-',r.platform_sku||'-',tcol(r.type),r.qty,money(r.amt),r.gm_rate.toFixed(1)+'%',fmtRf(r.refund_rate),r.fba_avail,r.fba_onway,r.dos===null||r.dos===undefined?'-':Math.round(r.dos)]));
 
 // 近2周涨跌
 const rowUp=r=>[`<b>${esc(r.sku)}</b>`,r.asin||'-',tcol(r.type),r.q35,r.q36,`<span class="up">+${r.diff}</span>`,r.gm36.toFixed(1)+'%',fmtRf(r.rf_rate),r.fba_avail,r.dos===null||r.dos===undefined?'-':Math.round(r.dos)];
@@ -229,7 +244,7 @@ $('ad').innerHTML=mkTable(['周','广告花费','点击数','CPC','广告CVR','�
 (function(){
  const s=[];
  const _sc36=((D.wb2.series||[]).find(r=>String(r.week).endsWith('36'))||{}).cols||[], _sc35=((D.wb2.series||[]).find(r=>String(r.week).endsWith('35'))||{}).cols||[];
- s.push(`<h3>📊 本周总结（${D.week} vs ${D.week_prev}）· 整体 → 新老品 → 捆绑 → 库存 → 广告诊断</h3>`);
+ s.push(`<h3>📊 本周总结（${D.week} vs ${D.week_prev}）</h3>`);
  s.push(`<b>【整体】</b>${K.qty}单(${K.qty_d})/${K.amt}(${K.amt_d})——${(K.qty*1)>(D.qty[3]*1)?'环比回升':'环比下滑'}。自然${K.nat}(${K.nat_d})+广告${K.adq}；转化率${K.cvr}广告转化率${K.ad_cvr}。退款率${K.refund}(${K.refund_d})维持10%+高位。`);
  s.push(`<b>【新品】</b>销量${NO.new.q35}→<b>${NO.new.qty}单(${chgPct(NO.new.qty,NO.new.q35)})</b>——放量主力（增量+${NO.new.qty-NO.new.q35}单，占整体销量${((NO.new.qty-NO.new.q35)/Math.max(1,K.qty-D.qty[3])*100).toFixed(0)}%）；毛利${NO.new.gm.toFixed(1)}%>老品，ACOS ${NO.new.acos===null?'-':NO.new.acos+'%'}；FBA30天动销${NM.sold30}/${NM.base}（${NM.rate.toFixed(1)}%），未动销${NM.nosold}个待推。`);
  s.push(`<b>【老品】</b>${NO.old.q35}→${NO.old.qty}单(${chgPct(NO.old.qty,NO.old.q35)})——基本盘企稳但退款${NO.old.rf===null?'-':NO.old.rf.toFixed(1)+'%'}侵蚀利润（毛利仅${NO.old.gm.toFixed(1)}%）；低库存+缺货${IV['老品'].oos_n+IV['老品'].low_n}个SKU为最大供给风险。`);
