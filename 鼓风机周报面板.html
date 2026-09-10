@@ -58,13 +58,13 @@ tr:nth-child(even) td{background:#f5f7fb;}
   <div style="margin-top:12px"><h3 style="font-size:13px;margin:2px 0 4px">新品动销情况（每周动销SKU vs 备货总数）</h3><div class="cmp" id="cmp8" style="font-size:12px;color:#555;margin-bottom:6px"></div><div id="ch8" style="height:250px;background:#fafbfe;border-radius:8px"></div></div>
 </div>
 
-<div class="panel"><h3 id="nosold-title">🌱 新品未动销明细（W36 · FBA30天销量=0）</h3><div id="nosold"></div>
-<div class="note" id="nosold-note">口径：新品基数=亚马逊备货（可用/在途&gt;0，100定义中4个无FBA备货剔除）；动销=进销存FBA30天销量≥1。</div></div>
-
 <div class="panel"><h3>🥊 竞对分析（品牌切换 · 框架V1）</h3>
  <div style="margin:6px 0 8px"><label style="font-size:12.5px;margin-right:6px">选择竞对品牌：</label><select id="comp-sel" style="padding:4px 12px;border-radius:6px;border:1px solid #bbb;font-size:13px;font-weight:600"></select><span id="comp-meta" style="margin-left:12px;font-size:11.5px;color:#666"></span></div>
  <div id="comp-tbl"></div>
  <div class="note">A=GVPART4U：12个OE全量（数据来自9/7-9/8 Sorftime实采·全维分析+KAX对照文件）；「30天销量」列为页捕值（Sorftime近15天页面展示量，领先指标）；KAX侧=9个重叠OE实采对照（僵尸链/价差已标注在战况）；PT ASIN/PT 30天销量待补充。B/C为预留位——指品牌名或ASIN即可接入。</div></div>
+
+<div class="panel"><h3 id="nosold-title">🌱 新品未动销明细（W36 · FBA30天销量=0）</h3><div id="nosold"></div>
+<div class="note" id="nosold-note">口径：新品基数=亚马逊备货（可用/在途&gt;0，100定义中4个无FBA备货剔除）；动销=进销存FBA30天销量≥1。</div></div>
 
 <div class="panel"><h3>🚨 高退款ASIN分析（近2周 · 退款率≥10% 且 退款≥3件 · 损益口径）</h3><div id="rf-top"></div>
 <div class="note">数据源：BI损益明细（近2周销量/退款）+ 领星MCP退货原因分析（退货时间口径）。退货报告无记录≠无退款（仅记录亚马逊退货报告内订单）。</div></div>
