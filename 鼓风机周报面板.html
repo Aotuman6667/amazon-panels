@@ -525,11 +525,11 @@ $('foot').innerHTML=`<b>本周 vs 上周：</b>销量${K.qty_d}｜销售额${K.a
 (function(){const S=D.summary;if(!S||!S.rows||!S.rows.length)return;
  const g2=v=>(v===null||v===undefined)?'-':(Number(v)*100).toFixed(1)+'%';
  const nz=v=>(v===null||v===undefined||v===0)?'-':num(v);
- const H=['ASIN','SKU','平台sku','价格$','促销','定义(捆绑)','FBA可用','FBA在途','海外仓可用','本地仓可用','本地在途','近30天销量','近30天毛利率','近30天退款率','W36','W35','W34','W33'];
- const W=[8,10,10,4.5,4.5,6,4.5,4.5,5,5,5,5.5,6,5.5,4,4,4,4];
+ const H=['ASIN','SKU','平台sku','价格$','促销','定义','FBA可用','FBA在途','海外仓可用','本地仓可用','本地在途','近30天销量','近30天毛利率','近30天退款率','W36','W35','W34','W33'];
+ const W=[8.5,11,11,4.5,4,6,4.8,4.8,4.8,4.8,4.8,5,4.6,4.6,4,4,4,4];
  const rows=S.rows.map(r=>[`<b>${esc(r.asin)}</b>`,r.sku,r.psku,r.price!=null?r.price:'-',r.promo||'-',tcol(r.defn),
   r.fba||0,r.fba_t||0,r.ovs||0,r.loc||0,r.loc_t||0,nz(r.q30),r.gm30!=null?(Number(r.gm30)*100).toFixed(1)+'%':'-',r.rfrate!=null?(Number(r.rfrate)*100).toFixed(1)+'%':'-',nz(r.w36),nz(r.w35),nz(r.w34),nz(r.w33)]);
- $('sm-tbl').innerHTML='<style>#sm-tbl td{padding:9px 7px;line-height:1.9;font-size:12px}#sm-tbl th{padding:9px 7px;font-size:12px}#sm-tbl tr:nth-child(even) td{background:#f8fafd}</style>'+mkTable(H,rows,W)+`<div class="note" style="margin-top:6px">口径：库存=进销存报表(9/8，<b>FBA/仓库库存为SKU级——同SKU双链接（含互换）物理共享同一批库存</b>)；近30天销量/毛利率/退款率=BI损益明细(2026-08-12~09-10滚动30天，<b>按ASIN独立统计</b>)；周销量=运营综合分析按ASIN；表按近30天销量降序；周销量=运营综合分析明细 W33(8/9-8/15)/W34(8/16-8/22)/W35(8/23-8/29)/W36(8/30-9/5)。促销列待接入（BI促销口径确认后自动填）。</div>`;
+ $('sm-tbl').innerHTML='<style>#sm-tbl td{padding:5px 4px;line-height:1.5;font-size:10.5px;white-space:normal;word-break:break-all}#sm-tbl th{padding:6px 3px;font-size:10.5px;white-space:normal}#sm-tbl tr:nth-child(even) td{background:#f8fafd}</style>'+mkTable(H,rows,W)+`<div class="note" style="margin-top:6px">口径：库存=进销存报表(9/8，<b>FBA/仓库库存为SKU级——同SKU双链接（含互换）物理共享同一批库存</b>)；近30天销量/毛利率/退款率=BI损益明细(2026-08-12~09-10滚动30天，<b>按ASIN独立统计</b>)；周销量=运营综合分析按ASIN；表按近30天销量降序；周销量=运营综合分析明细 W33(8/9-8/15)/W34(8/16-8/22)/W35(8/23-8/29)/W36(8/30-9/5)。促销列待接入（BI促销口径确认后自动填）。</div>`;
 })();
 // 库存情况表
 (function(){const S=D.summary;if(!S||!S.inv_rows||!S.inv_rows.length)return;
