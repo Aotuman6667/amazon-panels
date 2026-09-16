@@ -84,9 +84,9 @@ tr:nth-child(even) td{background:#f5f7fb;}
 <div class="panel"><h3>🥊 竞对分析（品牌切换 · 框架V1）</h3>
  <div style="margin:6px 0 8px"><label style="font-size:12.5px;margin-right:6px">选择竞对品牌：</label><select id="comp-sel" style="padding:4px 12px;border-radius:6px;border:1px solid #bbb;font-size:13px;font-weight:600"></select><span id="comp-meta" style="margin-left:12px;font-size:11.5px;color:#666"></span></div>
  <div id="comp-tbl"></div>
- <div class="note">A=GVPART4U：12个OE全量（数据来自9/7-9/8 Sorftime实采·全维分析+KAX对照文件）；「30天销量」列为页捕值（Sorftime近15天页面展示量，领先指标）；KAX侧=9个重叠OE实采对照（僵尸链/价差已标注在战况）；PT ASIN/PT 30天销量待补充。B/C为预留位——指品牌名或ASIN即可接入。<br><b>预估市占率口径</b>：①类目大盘=Blower Motors节点Top100月总销量<b>36,607台</b>（Sorftime节点报告）；②GV主聚合链接月销<b>4,027台</b>（Sorftime父体级2026-09）→ 品牌月市占11.0%（品牌表口径含第2小链接=4,672台/12.8%）；③各ASIN月销=4,027×（该ASIN页捕÷有页捕子体页捕合计3,900）；④各ASIN市占=其月销÷36,607——即：先定品牌大盘，再按子体页捕结构拆分。5个新品(700216/194/188/012/298)无页捕数据暂不估。</div></div>
+ <div class="note">A=GVPART4U：12个OE全量（数据来自9/7-9/8 Sorftime实采·全维分析+KAX对照文件）；「30天销量」列为页捕值（Sorftime近15天页面展示量，领先指标）；KAX侧=9个重叠OE实采对照（僵尸链/价差已标注在战况）；PT ASIN/PT 30天销量待补充。B/C为预留位——指品牌名或ASIN即可接入。<br><b>预估市占率口径</b>：①类目大盘=Blower Motors节点(15723831)Top100月总销量<b>24,443台</b>（Sorftime节点报告，已剔除34个电阻器链接11,542台）；②GV主聚合链接月销<b>4,034台</b>（Sorftime父体级2026-09）→ 主力市占<b>16.5%</b>；③各ASIN月销=4,034×（该ASIN页捕÷有页捕子体合计）；④各ASIN市占=其月销÷24,443——即：先定品牌大盘，再按子体页捕结构拆分。5个新品(700216/194/188/012/298)无页捕数据暂不估。</div></div>
 
-<div class="panel"><h3 id="nosold-title">🌱 新品未动销明细（进销存9/8口径 · FBA30天销量=0）</h3><div id="nosold"></div>
+<div class="panel"><h3 id="nosold-title">🌱 新品未动销明细（916进销存口径 · FBA30天销量=0）</h3><div id="nosold"></div>
 <div class="note" id="nosold-note">口径：新品基数=亚马逊备货（可用/在途&gt;0，100定义中4个无FBA备货剔除）；动销=进销存FBA30天销量≥1。</div></div>
 
 <div class="panel"><h3>🚨 高退款ASIN分析（近2周 · 退款率≥10% 且 退款≥3件 · 损益口径）</h3><div id="rf-top"></div>
@@ -112,7 +112,7 @@ tr:nth-child(even) td{background:#f5f7fb;}
   <div id="adact"></div>
 </div>
 
-<div class="panel"><h3>📦 库存概览 A · MCP实时（2026-09-08 13:44）</h3><div id="inv"></div>
+<div class="panel"><h3>📦 库存概览 A · 916进销存（2026-09-16）</h3><div id="inv"></div>
 <div class="note">可用=ERP实时(与进销存同源)；在途=亚马逊全阶段；缺货/低库存=库存健康标签。自动拉取。</div></div>
 
 <div class="panel"><h3>📦 库存概览 B · 库存周序列（进销存报表口径）</h3>
@@ -390,7 +390,7 @@ parts.push('币种：广告花费/CPC为人民币¥（领星口径），≈$=¥�
  s.push(`<b>【新品】</b>销量${NO.new.q35}→<b>${NO.new.qty}单(${chgPct(NO.new.qty,NO.new.q35)})</b>——放量主力（增量+${NO.new.qty-NO.new.q35}单，占整体销量${((NO.new.qty-NO.new.q35)/Math.max(1,K.qty-D.qty[3])*100).toFixed(0)}%）；毛利${NO.new.gm.toFixed(1)}%>老品，ACOS ${NO.new.acos===null?'-':NO.new.acos+'%'}；FBA30天动销${NM.sold30}/${NM.base}（${NM.rate.toFixed(1)}%），未动销${NM.nosold}个待推。`);
  s.push(`<b>【老品】</b>${NO.old.q35}→${NO.old.qty}单(${chgPct(NO.old.qty,NO.old.q35)})——基本盘企稳但退款${NO.old.rf===null?'-':NO.old.rf.toFixed(1)+'%'}侵蚀利润（毛利仅${NO.old.gm.toFixed(1)}%）；低库存+缺货${IV['老品'].oos_n+IV['老品'].low_n}个SKU为最大供给风险。`);
  s.push(`<b>【捆绑】</b>日系${BD.jp.q35}→${BD.jp.qty}单 vs 美系${BD.us.q35}→${BD.us.qty}单——日系放量更强且退款低(${fmtRf(BD.jp.rf)})；美系退款${fmtRf(BD.us.rf)}偏高需适配整改。`);
- s.push(`<b>【库存】</b>可用${Math.round(IV.all.avail)}/在途${Math.round(IV.all.onway)}（MCP 9/8）；进销存口径可用${_sc36.length?_sc36[0]:'-'}件、FBA库销比${_sc36.length?(_sc36[6]||0).toFixed(2):'-'}个月、离岸${_sc36.length?(_sc36[7]||0).toFixed(2):'-'}个月（周序列见库存概览B）；MCP口径断货${IV.all.oos_n}个、低库存${IV.all.low_n}个。`);
+ s.push(`<b>【库存】</b>FBA可用${IV.all.avail}件 / FBA在途${IV.all.onway}件 / 海外仓${IV.all.ovs}件 / 本地仓${IV.all.loc}件 / 采购在途${IV.all.loc_t}件（916进销存）；断货${IV.all.oos_n}个、低库存${IV.all.low_n}个。`);
  s.push(`<b>【广告诊断】</b>花费5周连升(¥${Math.round(D.spend[0]).toLocaleString()}→¥${Math.round(D.spend[4]).toLocaleString()}≈$${Math.round(D.spend[4]/FX)})，ACOS ${K.acos}（${K.acos_d}）仍在健康线，但广告CVR ${K.ad_cvr}${K.ad_cvr_d}为最大变量——花费增量未转化为等量广告单时立即按ACOS>20%降bid（见P0/P1）。`);
  s.push(`<b>【P0】</b><span class="p0">老品断货/低库存补货+移仓；退款集中SKU定位；断货ETA确认。</span> <b>【P1】</b><span class="p1">广告>20%ACOS降bid；美系捆绑退款ASIN核查；未动销新品开广告。</span> <b>【P2】</b><span class="p2">老品listing整改；新品动销率推至70%+；补货优先级重排。</span> <b>【P3】</b><span class="p3">广告CVR周趋势；竞品动作；退款月度趋势。</span>`);
  $('summary').innerHTML=s.join('<br>');
@@ -470,7 +470,7 @@ const NA_MAP={};NA.list.forEach(x=>NA_MAP[x.asin]=x);
  }
  sel.onchange=()=>renderComp(sel.value); renderComp(sel.value||'A');
 })();
-$('nosold-title').innerHTML='🌱 新品未动销明细（进销存9/8口径 · FBA30天销量=0 · '+D.new_moving.nosold+'个 / 基数'+D.new_moving.base+' · 均已在投广告）';
+$('nosold-title').innerHTML='🌱 新品未动销明细（916进销存口径 · FBA30天销量=0 · '+D.new_moving.nosold+'个 / 基数'+D.new_moving.base+' · 均已在投广告）';
 const st=NA.stat||{};
 $('nosold-note').innerHTML='口径：动销=进销存FBA30天销量≥1；广告诊断=领星MCP W37活动级(按ASIN匹配活动名)。<b>诊断结论：'+D.new_moving.nosold+'个未动销均为单ASIN单campaign×3(自动紧密/自动宽泛/自动年份+大词)——不存在预算摊薄；W37合计花费仅¥'+(st.sp_tot||0)+'、多数仅几十次曝光零点击，属竞价低于展示门槛几乎未参与竞价；'+(st.no_conv||0)+'个有点击无转化(样本<10，先提量再判)；'+(st.zero_act||0)+'个W37无投放记录需查活动状态。</b>动作：紧密/宽泛提竞价至$0.8-1.0、年份大词$1.0-1.2观察48h；仍无点击再查主图/收录。';
 const saved2=(JSON.parse(localStorage.getItem('bl_nosold_op')||'{}'));
@@ -522,7 +522,7 @@ c=init('ch7');c.setOption({tooltip:{trigger:'axis'},legend:{top:0,textStyle:{fon
 $('foot').innerHTML=`<b>本周 vs 上周：</b>销量${K.qty_d}｜销售额${K.amt_d}｜毛利率${K.gm_d}｜转化率${K.cvr_d}｜广告CVR ${K.ad_cvr_d}｜ACOS ${K.acos_d}｜退款率${K.refund_d}
 
 
-<br><span style="color:#999">数据源：W37版=BI直拉(company-all全店+finance损益, 与0915分析文件口径一致)；W33-W37五周序列=BI；退款率=BI损益；库存=0915三态直拉+进销存(9/8)；动销=进销存口径；促销/推广占比=BI(运营文件无促销金额列)；库存A=MCP实时(9/8 13:44)；库存B=工作簿2+进销存报表；新品动销=进销存FBA30天销量≥1。各源口径差异(在途/时点)属正常。金额单位：运营综合分析=人民币¥(领星CNY口径,≈$=¥÷6.8)；Sorftime竞对/售价=美元$。</span>`;
+<br><span style="color:#999">数据源：W37版=BI直拉(company-all全店+finance损益)；W33-W37五周序列=BI；退款率=BI损益；<b>库存=916进销存报表(用户导出)</b>；动销=进销存FBA30天销量列(916)；促销/推广占比=BI；库存B=工作簿2周序列(最新至W36)+916实时对照；广告=领星MCP W37活动级(对账BI ¥4,936)。各源口径差异(在途/时点)属正常。金额单位：运营综合分析=人民币¥(领星CNY口径,≈$=¥÷6.8)；Sorftime竞对/售价=美元$。</span>`;
 
 // 销售数据汇总表
 (function(){const S=D.summary;if(!S||!S.rows||!S.rows.length)return;
