@@ -87,9 +87,6 @@ tr:nth-child(even) td{background:#f5f7fb;}
  <div style="margin:6px 0 8px"><label style="font-size:12.5px;margin-right:6px">选择竞对品牌：</label><select id="comp-sel" style="padding:4px 12px;border-radius:6px;border:1px solid #bbb;font-size:13px;font-weight:600"></select><span id="comp-meta" style="margin-left:12px;font-size:11.5px;color:#666"></span></div>
  <div id="comp-tbl"></div>
  <div class="note">A=GVPART4U：12个OE全量（数据来自9/7-9/8 Sorftime实采·全维分析+KAX对照文件）；「30天销量」列为页捕值（Sorftime近15天页面展示量，领先指标）；KAX侧=9个重叠OE实采对照（僵尸链/价差已标注在战况）；PT ASIN/PT 30天销量待补充。B/C为预留位——指品牌名或ASIN即可接入。<br><b>预估市占率口径</b>：①类目大盘=Blower Motors节点(15723831)Top100月总销量<b>24,443台</b>（Sorftime节点报告，已剔除34个电阻器链接11,542台）；②GV主聚合链接月销<b>4,034台</b>（Sorftime父体级2026-09）→ 主力市占<b>16.5%</b>；③各ASIN月销=4,034×（该ASIN页捕÷有页捕子体合计）；④各ASIN市占=其月销÷24,443——即：先定品牌大盘，再按子体页捕结构拆分。5个新品(700216/194/188/012/298)无页捕数据暂不估。</div></div>
-
-
-</div>
 <div class="panel"><h3 id="nosold-title">🌱 新品未动销明细（916进销存口径 · FBA30天销量=0）</h3><div id="nosold"></div>
 <div class="note" id="nosold-note">口径：新品基数=亚马逊备货（可用/在途&gt;0，100定义中4个无FBA备货剔除）；动销=进销存FBA30天销量≥1。</div></div>
 
@@ -621,7 +618,7 @@ $('foot').innerHTML=`<b>本周 vs 上周：</b>销量${K.qty_d}｜销售额${K.a
  const H=['商品编码','ASIN','平台sku','近30天销量','实际DD值','AMZ DD值','DD值完成率','FBA可用','FBA在途','海外仓可用','本地可用','本地在途','价格$','定价利润','实际利润率','退款率'];
  const W=[8,8.5,8.5,5,5,5.5,6,4.5,4.5,5,4.5,4.5,4.5,5,5.5,5];
  const rows=N.list.map(x=>['<b>'+esc(x.sku)+'</b>',esc(x.asin),x.psku||'-',x.q28>0?x.q28:0,x.dd_real,x.amz_dd==null?'-':x.amz_dd.toFixed(2),
-   (x.dd_rate==null?'-':(x.dd_rate>=100?'<span style="color:#00A650;font-weight:600">'+x.dd_rate.toFixed(0)+'%</span>':(x.dd_rate>=60?'<span style="color:#BF8F00">'+x.dd_rate.toFixed(0)+'%</span>':'<span style="color:#C00000">'+x.dd_rate.toFixed(0)+'%</span>'))),
+   (x.dd_rate==null?'<b style="color:#000">0</b>':(x.dd_rate>=100?'<span style="color:#C00000;font-weight:700">'+x.dd_rate.toFixed(0)+'%</span>':'<span style="color:#00A650;font-weight:600">'+x.dd_rate.toFixed(0)+'%</span>')),
    x.fba>0?x.fba:'<span style="color:#C00000;font-weight:700">0</span>',x.fba_t,x.ovs,x.loc,x.loc_t,
    x.price?'$'+x.price:'-',(x.gm_price!=null?x.gm_price.toFixed(1)+'%':'-'),
    (x.gm30!=null?(x.gm30<0.10?'<span style="color:#C00000;font-weight:700">'+(x.gm30*100).toFixed(1)+'%</span>':(x.gm30*100).toFixed(1)+'%'):'-'),
