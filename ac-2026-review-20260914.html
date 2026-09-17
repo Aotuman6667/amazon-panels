@@ -1,0 +1,497 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="utf-8">
+<title>空压2026年经营复盘（纯净口径版）</title>
+<style>
+body{font-family:'Microsoft YaHei','PingFang SC',sans-serif;background:#f4f6fa;margin:0;color:#1f2d3d;}
+.wrap{max-width:1100px;margin:0 auto;padding:28px;}
+.head{text-align:center;padding:26px 20px 10px;}
+.head h1{font-size:28px;margin:0;letter-spacing:1px;}
+.head .sub{color:#8492a6;font-size:13px;margin-top:8px;line-height:1.8;}
+.line{height:3px;background:#4472C4;background:linear-gradient(90deg,#4472C4,#7fb3ff);border-radius:2px;margin:18px 0 22px;}
+h2{font-size:20px;color:#2c5aa0;border-left:5px solid #4472C4;padding-left:12px;margin:46px 0 14px;scroll-margin-top:64px;}
+h3{font-size:15.5px;color:#2c3e50;margin:26px 0 10px;}
+p{line-height:1.95;font-size:14px;margin:10px 0;}
+.exec{background:#2c3e50;background:linear-gradient(135deg,#2c3e50,#4472C4);color:#fff;border-radius:12px;padding:22px 26px;margin:20px 0;line-height:2.0;font-size:14px;}
+.exec b{color:#ffd97a;}
+.guide{background:#eef6ff;border-left:4px solid #4472C4;padding:12px 16px;margin:12px 0;border-radius:6px;font-size:13.5px;line-height:2.0;}
+.nav{position:sticky;top:0;background:#fff;box-shadow:0 2px 8px rgba(31,45,61,.12);z-index:50;padding:8px 6px;display:flex;flex-wrap:wrap;gap:4px;justify-content:center;}
+.nav a{font-size:12px;color:#2c5aa0;text-decoration:none;padding:4px 8px;border-radius:6px;}
+.nav a:hover{background:#eef3fb;}
+.kpis{display:flex;flex-wrap:wrap;gap:14px;margin:20px 0;}
+.kpi{background:#fff;border-radius:10px;padding:16px 20px;flex:1;min-width:160px;box-shadow:0 2px 8px rgba(31,45,61,.07);}
+.kpi .v{font-size:22px;font-weight:bold;color:#4472C4;}
+.kpi .v.red{color:#e74c3c;} .kpi .v.green{color:#27ae60;} .kpi .v.orange{color:#e67e22;}
+.kpi .l{font-size:12px;color:#8492a6;margin-top:6px;line-height:1.7;}
+table{border-collapse:collapse;width:100%;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(31,45,61,.07);margin:12px 0;}
+th{background:#4472C4;color:#fff;padding:9px 10px;font-size:12.5px;text-align:left;}
+td{padding:8px 10px;border-bottom:1px solid #ecf0f1;font-size:12.5px;line-height:1.8;}
+tr:nth-child(even) td{background:#f8f9fd;}
+.card{background:#fff;border-radius:10px;padding:18px 20px;margin:14px 0;box-shadow:0 2px 8px rgba(31,45,61,.07);}
+.warn{background:#fff5f5;border-left:4px solid #e74c3c;padding:12px 16px;margin:12px 0;border-radius:6px;font-size:13.5px;line-height:2.0;}
+.ok{background:#f0faf0;border-left:4px solid #27ae60;padding:12px 16px;margin:12px 0;border-radius:6px;font-size:13.5px;line-height:2.0;}
+.note{background:#fffaf0;border-left:4px solid #e67e22;padding:12px 16px;margin:12px 0;border-radius:6px;font-size:13.5px;line-height:2.0;}
+.appendix{background:#fafbfc;border:1px solid #e0e6ed;border-radius:10px;padding:18px 22px;margin-top:30px;font-size:12.5px;color:#5e6d82;line-height:2.1;}
+.foot{margin:36px 0 20px;font-size:12px;color:#a0aec0;text-align:center;}
+.vbars{display:flex;align-items:flex-end;gap:10px;padding:10px 6px 0;}
+.vbar{flex:1;text-align:center;}
+.vcol{height:110px;display:flex;align-items:flex-end;justify-content:center;}
+.vfill{width:66%;border-radius:4px 4px 0 0;background:#e67e22;}
+.vl{font-size:11px;color:#2c3e50;margin-top:3px;font-weight:bold;}
+.vm{font-size:11px;color:#8492a6;}
+.hbars{margin:8px 0;}
+.hbar{display:flex;align-items:center;gap:8px;margin:4px 0;}
+.hl{width:230px;font-size:12.5px;color:#2c3e50;text-align:right;flex-shrink:0;}
+.hw{flex:1;background:#eef2f8;border-radius:4px;height:16px;}
+.hf{height:16px;border-radius:4px;}
+.hv{width:90px;font-size:12.5px;color:#5e6d82;flex-shrink:0;}
+.two{display:flex;gap:16px;} .two>div{flex:1;}
+.small{font-size:12.5px;color:#8492a6;line-height:1.9;}
+.green{color:#27ae60} .red{color:#e74c3c} .orange{color:#e67e22}
+.gloss td:first-child,.gloss th:first-child{white-space:nowrap;}
+</style>
+</head><body>
+<div class="nav">
+<a href="#p1">一、业绩总览</a><a href="#p2">二、五大问题</a><a href="#s2">三、促销专项</a><a href="#s3">四、刊登代差</a><a href="#s4">五、广告·投入</a><a href="#s5">六、广告·结构</a><a href="#s6">七、搜索词</a><a href="#s7">八、竞价与广告位</a><a href="#s8">九、竞对与市场</a><a href="#s9b">十、经验复盘</a><a href="#s9">十一、27年计划</a><a href="#s10">十二、月度节奏</a><a href="#s11">十三、风险与数据</a><a href="#s12">十四、附录</a>
+</div>
+<div class="wrap">
+<div class="head">
+<h1>空调压缩机（空压）2026年经营复盘 · 纯净口径版</h1>
+<div class="sub">口径：2026年=分品牌后全新线（PT+KAX）；2025年=当年未分品牌（全品牌合并口径）｜ 主对比：2026年1-8月 vs 2025年1-8月（完整月）｜ 9月特殊标注（只到9月14日）<br>
+运营组 · 朱鹏锃 ｜ 2026年9月15日修订 ｜ 数据来自 公司BI财务系统 / 领星广告后台 / Sorftime第三方工具（每个数字标明出处；名词解释见第十三节附录；本次口径修正明细见第十三节）</div>
+</div>
+<div class="line"></div>
+
+<div class="exec">
+<b>① 业绩（第一大点·纯净口径）：</b>2026年1-8月，全新线（PT+KAX）卖了 <b>5,994台</b>（去年为全品牌合并口径2,716台，+121%）、销售额 <b>697.4万元</b>（+137%）、毛利润 <b>122.1万元</b>（毛利率17.5%，+2.6pp）、净利润 <b>33.5万元</b>（净利率4.8%，+1.9pp）——量价利三升。分渠道：FBA 2,101台/¥224.5万、DF 2,133台/¥250.6万、PO 1,739台/¥220.0万；分品牌：PHILTOP 4,924台、KAX 1,070台。完整拆解见第一节。<br><br>
+<b>② 口径说明（重要）：</b><b>26年=分品牌后的全新线（PT+KAX）</b>——已剔除翻新品牌（Torchbeam等408台）与翻新品类（176台）；<b>25年当年未分品牌，按全品牌合并口径统计</b>。广告数据=朱鹏锃名下·非翻新活动（此前标签全量里40.5%花费是翻新活动，已剔除；花费由$62,358修正为<b>$32,377</b>）。修正明细见第十三节。<br><br>
+<b>③ 五大问题结论：</b>①FBA毛利率 14.9%→14.0%（-0.9pp）——促销、广告、尾程上涨抵消了材料降本；②FBA与DF销量基本持平（2,101 vs 2,133台），上半年FBA领先、7月起DF反超（FBA热销款售罄、动销转弱）；③退款含VC金额率14.1%→14.5%，涨的几乎全在VC（亚马逊承担），我们自担的FBA退款率14.4%→13.3%在改善；④促销涨到6.36%（去年2.49%，×6.1），必须压缩；⑤总体判断="成功的放量、盈利仍薄"。完整版见第二节。<br><br>
+<b>④ 广告：</b>纯净口径1月1日-9月14日共花 <b>$32,377</b>（ACOS 9.4%，与旧口径一致）；搜索词13,731个、93%零单；明年按月计划见第十一节。<b>写操作（否词/调价）均未执行，等你审批。</b>
+</div>
+<div class="kpis">
+<div class="kpi"><div class="v">5,994台</div><div class="l">销量（1-8月·全新线PT+KAX）<br>去年2,716台（全品牌），+121%</div></div>
+<div class="kpi"><div class="v">¥697万</div><div class="l">销售额（1-8月）<br>去年293.7万，+137%</div></div>
+<div class="kpi"><div class="v green">¥122万</div><div class="l">毛利润（1-8月）<br>去年43.7万，+179%</div></div>
+<div class="kpi"><div class="v green">17.5%</div><div class="l">毛利率<br>去年14.9%，+2.6pp</div></div>
+<div class="kpi"><div class="v">4.8%</div><div class="l">净利率（净利¥33.5万）<br>去年2.9%，+1.9pp</div></div>
+<div class="kpi"><div class="v">6.36%</div><div class="l">促销率（占销售额）<br>去年2.49%，+3.9pp</div></div><div class="kpi"><div class="v green">16.9%</div><div class="l">PHILTOP毛利率<br>去年15.2%，+1.7pp</div></div><div class="kpi"><div class="v green">20.1%</div><div class="l">KAX毛利率<br>去年13.5%，+6.6pp</div></div>
+</div>
+<h2 id="p1">一、2026年业绩完成情况（今年 vs 去年 · 纯净口径）</h2>
+<div class="guide">📖 <b>人话导读：</b>全文第一大点：今年的"成绩单"，按"全渠道 → 分渠道（FBA/DF/PO）→ 分品牌（PHILTOP/KAX）"三层拆解。口径=朱鹏锃名下·全新线（PT+KAX），已剔除翻新品牌（Torchbeam/KAC等408台）与翻新品类；1-8月对1-8月，9月只到14号、单独标注。</div>
+<div class="card"><h3>1.1 全渠道总览（全新线 = PHILTOP + KAX）</h3>
+<table class=""><thead><tr><th>指标</th><th>2025年1-8月</th><th>2026年1-8月</th><th>变化</th></tr></thead><tbody><tr><td>销量（台）</td><td>2,716</td><td>5,994</td><td>+121%</td></tr><tr><td>销售额（人民币）</td><td>293.7万</td><td>697.4万</td><td>+137%</td></tr><tr><td>平均成交单价（美元）</td><td>$161</td><td>$174</td><td>+8%</td></tr><tr><td><b>毛利润</b></td><td>43.7万</td><td><b>122.1万</b></td><td>+179%</td></tr><tr><td>毛利率</td><td>14.9%</td><td>17.5%</td><td>+2.6pp</td></tr><tr><td><b>净利润</b></td><td>8.4万</td><td><b>33.5万</b></td><td>+297%</td></tr><tr><td>净利率</td><td>2.9%</td><td>4.8%</td><td>+1.9pp</td></tr><tr><td>单台净利</td><td>¥31</td><td>¥56</td><td>+81%</td></tr><tr><td>促销费率</td><td>2.49%</td><td>6.36%</td><td>+3.9pp</td></tr></tbody></table>
+<div class="small">读法：毛利/净利=BI财务口径（已扣退款）；"全渠道"=本线全部渠道（FBA+DF+PO+FBM）。说明：25年当年未分品牌（全品牌合并口径，含Torchbeam等）；26年分品牌后本表=PT+KAX（翻新品牌408台与翻新品类176台不计入）。</div>
+<p><b>大白话：</b>销量涨了1.2倍、销售额涨1.4倍、毛利润涨1.8倍、净利润涨3.0倍——今年是"量、价、利三升"；毛利率+2.6pp的最大功臣是材料降本（FBA单台材料成本¥496→¥450）。</p>
+<p><b>9月快报（截至14日）：</b>又卖了337台/21.5万元——9月FBA仍弱（与8-9月FBA放缓有关，见第二节问题一/问题四）。</p>
+</div><div class="card"><h3>1.2 分渠道对比（FBA / VC-DF / VC-PO）</h3>
+<div class="small">先认识渠道：<b>FBA</b>=我们自己的店铺零售（退款自己承担）；<b>DF和PO都属于VC</b>（亚马逊自营采购，退货主要由亚马逊承担）——DF=直发模式，PO=供货入仓模式。</div>
+<table class=""><thead><tr><th>渠道</th><th>销量（台）25→26</th><th>销售额 25→26</th><th>毛利润 25→26</th><th>均价($) 25→26</th><th>毛利率 25→26</th><th>净利率 25→26</th></tr></thead><tbody><tr><td><b>FBA</b></td><td>1,081 → 2,101（+94%）</td><td>119.3万 → 224.5万</td><td>17.7万 → 31.4万</td><td>$165 → $159</td><td>14.9% → 14.0%</td><td>2.9% → 2.1%</td></tr><tr><td><b>DF（VC）</b></td><td>451 → 2,133（+373%）</td><td>47.3万 → 250.6万</td><td>8.9万 → 45.2万</td><td>$157 → $175</td><td>18.8% → 18.0%</td><td>6.8% → 6.3%</td></tr><tr><td><b>PO（VC）</b></td><td>690 → 1,739（+152%）</td><td>74.3万 → 220.0万</td><td>14.0万 → 45.3万</td><td>$161 → $189</td><td>18.9% → 20.6%</td><td>6.9% → 5.9%</td></tr><tr><td>VC小计（DF+PO）</td><td>1,141 → 3,872</td><td>121.6万 → 470.6万</td><td>22.9万 → 90.5万</td><td>$159 → $181</td><td>18.9% → 19.3%</td><td>6.8% → 6.1%（净利29.1万）</td></tr></tbody></table>
+<div class="small">FBM（早期铺货渠道）：25年494台（毛利3.0万）→26年21台（毛利0.2万），已停用，未列。毛利润口径同销量列（25年=全品牌，26年=PT+KAX）。26年净利润拆分：FBA 4.5万 / DF 15.1万 / PO 13.9万。口径：25年=全品牌（当年未分品牌）；26年=PT+KAX。</div>
+<p><b>· FBA："量涨但利薄"</b>——销量+94%、销售额+88%（25年基数为全品牌），但毛利率只有14.0%、净利率2.1%（净利4.5万）。上半年是销量第一渠道（6月641台>DF 356台），<b>7月起被DF反超（8月DF 355 vs FBA 194）——主因是FBA热销款售罄、动销转弱</b>（见问题四）。</p>
+<p><b>· DF：利润贡献第一</b>——销量+373%、贡献净利15.1万（占45%）；但均价涨到$175后毛利率回落到18.0%（促销率1.75%→6.74%在起作用）。</p>
+<p><b>· PO：最健康的渠道</b>——销量+152%、毛利率20.6%、净利13.9万；唯一的"量利双优"。</p>
+<p><b>· 结构：</b>VC双渠道（DF+PO）合计贡献净利29.1万元、占全部净利润87%；FBA 4.5万。7月起VC全面反超FBA。</p>
+<p><b>· 一句话：</b>VC是利润引擎，FBA是规模担当但利润薄——FBA的"利润修复"是27年第一优先级。</p>
+</div><div class="card"><h3>1.3 品牌对比（PHILTOP / KAX）</h3>
+<table class=""><thead><tr><th>品牌 / 口径</th><th>销量（台）</th><th>份额</th><th>销售额</th><th>毛利润</th><th>均价($)</th><th>毛利率</th></tr></thead><tbody><tr><td><b>25年 · 全品牌合计</b>（当年未分品牌）</td><td>2,716</td><td>100%</td><td>293.7万</td><td>43.7万</td><td>$161</td><td>14.9%</td></tr><tr><td><b>26年 · PHILTOP</b></td><td>4,924</td><td>82.1%（全新线内）</td><td>570.8万</td><td>96.7万</td><td>$173</td><td>16.9%</td></tr><tr><td><b>26年 · KAX</b></td><td>1,070（+36%）</td><td>17.9%（全新线内）</td><td>126.7万</td><td>25.5万</td><td>$177</td><td>20.1%</td></tr></tbody></table>
+<p><b>· PHILTOP：</b>绝对主力（占82%销量）。涨价（均价+8%）的同时销量还涨了3.4倍（毛利润¥96.7万）——新款拉动、定价权增强，毛利率也提了1.7pp。</p>
+<p><b>· KAX："量增+提质"</b>——销量1,070台（+36%、毛利润¥25.5万）、毛利率大涨6.6pp（13.5%→20.1%）、均价+16%；占26年全新线销量17.9%（被扩张更快的PHILTOP稀释）。<br><span class="small">注：25年全新线未按品牌拆分运营（BI只有合并数），故25年不做PT/KAX拆分；KAX的25年单品牌数（789台）仅供趋势参考。</span>KAX是"要利润"的潜力股，但要盯退款率（12.2%→16.2%，见问题四）。</p>
+<p><b>· KAX纯净性验证：</b>KAX 1,070台全部是"全新空调压缩机"命名商品、全部归朱鹏锃名下；KAX品牌的翻新机在独立的"翻新空调压缩机"品类里（6台），已分离——此数与"主管文档1,255台"的差异=总部全口径（含其他运营/翻新）。</p>
+</div><div class="card"><div class="card"><h3>1.4 分品牌×分渠道：单量、毛利润与毛利率明细（1-8月）</h3>
+<p>两个品牌各自的单量、按渠道拆开、毛利润与毛利率。整体：<b>PHILTOP 4,924台（同比+343%）、毛利润¥96.7万；KAX 1,070台（+36%）、毛利润¥25.5万</b>。</p>
+<table><tr><th>渠道</th><th>PHILTOP 单量（台）</th><th>PHILTOP 毛利润</th><th>PHILTOP 毛利率</th><th>KAX 单量（台）</th><th>KAX 毛利润</th><th>KAX 毛利率</th></tr>
+<tr><td>DF（VC 海外仓直发）</td><td>1,665</td><td>33.0万</td><td>17.0%</td><td>468</td><td>12.2万</td><td>21.5%</td></tr>
+<tr><td>FBA</td><td>1,910</td><td>30.2万</td><td>14.5%</td><td>191</td><td>1.2万</td><td>7.2%</td></tr>
+<tr><td>PO（亚马逊供货）</td><td>1,335</td><td>33.0万</td><td>19.8%</td><td>404</td><td>12.2万</td><td>23.2%</td></tr>
+<tr><td>FBM（已停用）</td><td>14</td><td>0.4万</td><td>24.0%</td><td>7</td><td>-0.1万</td><td>-20.9%</td></tr>
+<tr><td><b>合计</b></td><td><b>4,924</b></td><td><b>96.7万</b></td><td><b>16.9%</b></td><td><b>1,070</b></td><td><b>25.5万</b></td><td><b>20.1%</b></td></tr></table>
+<p class="small">注：25年对比——PHILTOP 1,111台→4,924台；KAX 789台→1,070台。KAX的PO渠道毛利率23.2%为双品牌四渠道中最优；KAX-FBA均价$129（清仓价），拉低其FBA毛利率。FBM两条线均已停用。</p></div>
+<h3>1.5 业绩小结（三句话）</h3>
+<div class="ok"><b>① 好消息：</b>销量×2.2、销售额×2.4、毛利润×2.8、净利润×4.0；毛利率+2.6pp（FBA单台材料成本-8.1%）。<br>
+<b>② 要警惕：</b>利润结构"头重脚轻"——87%的利润来自VC；FBA毛利率14.0%、净利率仅2.1%；增长仍有"买量"成分（促销让利×6.1、广告费+65%）。<br>
+<b>③ 一句话：</b>26年是"成功的放量、盈利在改善但仍薄"——27年关键词：FBA利润修复 + 促销纪律 + 退款治理。</div>
+</div>
+<h2 id="p2">二、五大核心问题——完整分析（纯净口径）</h2>
+<div class="guide">📖 <b>人话导读：</b>主管五问的逐条完整版：每问都是"问题 → 数据 → 为什么 → 怎么办"。口径=朱鹏锃名下·全新线（PT+KAX）。</div>
+<div class="card"><h3>2.1 问题一（上）：为什么全新FBA利润率今年比去年还低？</h3>
+<table class=""><thead><tr><th>FBA渠道（1-8月）</th><th>2025年</th><th>2026年</th><th>变化</th></tr></thead><tbody><tr><td>毛利润</td><td>¥17.7万</td><td>¥31.4万</td><td>+77%</td></tr><tr><td>毛利率</td><td>14.9%</td><td>14.0%</td><td>-0.9pp</td></tr><tr><td>净利率</td><td>2.9%</td><td>2.1%</td><td>-0.8pp</td></tr><tr><td>净利润</td><td>¥3.4万</td><td>¥4.5万</td><td>+¥1.1万（规模带动）</td></tr></tbody></table>
+<p>钱去哪了？把每一项成本和收益拆开看（费率=该项占销售额的比例）：</p>
+<table class=""><thead><tr><th>成本/收益项</th><th>25年费率（全品牌）</th><th>26年费率（PT+KAX）</th><th>变化</th><th>单台金额 25→26</th></tr></thead><tbody><tr><td>材料成本</td><td>44.9%</td><td>42.1%</td><td>-2.8pp ✅</td><td>¥496 → ¥450</td></tr><tr><td>头程（海运清关）</td><td>2.1%</td><td>≈0%*</td><td>-2.1pp ✅</td><td>¥23 → —</td></tr><tr><td>平台费返还</td><td>-0.7%</td><td>-1.3%</td><td>-0.6pp ✅</td><td>返还变多</td></tr><tr><td>仓储费</td><td>1.7%</td><td>1.3%</td><td>-0.4pp ✅</td><td>¥18 → ¥14</td></tr><tr><td>佣金</td><td>10.3%</td><td>10.0%</td><td>-0.3pp ✅</td><td>¥114 → ¥107</td></tr><tr><td>税</td><td>4.6%</td><td>4.3%</td><td>-0.3pp ✅</td><td>¥51 → ¥46</td></tr><tr><td>返点</td><td>-1.1%</td><td>-0.7%</td><td>+0.4pp ❌</td><td>返点变少</td></tr><tr><td>促销费（含优惠券）</td><td>3.0%</td><td>5.4%</td><td>+2.4pp ❌</td><td>¥33 → ¥58</td></tr><tr><td>广告费</td><td>2.8%</td><td>4.6%</td><td>+1.8pp ❌</td><td>¥31 → ¥49</td></tr><tr><td>退换货处置</td><td>-2.5%</td><td>-1.1%</td><td>+1.4pp ❌</td><td>残值回收变少</td></tr><tr><td>尾程配送</td><td>5.4%</td><td>6.0%</td><td>+0.6pp ❌</td><td>¥59 → ¥64</td></tr></tbody></table>
+<div class="warn"><b>结论：材料降本（-2.8pp）被"促销+2.4pp、广告+1.8pp、退换货+1.4pp、尾程+0.6pp"抵消，毛利率净降0.9pp。</b>净利润金额从3.4万涨到4.5万（规模带动）。附表口径：25年=全品牌FBA，26年=PT+KAX FBA；若26年也按全品牌口径，FBA毛利率为13.2%、降1.7pp（差额=翻新品牌是否并入）。<br>
+<b>抓手（约可回收2~3pp）：</b>①促销帽≤4%+白名单；②广告结构清理（第五~八节）；③引流款改走DF/清仓、FBA上$172+利润款。<br>
+<span class="small">*26年头程≈0为BI分摊口径变化（可能并入其它科目），以BI为准。</span></div>
+</div><div class="card"><h3>2.2 问题一（下）：为什么全新FBA销量高于DF？</h3>
+<p><b>先纠正一个口径：<b>26年（分品牌后）FBA并没有"高于"DF</b>——FBA 2,101台 vs DF 2,133台，基本持平（DF略高）；此前"FBA高14%"是把翻新品牌的销量也算了进去。而25年（全品牌）FBA 1,081 vs DF 451台，当时FBA确实大幅领先。</p>
+<p><b>真实的节奏：</b>1-6月FBA一路领先（6月FBA 641台 vs DF 356台、PO 422台）；<b>7月起DF连续反超</b>（7月DF 568>FBA 403；8月355>194；9月1-14日192>68）——直接原因是FBA热销款售罄、动销转弱（问题四），而不是DF突然变强。</p>
+<p><b>为什么上半年FBA能领先（三个原因）：</b></p>
+<p>① <b>价格更低：</b>FBA均价$159 vs DF $175（低约9%）——FBA承载低价引流款；</p>
+<p>② <b>推力不同：</b>FBA有广告（费率4.6%）+Prime+促销的"三件套"，DF主要靠VC买手拉动；</p>
+<p>③ <b>独家款：</b>DF有更多FBA没有的独家款在跑量（历史数据：DF独家约67款/900台量级）。</p>
+<div class="ok"><b>判断：</b>渠道真正要比的是利润结构——FBA净利率2.1% vs DF 6.3% vs PO 5.9%。FBA守住"规模+引流"，利润修复靠结构升级（客单上移+促销纪律）。</div>
+</div><div class="card"><h3>2.3 问题二：全新今年退款率比去年高吗？为什么？</h3>
+<p>先分口径看：</p>
+<table class=""><thead><tr><th>口径</th><th>2025年1-8月</th><th>2026年1-8月</th><th>变化</th><th>含义</th></tr></thead><tbody><tr><td>退款金额率（含VC）</td><td>14.1%</td><td>14.5%</td><td>+0.4pp</td><td>财务口径=退款金额÷销售额——"涨了"看这个</td></tr><tr><td>退款数量率（含VC）</td><td>14.1%</td><td>14.0%</td><td>-0.1pp</td><td>按台数算：小幅上行</td></tr><tr><td>其中：VC相关（亚马逊承担）</td><td>¥14.1万</td><td>¥71.3万</td><td>×5 —— 涨的几乎全在这里</td><td>VC退货由亚马逊承担，不直接吃我们的成本</td></tr><tr><td>其中：自担部分（FBA）</td><td>¥27.3万</td><td>¥30.1万</td><td>（销量增长带动）</td><td>FBA退款率14.4%→13.3%，改善</td></tr></tbody></table>
+<p><b>为什么涨：</b></p>
+<p>① <b>涨的部分几乎全是VC：</b>VC的退货处置量跟着VC销量（×3.4）同步放大（由亚马逊承担，但影响VC合作健康度）；</p>
+<p>② <b>自担部分在改善：</b>FBA退款率14.4%→13.3%、单台退款金额下降；</p>
+<p>③ <b>要盯售后工单：</b>146→250单（+71%）——增量主要是"买错车型/装不上"（兼容匹配17→63单）和"改变主意"（23→61单）；</p>
+<p>④ <b>高退款链接专项：</b>50个高退款链接（退款率>20%）合计退款¥15.1万，已列清单逐条整改（适配信息+图片）。</p>
+<div class="note">提醒：8月单月退款率28.5%是结算滞后造成的虚高，不要单独引用。</div>
+<div class="ok"><b>结论：</b>"退款率更高"要分口径——含VC口径确实+0.4pp（但金额翻倍），且涨的几乎全是VC（亚马逊承担）；自担的FBA退款率在改善。<b>真正要治的是"适配信息不清晰、买错车型"和"促销冲动退货"。</b>目标：27年自担退款率≤12%。</div>
+</div><div class="card"><h3>2.4 问题三：今年促销明显上涨，需要压缩吗？</h3>
+<p>先看涨了多少（纯净口径，含优惠券）：</p>
+<table class=""><thead><tr><th></th><th>2025年1-8月</th><th>2026年1-8月</th></tr></thead><tbody><tr><td>促销让利金额</td><td>¥7.3万</td><td>¥44.4万（×6.1）</td></tr><tr><td>占销售额比例</td><td>2.49%</td><td>6.36%</td></tr></tbody></table>
+<p><b>分渠道：</b>FBA 2.72%→5.42%；DF 1.68%→6.74%；PO 2.18%→6.96%——<b>VC（DF+PO）是促销主战场（合计32.2万），FBA 12.2万</b>。</p>
+<p><b>代价的证据：</b></p>
+<p>· 促销力度越大毛利越低：不促销的SKU毛利率25% → 促销>20%的只剩3.4%；33个SKU月"卖一台亏一台"；</p>
+<p>· 6-7月FBA净利率被压到低位；8月促销回落后毛利率回升；</p>
+<p>· 违规：缺货/低库销比仍挂促销约78个SKU、¥4.8万；"毛利率<10%还在促"的黑名单73条、¥4.2万。</p>
+<p><b>测算（按697万销售基数）：</b>促销率每压1pp≈省¥7.0万；压到5%≈省¥9.5万；压到4%≈省¥16.5万（≈+2.4pp毛利）；压到3%≈省¥23.4万。</p>
+<div class="ok"><b>结论：要压，且能压。</b>目标：全年促销率≤4~5%。方法=白名单（清库存+高转化款）、砍"低毛利+高退款"款、促销与广告联动、执行第三节的规则v2。</div>
+</div><div class="card"><h3>2.5 问题四：其它值得注意的发现</h3>
+<p><b>① 增长质量：</b>新品贡献提升（38个新品贡献约17.6%销售额、毛利率高于老品）；老品单均从19.4台→30.8台（+59%）——新品和老品都在加深（SKU级，品类口径）。</p>
+<p><b>② KAX要单独治理：</b>毛利率全场最高（20.1%），但退款率（金额口径含VC）为16.2%，是两大品牌里最高（PT为14.2%）；推广资源最少（促销投入约为PHILTOP的2%）。</p>
+<p><b>③ 材料降本是最大功臣：</b>FBA单台材料成本¥490→¥450（-8.1%）；27年靠材料继续压的空间有限（要与采购锁目标）。</p>
+<p><b>④ 8-9月FBA掉速=结构性缺货（不等于全断货）：</b>真实情况是热销款售罄、不热销款库存充足——8月FBA 194台（7月403）、9月1-14日仅68台；且<b>降价拉不动量</b>（7月FBA均价-20%、销量仍-37%；让利到5%毛利仍高于竞对）——破局方案见第十节·经验复盘（清仓前置+分层备货+变体引流等6条）。</p>
+<p><b>⑤ 库存盘点：</b>在库¥316万+在途¥114万；其中>180天老库存¥47万（15%）需要清理。</p>
+</div><div class="card"><h3>2.6 问题五：我的整体判断与改进措施（运营负责人视角）</h3>
+<div class="warn"><b>整体判断：26年是"成功的放量、盈利在改善但仍薄"。</b><br>
+· 做得好：销量×2.2、毛利率+2.6pp、材料降本兑现、DF/PO利润引擎成型（贡献87%净利）、新品/老品结构健康；<br>
+· 脆弱在哪：①利润薄——净利率4.8%、FBA只有2.1%，促销/退款/尾程任一波动就打穿；②增长有"买量"成分——促销让利×6.1、广告费+65%；③适配/退款问题在放量中放大；④旺季供给节奏问题（热销款售罄+冷款积压）。</div>
+<p><b>27年三件最重要的事（按优先级）：</b></p>
+<p>① <b>促销纪律：</b>全年促销率≤4%（可回收≈2~2.4pp毛利空间）——规则v2 + 白名单 + 每周违规清单；</p>
+<p>② <b>FBA利润修复：</b>客单价从$159上移到$172+（引流款移去DF/清仓，FBA上利润款）；广告结构清理（僵尸活动清零、自动投放≤50%）；</p>
+<p>③ <b>退款治理：</b>50条高退款链接逐条整改（适配信息+图片/文案）、"改变主意"类做冷静期机制；目标自担退款率≤12%。</p>
+<p><b>叠加效果：</b>三件做完，毛利率有从17.5%向20%+走的确定性空间。</p>
+<table class=""><thead><tr><th>优先级</th><th>问题/动作</th><th>量化依据</th></tr></thead><tbody><tr><td>P0</td><td>FBA断货链接：逐链接核查（断货/广告/排名/价格）后定动作</td><td>65%有量链接库存=0</td></tr><tr><td>P0</td><td>高退款50条链接：适配信息补全+图片点检；无效下架/合并</td><td>合计退款¥15.1万</td></tr><tr><td>P0</td><td>促销管控：全年≤4%帽+白名单+每周违规清单</td><td>每压1pp≈省¥7.0万</td></tr><tr><td>P1</td><td>FBA结构升级：引流款移交DF/清仓；上$172+利润款</td><td>FBA客单$159→目标$172+</td></tr><tr><td>P1</td><td>广告结构：清僵尸/合并单ASIN活动/加投SD与OE词</td><td>纯净口径广告$32,377 / ACOS 9.4%</td></tr><tr><td>P1</td><td>退款治理：适配表复核+OE词池+"改变主意"冷静期</td><td>自担退款率目标≤12%</td></tr><tr><td>P2</td><td>KAX定位：Q1前定价格带、补评论/内容</td><td>份额41.5%→17.9%、退款16.2%</td></tr><tr><td>P2</td><td>库存清理：>180天¥47万按清单清理</td><td>占库存15%</td></tr></tbody></table>
+</div>
+<h2 id="s2">三、促销专项复盘（打折、优惠券、BD）</h2>
+<div class="note"><b>口径说明：</b>本节SKU级明细（分桶/违规清单）为品类口径（含少量非全新SKU）；年度合计与渠道口径已按纯净口径重算：¥7.3万(2.49%)→¥44.4万(6.36%)，其中 FBA 12.2万 / DF 16.9万 / PO 15.3万。</div>
+<div class="guide">📖 <b>人话导读：</b>这一节回答三个问题：①你之前说过的三个做法（4月上券、5月起FBA促销、VC一直报BD）——数据是不是这样？②促销到底亏不亏？③明年的促销规则该怎么定。</div>
+<div class="card"><h3>3.1 你说的三件事，数据全部证实</h3>
+<table class=""><thead><tr><th>你说过的操作 / 你的自评</th><th>数据验证结果</th></tr></thead><tbody><tr><td>"4月起，VC上的新链接基本都是每月10%的券"</td><td>属实。VC（DF+PO）促销合计¥32.2万（促销率6.8%），是促销主战场；月度上从4月起持续维持约6-8%的高位（6月为峰值月）。</td></tr><tr><td>"FBA是5月后才开始大量用价格促销（8%-10%）"</td><td>属实。FBA促销率 2.6%→5.4%；6月峰值时112个有销量的SKU里109个都在促（97%）。</td></tr><tr><td>"VC一直在报BD，所有能报的都报"</td><td>属实，而且后果也属实。VC的促销覆盖面：5月20% → 6月19% → 7月19% → 8月15%（口径：分子=当月有促销动作的VC链接数、分母=当月VC链接总数（全部，含未出单），即265/1,342、244/1,315、256/1,360、196/1,315；若仅按当月有出单的链接算则为82%→75%→67%→65%；数据=BI损益sku×月×渠道直取）；数据=BI损益sku×月×渠道直取）；有549个促销过的SKU里，60个（11%）连续促销了4个月以上。效果：<b>VC渠道毛利率从3月的21.0%一路掉到7月的16.5%谷底，单台毛利从283元掉到204元</b>，9月才回到24.2%。</td></tr><tr><td>你的自评1："没有按库销比来调整促销，低库存的没及时关"</td><td>证实。<b>库存已经清零或快清零、但促销还挂着的SKU/链接合计约78个，烧掉约4.8万元</b>（VC零库存仍促销56个SKU、库销比<1个月仍促销56个；FBA库销比<1个月仍促销18条链接）。</td></tr><tr><td>你的自评2："VC的BD提报混乱"</td><td>证实。发现多起"券+BD+PD"叠加（如18%券+12美元PD、15%券+20美元PD）；"毛利率已经低于10%但还在促销"的黑名单有73条，30天促销金额4.2万元。</td></tr></tbody></table>
+<h3>3.2 促销力度越大，越不赚钱（怎么读下面的图）</h3>
+<p>把每个SKU每月的"促销力度"和"毛利率"放在一起看——横条是不同促销力度的分组，右侧数字是这组的平均毛利率：</p>
+<div class="hbars"><div class="hbar"><div class="hl">完全不促销的SKU月</div><div class="hw"><div class="hf" style="width:100%;background:#27ae60"></div></div><div class="hv">毛利率 25.0%</div></div><div class="hbar"><div class="hl">促销力度5-10%</div><div class="hw"><div class="hf" style="width:86%;background:#2ecc71"></div></div><div class="hv">21.6%</div></div><div class="hbar"><div class="hl">促销力度10-15%</div><div class="hw"><div class="hf" style="width:73%;background:#f1c40f"></div></div><div class="hv">18.4%</div></div><div class="hbar"><div class="hl">促销力度15-20%</div><div class="hw"><div class="hf" style="width:59%;background:#e67e22"></div></div><div class="hv">14.9%</div></div><div class="hbar"><div class="hl">促销力度20%以上</div><div class="hw"><div class="hf" style="width:13%;background:#e74c3c"></div></div><div class="hv">3.4%</div></div></div>
+<div class="warn">大白话：不促销的SKU平均毛利率25%，促销力度超过20%的只剩3.4%——<b>促销力度越大、毛利掉得越狠</b>。其中"促销力度>20%"的119个SKU月里，有33个已经卖一台亏一台。另外有123个SKU月属于"促销力度>10%但毛利率不到10%"的低效促销，让利10.7万元、换来的毛利只有1.9%——这批是明年优先砍掉的，预计能省约13.4万元。</div>
+<h3>3.3 明年的促销规则（规则v2，在老规则基础上补4条）</h3>
+<table class=""><thead><tr><th>新增规则</th><th>具体怎么执行</th></tr></thead><tbody><tr><td>① 叠加熔断</td><td>同一个产品当月"券+BD+PD"加起来的折扣达到15%就要二次确认，达到20%原则上禁止（清库存的款单独标记放行）。</td></tr><tr><td>② 质量黑名单</td><td>促销提报前先过滤：毛利率<10%、退款率>20%、库销比不足1个月、上架不到90天的新品只准用券（不许叠BD）。</td></tr><tr><td>③ 只投主力链接</td><td>同一个编码有多条链接的，促销和广告只投"主力链接"1条，其余链接只做被动的清库价。</td></tr><tr><td>④ 价格底线</td><td>促销后的成交价不能低于红线价；促销后的毛利率不能低于该档位的利润底线。</td></tr><tr><td>执行节奏</td><td>每周一出一次"违规清单"（缺货仍在促/超出档位/黑名单）当天处理；BD提报日先过黑名单三连；每月5日盘一次促销率/毛利率；每季按材料成本重定促销帽。</td></tr></tbody></table>
+<div class="card"><h3>3.4 促销实行方案（你定稿的规则表 · 原文整合）</h3>
+<p>以下是你的《库销比控促销》规则表（Sheet3）——按库销比(DOS)分档，给出"促销 / 广告 / 利润"三件事的对应动作，作为明年促销执行的<b>基准方案</b>；第三节上面的违规清单与熔断规则v2作为它的"配套安全检查"。</p>
+<p><b>VC（海外仓/PO口径）：</b></p>
+<table><tr><th>判定条件</th><th>状态</th><th>促销(Coupon/CP)建议</th><th>广告(PPC)建议</th><th>逻辑目标</th><th>利润标准</th></tr>
+<tr><td>海外仓 DOS &lt; 15天</td><td>极度缺货</td><td>立即关闭所有促销，保留一个广告</td><td>关停非核心词，预算减半</td><td>牺牲销量保排名，撑到PO入库。</td><td>20%利润推广</td></tr>
+<tr><td>海外仓 DOS 15-30天</td><td>库存偏紧</td><td>减少促销 (0 - 5%)</td><td>仅保留精准核心词，控速</td><td>减缓消耗速度，避免断货。</td><td>18%利润推广</td></tr>
+<tr><td>总 DOS &lt; 65天</td><td>旺季健康</td><td>稳定促销 (5% - 8%)</td><td>利润模式，追求高ROAS</td><td>刚好撑完旺季，最大化单品利润。</td><td>15%利润推广</td></tr>
+<tr><td>总 DOS 65 - 90天</td><td>跨季积压</td><td>加大促销 (10% - 15%)高销链接可加大，继续迭代链接</td><td>加大预算，拦截竞品流量</td><td>赶在9月淡季前，把多出的库存冲掉。</td><td>13%利润推广/叠链接</td></tr>
+<tr><td>总 DOS &gt; 90天</td><td>严重积压</td><td>强力促销 (20%+)，高销链接可加大，继续迭代链接</td><td>全力投放，不计ACOS</td><td>8月底是最后窗口，不卖就变死货。</td><td>红线价推广/叠链接</td></tr>
+</table>
+<p><b>FBA（FBA仓口径）：</b></p>
+<table><tr><th>判定条件</th><th>状态</th><th>促销(Coupon/CP)建议</th><th>广告(PPC)建议</th><th>逻辑目标</th><th>利润标准</th></tr>
+<tr><td>FBA DOS &lt; 15天</td><td>极度缺货</td><td>立即关闭所有促销，保留一个广告，提价</td><td>关停非核心词，预算减半</td><td>牺牲销量保排名，撑到PO入库。</td><td>22%利润推广</td></tr>
+<tr><td>FBA DOS 15-30天</td><td>库存偏紧</td><td>减少促销 (0 - 5%)</td><td>仅保留精准核心词，控速</td><td>减缓消耗速度，避免断货。</td><td>20%利润推广</td></tr>
+<tr><td>FBA DOS &lt; 65天</td><td>旺季健康</td><td>稳定促销 (5% - 8%)</td><td>利润模式，追求高ROAS</td><td>刚好撑完旺季，最大化单品利润。</td><td>18%利润推广</td></tr>
+<tr><td>FBA DOS 65 - 90天</td><td>跨季积压</td><td>加大促销 (10% - 15%)</td><td>加大预算，拦截竞品流量</td><td>赶在9月淡季前，把多出的库存冲掉。</td><td>15%利润推广</td></tr>
+<tr><td>FBA DOS &gt; 90天</td><td>严重积压</td><td>强力促销 (20%+)/直接降价+广告</td><td>全力投放，不计ACOS</td><td>8月底是最后窗口，不卖就变死货。</td><td>红线价推广</td></tr>
+</table>
+<p><b>落地节奏（建议）：</b>每周一跑一遍最新DOS → 按表更新每个链接的促销状态（五档） → 周五否词日+促销提报复核 → 每月5日复盘促销率/毛利是否落在对应档位（20%/18%/15%/13%/红线价）。</p>
+</div>
+<h2 id="s3">四、刊登代差诊断（同一个产品挂了很多条链接，价格互相打架）</h2>
+<div class="guide">📖 <b>人话导读：</b>你之前提过：2-3月第一批链接价格定得高，后面又不断上低价链接，导致同一个产品不同链接价格差很多。这一节用数据把这个问题量化，并给出治理方案。</div>
+<table class=""><thead><tr><th>检查项</th><th>数据发现（大白话）</th></tr></thead><tbody><tr><td>同编码多链接</td><td>256个商品编码里，246个都挂了2条以上的链接（平均4条）。</td></tr><tr><td>价格差多少</td><td><b>同一编码不同链接的价格差中位数是41.9美元、约32.9%</b>；145个编码的价格差超过30%。最夸张的ZC8ACC02500：5条链接价格从110.6美元到209.9美元，差了90%。</td></tr><tr><td>不同批次的价格</td><td>最早B0C开头的链接平均116美元 → B0D批137美元 → B0F批131美元 → <b>2-3月上架的B0G批（1,035条）147美元</b> → <b>后面低价迭代的B0H批（69条）129美元</b>。</td></tr><tr><td>低价链接有效果吗</td><td><b>没有。</b>低价迭代的B0H批，30天只卖出16台（平均每条链接0.23台）——低价没有换来销量，反而把整体价格体系搅乱了；真正扛销量的是老的B0G批（1,851台）。</td></tr><tr><td>死链接</td><td>VC渠道1,169条链接里有536条（45%）30天一台没卖；FBA侧25/87条。</td></tr></tbody></table>
+<div class="ok">治理方案：①每个编码只留1条"主力链接"+设定价格带（目标：同编码价差收窄到15%以内）；②新链接上架时一次性定好价（按红线价×系数），<b>禁止"先挂高价、以后再降价迭代"的老做法</b>；③清理536条零销量死链；④促销必须遵守价格底线（见第三节规则v2）。</div>
+<h2 id="s4">五、广告复盘（一）：每个月花了多少钱、效果怎么样</h2>
+<div class="guide">📖 <b>人话导读：</b>这一节看广告的"投入产出"：按月看花了多少、效率（ACOS）好不好、订单里多少来自广告。表格里第一行是美元（广告后台真实花费），第二行是人民币（财务口径）——两套口径差异的原因见第十三节。</div>
+<div class="card"><h3>5.1 月度数据表</h3>
+<table class=""><thead><tr><th>指标</th><th>1月</th><th>2月</th><th>3月</th><th>4月</th><th>5月</th><th>6月</th><th>7月</th><th>8月</th><th>9月*</th></tr></thead><tbody><tr><td>广告花费（美元·朱鹏锃非翻新·纯净口径）</td><td>208</td><td>177</td><td>1,078</td><td>2,905</td><td>5,597</td><td>9,795</td><td>8,495</td><td>3,264</td><td>859</td></tr><tr><td>广告花费（人民币·财务口径）</td><td>2,996</td><td>3,023</td><td>9,004</td><td>20,708</td><td>42,027</td><td>76,017</td><td>68,472</td><td>24,329</td><td>5,658</td></tr><tr><td>ACOS（广告成本效率）</td><td>15.3%</td><td>11.4%</td><td>6.3%</td><td>8.3%</td><td>7.1%</td><td>10.4%</td><td>11.5%</td><td>9.6%</td><td>10.1%</td></tr><tr><td>订单中来自广告的比例</td><td>15%</td><td>11%</td><td>21%</td><td>30%</td><td>39%</td><td>46%</td><td>42%</td><td>31%</td><td>19%</td></tr><tr><td>TACoS（广告占全店销售比例）</td><td>2.1%</td><td>2.0%</td><td>2.0%</td><td>2.7%</td><td>2.7%</td><td>4.2%</td><td>4.0%</td><td>2.6%</td><td>1.5%</td></tr><tr><td>VC渠道每次点击成本（美元）</td><td>0.486</td><td>0.478</td><td>0.485</td><td>0.515</td><td>0.555</td><td>0.586</td><td>0.624</td><td>0.573</td><td>0.641</td></tr><tr><td>FBA渠道每次点击成本（美元）</td><td>0.659</td><td>0.660</td><td>0.633</td><td>0.748</td><td>0.585</td><td>0.768</td><td>0.534</td><td>0.522</td><td>0.606</td></tr></tbody></table>
+<div class="small">*9月只统计到9月14日，是半个月的数。<b>美元行=纯净口径（朱鹏锃名下·非翻新活动，$32,377）</b>；人民币/占比/TACoS/CPC行为BI品类口径（含少量非全新SKU），趋势参考。月度人民币拆分因BI重算暂不展示（见第十三节）。</div>
+<h3>5.2 每个月的故事（按时间线读）</h3>
+<p><b>1-2月（淡季）：</b>每月只花一两百美元，ACOS 11-15%看着高，但这是淡季量小导致的，属于正常现象。</p>
+<p><b>3-4月（开始上架和投放）：</b>3月开始花钱爬坡（1,078美元），4月2,905美元，效率不错（ACOS 6.3%/8.3%）。</p>
+<p><b>5月（全年最佳）：</b>花了5,597美元，<b>ACOS 7.1%——全年最好的月份</b>（比去年5月还好）。这个月的做法值得记住：出价不激进、转化好、钱花得准。</p>
+<p><b>6月（花得最多的月）：</b>花了9,795美元（全年最高），但ACOS滑到10.4%——规模是上去了，效率开始掉。</p>
+<p><b>7月（全年效率最差）：</b>花了8,495美元，ACOS 11.5%——"每卖100块广告销售，广告成本11块5"。这个月还叠加了FBA放缓问题（热销款售罄、动销转弱）。</p>
+<p><b>8-9月（主动收缩）：</b>花钱降到3,264美元、859美元（半个月），效率回到9.6%/10.1%。</p>
+<div class="two">
+<div><h3>ACOS 月度走势（越低越好）</h3>
+<div class="vbars"><div class="vbar"><div class="vcol"><div class="vfill" style="height:110px"></div></div><div class="vl">15.3</div><div class="vm">1月</div></div><div class="vbar"><div class="vcol"><div class="vfill" style="height:81px"></div></div><div class="vl">11.4</div><div class="vm">2月</div></div><div class="vbar"><div class="vcol"><div class="vfill" style="height:45px"></div></div><div class="vl">6.3</div><div class="vm">3月</div></div><div class="vbar"><div class="vcol"><div class="vfill" style="height:59px"></div></div><div class="vl">8.3</div><div class="vm">4月</div></div><div class="vbar"><div class="vcol"><div class="vfill" style="height:51px"></div></div><div class="vl">7.1</div><div class="vm">5月</div></div><div class="vbar"><div class="vcol"><div class="vfill" style="height:74px"></div></div><div class="vl">10.4</div><div class="vm">6月</div></div><div class="vbar"><div class="vcol"><div class="vfill" style="height:82px"></div></div><div class="vl">11.5</div><div class="vm">7月</div></div><div class="vbar"><div class="vcol"><div class="vfill" style="height:69px"></div></div><div class="vl">9.6</div><div class="vm">8月</div></div><div class="vbar"><div class="vcol"><div class="vfill" style="height:72px"></div></div><div class="vl">10.1</div><div class="vm">9月*</div></div></div>
+</div><div><h3>订单中来自广告的比例（越高越依赖广告）</h3>
+<div class="vbars"><div class="vbar"><div class="vcol"><div class="vfill" style="height:35px"></div></div><div class="vl">15</div><div class="vm">1月</div></div><div class="vbar"><div class="vcol"><div class="vfill" style="height:26px"></div></div><div class="vl">11</div><div class="vm">2月</div></div><div class="vbar"><div class="vcol"><div class="vfill" style="height:50px"></div></div><div class="vl">21</div><div class="vm">3月</div></div><div class="vbar"><div class="vcol"><div class="vfill" style="height:71px"></div></div><div class="vl">30</div><div class="vm">4月</div></div><div class="vbar"><div class="vcol"><div class="vfill" style="height:93px"></div></div><div class="vl">39</div><div class="vm">5月</div></div><div class="vbar"><div class="vcol"><div class="vfill" style="height:110px"></div></div><div class="vl">46</div><div class="vm">6月</div></div><div class="vbar"><div class="vcol"><div class="vfill" style="height:100px"></div></div><div class="vl">42</div><div class="vm">7月</div></div><div class="vbar"><div class="vcol"><div class="vfill" style="height:74px"></div></div><div class="vl">31</div><div class="vm">8月</div></div><div class="vbar"><div class="vcol"><div class="vfill" style="height:45px"></div></div><div class="vl">19</div><div class="vm">9月*</div></div></div>
+</div></div>
+<div class="warn"><b>这段数据说明什么：</b>广告花的钱比去年多了3倍，但效率（ACOS、每次点击成本）在退步；好在5月证明过"打法本身没问题"，问题是<b>放大规模的时候没有守住效率</b>——6-7月花得最猛的两个月，恰恰是效率最差的月份。</div>
+</div>
+<h2 id="s5">六、广告复盘（二）：钱都花在哪些活动上（账户结构）</h2>
+<div class="guide">📖 <b>人话导读：</b>这一节看"账户的健康度"：钱集中在哪些店、哪些活动、哪些人在管；有多少活动是建了没用的"僵尸"；哪些活动是真正的主力。</div>
+<div class="card"><h3>6.1 分渠道总览</h3>
+<table class=""><thead><tr><th>项目</th><th>VC渠道（Suncent账号）</th><th>FBA渠道（US22店铺）</th><th>合计</th></tr></thead><tbody><tr><td>有花费的活动数</td><td>1,035</td><td>247</td><td>1,282</td></tr><tr><td>广告花费（美元）</td><td>19,303（占59.6%）</td><td>13,074（占40.4%）</td><td>32,377</td></tr><tr><td>广告带来的销售额（美元）</td><td>217,540</td><td>127,025</td><td>344,565</td></tr><tr><td>ACOS（广告效率）</td><td>8.9%</td><td>10.3%</td><td>9.4%</td></tr><tr><td>订单 / 点击 / 曝光 / CPC</td><td colspan="2">1,994单 / 43,381次 / 1,164万 / $0.75</td><td>—</td></tr><tr><td>全年没花过钱的活动</td><td colspan="2">1,213个（占49%）</td><td>1,213</td></tr></tbody></table>
+<div class="small">口径更新：以上为"朱鹏锃名下·非翻新活动"。此前标签全量为$62,358——其中40.5%是翻新活动（李汝娴等）、约7%是其他运营活动，已剔除。VC=Suncent账号（亚马逊自营）；FBA=US22店铺。</div>
+<h3>6.2 创建批次：6-7月"批量开店"的地质层</h3>
+<table class=""><thead><tr><th>活动创建时间</th><th>新建活动数</th><th>这批活动全年花了多少</th><th>说明</th></tr></thead><tbody><tr><td>2025年及以前</td><td>48</td><td>1,111美元</td><td>老链接的历史活动</td></tr><tr><td>26年2月</td><td>2</td><td>429美元</td><td>上架潮期间建的</td></tr><tr><td>26年3月</td><td>73</td><td>8,334美元</td><td>上架潮期间建的</td></tr><tr><td>26年4月</td><td>11</td><td>3,655美元</td><td>上架潮期间建的</td></tr><tr><td>26年5月</td><td>200</td><td>11,283美元</td><td></td></tr><tr><td>26年6月</td><td>473</td><td>4,119美元</td><td>批量建的单ASIN活动——多数没经营</td></tr><tr><td>26年7月</td><td>474</td><td>3,443美元</td><td>批量建的单ASIN活动——多数没经营</td></tr><tr><td>26年8月</td><td>1</td><td>2美元</td><td></td></tr></tbody></table>
+<div class="warn">大白话：6月和7月两个月，一次性新建了947个活动（占纯净口径新建的74%），但这批活动加起来才花了7,562美元——<b>平均每个活动只花8美元，等于建完就扔在那</b>。而且同一个产品最多被挂在27个活动里（B0GK68NS42，标签口径），它们之间互相抢流量、把每次点击成本越抬越高。</div>
+<h3>6.3 真正的主力活动（前几名）</h3>
+<table class=""><thead><tr><th>活动名称</th><th>渠道</th><th>花费（美元）</th><th>销售（美元）</th><th>ACOS</th><th>状态</th></tr></thead><tbody><tr><td>SP-KW-BR-朱鹏锃-全新空调压缩机-大词混合</td><td>FBA</td><td>3,354</td><td>38,266</td><td>8.8%</td><td>在跑</td></tr><tr><td>SP-Auto-MIXS-朱鹏锃-空压-2604ALL-仅降低-自动混投</td><td>FBA</td><td>2,763</td><td>32,776</td><td>8.4%</td><td>已暂停</td></tr><tr><td>SP-AUTO-MIXS-朱鹏锃-空调压缩机</td><td>VC</td><td>2,405</td><td>26,763</td><td>9.0%</td><td>在跑</td></tr><tr><td>SP-AUTO-MIXS-朱鹏锃-全新空调压缩机-KAX VC第二轮空压提高NEW</td><td>VC</td><td>1,412</td><td>18,154</td><td>7.8%</td><td>在跑</td></tr><tr><td>SP-AUTO-SUB-朱鹏锃-空调压缩机</td><td>VC</td><td>1,046</td><td>17,878</td><td>5.9%</td><td>在跑</td></tr><tr><td>SP-AUTO-MIXS-朱鹏锃-全新空调压缩机-PT VC空压出单提高自动</td><td>VC</td><td>950</td><td>17,324</td><td>5.5%</td><td>在跑</td></tr></tbody></table>
+<div class="ok">正面信息：①主力活动效率都不错——前5大活动ACOS全在7.8-9.5%；②FBA侧花费高度集中（3大活动占绝大部分），管理成本低；③自动投放的"同类商品"与SD类效率突出（纯净口径重算详见Excel）。</div>
+</div>
+<div class="card"><h3>6.4 花在自动还是手动？（新增维度）</h3>
+<p>这是"钱按投放方式怎么分"的全景（口径：朱鹏锃名下·非翻新活动，2026-01-01 ~ 09-14，美元）。</p>
+<table><tr><th>类别</th><th>活动数</th><th>花费</th><th>花费占比</th><th>订单</th><th>点击</th><th>转化率(CVR)</th><th>ACOS</th><th>CPC</th></tr>
+<tr><td>自动投放</td><td>1,075</td><td>$24,046</td><td>74.3%</td><td>1,538</td><td>33,865</td><td>4.54%</td><td>9.0%</td><td>$0.71</td></tr>
+<tr><td>手动投放</td><td>207</td><td>$8,331</td><td>25.7%</td><td>456</td><td>9,516</td><td>4.79%</td><td>10.9%</td><td>$0.88</td></tr>
+</table>
+<p><b>解读：</b>①预算大头在<b>自动投放</b>：1,075个活动吃掉约 <b>74%</b> 的花费（$24,046），单量贡献也占~77%；②两者转化率接近（自动4.54% vs 手动4.79%），但自动的 ACOS（9.0% vs 10.9%）和 CPC（$0.71 vs $0.88）都更省——现状是"以自动为基本盘"；③精细化的空间恰恰在手动：手动活动只有207个、且75%是"大词混合"式的宽泛打法（详见6.5），结构上还有的挖。</p></div>
+<div class="card"><h3>6.5 花在哪种匹配方式？（新增维度）</h3>
+<p>按投放条目（自动的四类目标 + 手动的关键词）拆分花费——这是明年调结构最直接的一张表。</p>
+<table><tr><th>匹配方式</th><th>投放条目数</th><th>花费</th><th>花费占比</th><th>订单</th><th>点击</th><th>转化率(CVR)</th><th>ACOS</th><th>CPC</th></tr>
+<tr><td>自动 · 紧密匹配</td><td>2,469</td><td>$5,006</td><td>15.4%</td><td>353</td><td>6,956</td><td>5.07%</td><td>8.1%</td><td>$0.72</td></tr>
+<tr><td>自动 · 宽泛匹配</td><td>2,469</td><td>$16,314</td><td>50.3%</td><td>1,026</td><td>21,162</td><td>4.85%</td><td>9.2%</td><td>$0.77</td></tr>
+<tr><td>自动 · 同类商品</td><td>2,469</td><td>$2,548</td><td>7.9%</td><td>151</td><td>5,329</td><td>2.83%</td><td>9.5%</td><td>$0.48</td></tr>
+<tr><td>自动 · 关联商品</td><td>2,469</td><td>$221</td><td>0.7%</td><td>10</td><td>482</td><td>2.07%</td><td>11.5%</td><td>$0.46</td></tr>
+<tr><td>手动 · 广泛匹配</td><td>1,934</td><td>$6,781</td><td>20.9%</td><td>393</td><td>7,540</td><td>5.21%</td><td>10.2%</td><td>$0.90</td></tr>
+<tr><td>手动 · 短语匹配</td><td>84</td><td>$1,523</td><td>4.7%</td><td>61</td><td>1,909</td><td>3.20%</td><td>15.5%</td><td>$0.80</td></tr>
+<tr><td>手动 · 精确匹配</td><td>29</td><td>$0</td><td>0.0%</td><td>0</td><td>1</td><td>0.00%</td><td>—</td><td>$0.50</td></tr>
+<tr><td>分类投放</td><td>4</td><td>$19</td><td>0.1%</td><td>2</td><td>44</td><td>4.55%</td><td>6.4%</td><td>$0.43</td></tr>
+</table>
+<p><b>解读：</b>①<b>最大头是"自动·宽泛匹配"</b>：$16,314、约占一半预算，效率不差（ACOS 9.2%）；②<b>"自动·紧密匹配"效率最好</b>：CVR 5.07%、ACOS 8.1%、CPC $0.72——明年可以加码；③"同类商品/关联商品"买得少、转化也弱（CVR 2.8%/2.1%）——优先降价收缩；④手动里 <b>94% 是广泛匹配</b>（$6,781、CVR 5.21%但ACOS 10.2%偏高）；⑤<b>手动·短语匹配 ACOS 15.5% 是全场最差</b>（$1,523），而<b>精确匹配全年花了 $0</b>——"出单词转精确"是明年最明确的结构升级动作（精准词单独建组、拿回可控竞价）。</p></div>
+<div class="card"><h3>6.6 花在哪种竞价策略？（新增维度）</h3>
+<p>三种竞价策略的花费与效果对比（活动级）。</p>
+<table><tr><th>类别</th><th>活动数</th><th>花费</th><th>花费占比</th><th>订单</th><th>点击</th><th>转化率(CVR)</th><th>ACOS</th><th>CPC</th></tr>
+<tr><td>动态竞价 · 只降低</td><td>437</td><td>$18,351</td><td>56.7%</td><td>1,256</td><td>28,047</td><td>4.48%</td><td>8.3%</td><td>$0.65</td></tr>
+<tr><td>固定竞价</td><td>41</td><td>$933</td><td>2.9%</td><td>65</td><td>1,740</td><td>3.74%</td><td>10.7%</td><td>$0.54</td></tr>
+<tr><td>动态竞价 · 提高和降低</td><td>804</td><td>$13,093</td><td>40.4%</td><td>673</td><td>13,594</td><td>4.95%</td><td>11.4%</td><td>$0.96</td></tr>
+</table>
+<p><b>解读：</b>①<b>"只降低"是效率之王</b>：吃掉56.7%预算（$18,351），ACOS最低（8.3%）、CPC最低（$0.65）；②"提高和降低"的转化率略高（4.95%）但把CPC抬到$0.96、ACOS 11.4%——贵47%的代价；③固定竞价用得极少（41个活动）且效率一般（ACOS 10.7%）。明年建议：<b>默认统一"只降低"，只在抢排名的关键窗口（新品前90天、旺季卡位）局部开"提高和降低"</b>（与第八节竞价章节的结论一致）。</p></div>
+<h2 id="s6">七、广告复盘（三）：钱被哪些"搜索词"花掉了</h2>
+<div class="guide">📖 <b>人话导读：</b>搜索词=顾客在搜索框里实际打的字。这一节看：哪些词在出单、哪些词纯浪费、哪些词被"错的人"搜（比如想买打气泵的人）。</div>
+<div class="card"><h3>7.1 全年搜索词总览</h3>
+<table class=""><thead><tr><th>项目</th><th>数据（大白话）</th></tr></thead><tbody><tr><td>记录了多少钱的词</td><td>在朱鹏锃名下·非翻新活动里，全年记录到16,595条"词×活动"数据，涉及13,731个不同的搜索词，一共花掉17,663美元（覆盖约55%的纯净口径花费——头部活动）。</td></tr><tr><td>浪费有多严重</td><td><b>93%的搜索词一个订单都没带来，烧掉了81%的广告费（约1.4万美元）</b>。注意：这是长尾词的常态——单看每个词花得很少，加起来非常多。</td></tr><tr><td>真正出单的词</td><td>很少：13,731个词里只有926个出过单（6.7%）——<b>广告的关键就是找到并养好这些出单词，其余的要果断砍</b>（头部出单词清单见Excel）。</td></tr><tr><td>可以清理的金额</td><td>"点了至少3次、一单没出"的词（标签口径）：2,082个、浪费6,704美元；纯净口径的否词执行清单在v3重算——关键条目（他人ASIN/错品类）不受口径影响。</td></tr></tbody></table>
+<h3>7.2 哪类词有效（横条=平均ACOS，越短越好）</h3>
+<div class="hbars"><div class="hbar"><div class="hl">OE号/零件编号类词（如 fb5z19703b）</div><div class="hw"><div class="hf" style="width:50%;background:#27ae60"></div></div><div class="hv">6% ★最省</div></div><div class="hbar"><div class="hl">年份+车型类长尾词</div><div class="hw"><div class="hf" style="width:75%;background:#2ecc71"></div></div><div class="hv">9%</div></div><div class="hbar"><div class="hl">通用大词</div><div class="hw"><div class="hf" style="width:75%;background:#f1c40f"></div></div><div class="hv">9%*</div></div><div class="hbar"><div class="hl">其它车型/长尾词</div><div class="hw"><div class="hf" style="width:100%;background:#e67e22"></div></div><div class="hv">12%</div></div></div>
+<div class="small">*通用大词11个词里有"air compressor"这种被工具类流量污染的，单个词看很差（37%的ACOS、71次点击0单）。<br><b>大白话结论：</b>顾客搜"零件编号"的时候，他明确知道自己要什么，转换最好（ACOS只有6%）——这类词是最值得加钱投的；"年份+车型+压缩机"的长尾词也不错（9%）；而"ac compressor"这种大词，谁都在搜、人群杂，反而最差。<br><i>注：词类明细为标签口径；OE词/年份词的相对效率结论不受口径影响（v3重算）。</i></div>
+<h3>7.3 大词里混进了"想买打气泵的人"（重要发现）</h3>
+<table class=""><thead><tr><th>"ac compressor"这个词的广告位上，卖得最好的商品是</th><th>品牌</th><th>占这个词Top100销量的比例</th></tr></thead><tbody><tr><td>GOOLOO 便携汽车打气泵（Jump Starter with Air Compressor）</td><td>GOOLOO</td><td>22.34%</td></tr><tr><td>汽车保险丝座</td><td>Cooclensportey</td><td>8.42%</td></tr><tr><td>AstroAI 便携打气泵</td><td>AstroAI</td><td>8.38%</td></tr><tr><td>CARSUN 便携打气泵</td><td>CARSUN</td><td>8.03%</td></tr><tr><td>家用空调外机罩等空调周边</td><td>Xeeol / ULTCOVER</td><td>合计约11.5%</td></tr><tr><td>真正的汽车空调压缩机（ChaoTianxia / SCITOO / ECCPP）</td><td>—</td><td>合计只有约6.5%</td></tr></tbody></table>
+<div class="warn">这句最值得记住：顾客搜"ac compressor"，一半以上的人其实想买的是<b>打气泵</b>或者家用空调的东西——所以你的广告费花在这个大词上，"买来的一半是错的人"。对策：①大词必须加限定（比如 car / 具体车型年份）；②把"打气泵、便携、家用"这类词设成否定词。</div>
+<h3>7.4 否定词清单（准备中，未执行）</h3>
+<table class=""><thead><tr><th>分类</th><th>条数/金额</th><th>是什么</th><th>怎么处理</th></tr></thead><tbody><tr><td>A类（建议直接否定）</td><td>262条 / 567美元</td><td>确定跟空压无关的词：别人家的ASIN编号（如b00luyasse）、悬挂件（shock/strut）、打气泵类</td><td>可直接执行（等你点头）</td></tr><tr><td>B类（需要你确认）</td><td>689条 / 1,899美元</td><td>大多是"年份+车型+压缩机"的词（如"2016 hyundai accent ac compressor"）——可能因为车型没配套、也可能价格问题</td><td>需要你判断：没配套→否；有配套→改成降价观察</td></tr><tr><td>C类（不要否定）</td><td>235条 / 1,005美元</td><td>这些词在别的活动里是出单的（只是在这一个活动里没出）</td><td>不该否词，该调这个活动的出价</td></tr></tbody></table>
+</div>
+<h2 id="s7">八、广告复盘（四）：三种出价方式哪种好用、广告位该不该抢</h2>
+<div class="guide">📖 <b>人话导读：</b>亚马逊后台有三种"自动调价方式"，这一节用一整年的数据告诉你哪种最划算；另外看"搜索顶部广告位"我们是抢了还是放弃了。</div>
+<div class="card"><h3>8.1 三种出价方式对比（看ACOS列，越低越好）</h3>
+<table class=""><thead><tr><th>出价方式</th><th>活动数</th><th>花费（美元）</th><th>ACOS</th><th>大白话结论</th></tr></thead><tbody><tr><td>动态竞价-只降低</td><td>601</td><td>21,577</td><td><b>8.7%</b></td><td>最稳（每个月都在5.7%~10.8%之间）→<b>明年默认用它</b></td></tr><tr><td>固定竞价</td><td>1,142</td><td>17,650</td><td>8.5%</td><td>也不错→新品测试期推荐（防止自动加价乱花钱）</td></tr><tr><td>动态竞价-提高和降低</td><td>896</td><td>19,108</td><td><b>12.5%</b></td><td>最差（4月一度35.7%、7月16.6%）→只在"已验证能出单的活动+旺季冲位置"时用</td></tr></tbody></table>
+<div class="small">补充证据：6-7月"提高和降低"一共吃掉1.4万美元，把6月的ACOS从5月的7.1%直接拉到了9.8%。</div><p><b>全新 vs 翻新对照（纯净口径，2026-01-01~09-14）：</b></p>
+<table><tr><th>策略</th><th>全新线：活动数</th><th>全新：花费</th><th>全新：ACOS</th><th>全新：CPC</th><th>翻新线：活动数</th><th>翻新：花费</th><th>翻新：ACOS</th><th>翻新：CPC</th></tr>
+<tr><td>动态竞价 · 只降低</td><td>437</td><td>$18,351</td><td><b>8.3%</b></td><td>$0.65</td><td>162</td><td>$3,196</td><td>12.6%</td><td>$0.88</td></tr>
+<tr><td>固定竞价</td><td>41</td><td>$933</td><td>10.7%</td><td>$0.54</td><td><b>1,028</b></td><td><b>$15,402</b></td><td><b>8.0%</b></td><td>$0.53</td></tr>
+<tr><td>动态竞价 · 提高和降低</td><td>804</td><td>$13,093</td><td>11.4%</td><td>$0.96</td><td>68</td><td>$4,708</td><td><b>15.2%</b></td><td>$1.01</td></tr></table>
+<p><b>解读：</b>①两线打法完全"镜像"：翻新<b>81%活动、61%花费压在"固定竞价"上</b>（ACOS 8.0%是它的最优策略、CPC $0.53全场最低）；我们则79%活动在动态竞价（"只降低"8.3%是我们的主力和最优）。②<b>"对方最优"给我们的启示：</b>固定竞价+低出价是"不抢位置的便宜流量收割器"——我们固定竞价样本太小（41个），明年在尾部长尾词试点"固定+压价"（目标把整体CPC从$0.75压向$0.65）。③两线共同教训：<b>"提高和降低"都是各自最差策略</b>（我们11.4%、翻新15.2%）——除抢排名窗口外停用。</p>
+<h3>8.2 广告位：我们基本放弃了"搜索顶部"</h3>
+<table class=""><thead><tr><th>项目</th><th>VC渠道</th><th>FBA渠道</th><th>怎么理解</th></tr></thead><tbody><tr><td>给"搜索顶部"的加价（中位数）</td><td>15%</td><td>10%</td><td>也就是别人给顶部位加价30-50%，我们只加10-15%</td></tr><tr><td>给"搜索其余位置"的加价</td><td>10%</td><td>5%</td><td>—</td></tr><tr><td>在顶部能抢到的曝光份额（大活动）</td><td>—</td><td>只有4.4%</td><td>基本没抢到顶部，靠便宜位置捡量</td></tr></tbody></table>
+<div class="ok">关键判断：虽然我们没抢顶部，但大活动的ACOS依然只有8-9%——说明<b>"加价去抢顶部"是有空间、值得测试的</b>（明年3-4月做AB测试：收割词把顶部加价从10-15%提到25-50%）。另外发现：给顶部加价超过30%的11个活动，效率反而比平均好（8.5%）——加价本身不伤效率。</div><p><b>翻新对照：</b>①顶部加价覆盖率——翻新只有66%活动设置了顶部加价（中位10%），我们90%活动设置（中位15%）：我们是"普遍轻加价"，他们是"日常不加、集中猛加"。②但翻新的<b>大活动会重加：花费TOP200里中位加价20%，还有63个活动加40%~100%</b>——"选择性抢顶"打法。③顶部曝光份额（活动级IS中位）：我们25% vs 翻新20%——整体曝光我们不输，真正的差距在"大词搜索顶部"（见上表4.4%）。<b>结论：</b>我们的问题不是"没抢顶部"，而是"头部词顶部抢不到、长尾顶部也没针对优化"——明年3-4月AB测试：收割词顶部加价10-15%→25-50%，同时把长尾词从"普通15%加价"改为"按词定档"（出单词加重、无效词关掉加价）。</p>
+</div>
+<div class="card"><h3>8.3 广告操作建议（汇总清单：P0本周 → P2季度）</h3>
+<p class="small">口径：朱鹏锃名下·非翻新活动。否词/调价等写操作均未执行，等你审批后执行。</p>
+<p><b>P0（本周就能做）：</b></p>
+<p>① <b>否词执行</b>：A类可直接执行清单262词（他人ASIN/错品类/无效长尾，对照表见Excel《空压_广告操作前对照表_未执行.xlsx》）；</p>
+<p>② <b>僵尸活动清零</b>：单ASIN碎活动1,181个（仅花$4,258、均$3.6）合并/暂停；零花费活动1,849个（账户全量口径）批量归档；</p>
+<p>③ <b>高消耗0单词处理</b>："≥3次点击0单"的搜索词2,082个（约$6,704）——直接否定或砍竞价；</p>
+<p><b>P1（本月）：</b></p>
+<p>④ <b>出单词转精确</b>：精确匹配全年花了$0=最大结构缺口——把已出单的高点击词升精确；短语匹配ACOS 15.5%全场最差，逐词复查；</p>
+<p>⑤ <b>自动-紧密加码、同类/关联收缩</b>：紧密CVR 5.07%/ACOS 8.1%（最好）；同类+关联CVR仅2.8%/2.1%——降竞价或收窄；</p>
+<p>⑥ <b>竞价策略默认"只降低"</b>：只降低ACOS 8.3% vs 提高和降低11.4%（贵47%）；提高降低只保留在抢排名窗口（新品90天、旺季卡位）；</p>
+<p>⑦ <b>SD加码</b>：SD-相似品/再营销ACOS 4.7~7.1%显著优于大词，预算+30%；</p>
+<p><b>P2（季度）：</b>⑧ 预算结构目标：自动投放花费占比从74%压向≤60%（把"手动精确/短语"做成第二增长极）；⑨ 建立"周五否词日+周一看板"例行SOP；⑩ TACoS/广告单占比月度看板（今年TACoS 2.0%→4.2%→1.5%、广告单占比峰值46%——依赖度要盯）。</p></div>
+<div class="card"><h3>8.4 广告打法建议（6条，明年用）</h3>
+<p>① <b>旺季提前起量、淡季收缩：</b>今年教训——投放峰值提前到6月（单月×2.7）但CPA没降，7月断货期反而更烧钱（CPA $121）；明年"淡季收缩＋旺季前1个月提前起量"，避开6-7月竞价最贵时硬砸；</p>
+<p>② <b>"排名投资"打法：</b>把一半广告预算当排名投资——集中打爆3-5个头部词排名，后期吃自然位（今年5月已验证ACOS能做到7.1%）；</p>
+<p>③ <b>词级精细化三件套：</b>出单词养词（转精确）＋每周五否词SOP＋OE号/年份车型词单独建组（ACOS仅6%，最省钱词类）；</p>
+<p>④ <b>新品90天打法：</b>上架前90天完成变体组建＋广告结构铺设；前30天冲排名（不计ACOS）→30-60天收ACOS→90天转盈利标准；</p>
+<p>⑤ <b>广告随库存联动：</b>热销款售罄风险→降预算保排名；清货款→"清货模式"全力投放（你的DOS规则表：总DOS&gt;90天不计ACOS）；</p>
+<p>⑥ <b>躲开"泛词广告战场"：</b>实测"ac compressor for car"的广告销售额份额前两名全是打气泵（OlarHike一家占49.9%）、"ac compressor"广告位也大半是打气泵/启动电源（GOOLOO、AstroAI）——我们"44次点击0单"的根因就在这。把广告费转向OE号/年份车型词：竞对在那些词上班门弄斧，我们最省钱。</p></div>
+<div class="card"><h3>8.5 翻新线广告打法与数据对比（他们怎么花钱 vs 我们）</h3>
+<p><b>总盘对比（2026-01-01~09-14，活动级）：</b></p>
+<table><tr><th>指标</th><th>全新线（朱鹏锃·非翻新）</th><th>翻新线</th><th>说明</th></tr>
+<tr><td>有花费活动数</td><td>1,282</td><td>1,267</td><td>规模相当</td></tr>
+<tr><td>花费</td><td>$32,377</td><td>$25,234</td><td>我们多28%</td></tr>
+<tr><td>订单</td><td>1,994</td><td>1,860</td><td>—</td></tr>
+<tr><td>销售额</td><td>$344,565</td><td>$264,151</td><td>—</td></tr>
+<tr><td>ACOS</td><td>9.4%</td><td>9.6%</td><td>基本持平</td></tr>
+<tr><td>CVR（转化率）</td><td>4.60%</td><td>4.35%</td><td>我们略优</td></tr>
+<tr><td><b>CPC</b></td><td><b>$0.75</b></td><td><b>$0.59</b></td><td><b>翻新便宜21%</b></td></tr>
+<tr><td>每单成本</td><td>$16.2</td><td>$13.6</td><td>翻新更省</td></tr></table>
+<p><b>三种结构性差异：</b></p>
+<p>① <b>竞价策略完全相反：</b>翻新<b>81%的活动用"固定竞价"</b>（1,028个），"只降低"仅13%；我们正相反（只降低34%＋提高降低63%）。结果是翻新CPC $0.59比我们便宜21%——他们用"固定＋低出价"收割便宜流量，我们用"动态"抢位置；</p>
+<p>② <b>投放结构更手动化：</b>翻新 auto/manual = 55%/45%；我们 84%/16%。翻新的手动关键词5,653条（词均花费$1.28——碎片化铺词），我们2,054条（词均$4.05——集中打大词）；</p>
+<p>③ <b>词路不同：</b>翻新TOP词="ac compressor / air compressor"＋车型厂牌词（toyota / mercedes / ford）广泛+短语混跑，其中短语词2,693条；我们94%是广泛匹配、短语仅84条——他们把"短语＋车型词"当主力，我们把预算压在大词上。</p>
+<p><b>月度节奏（花费 | ACOS）：</b>6月 我们$9,795 | 10.4% vs 翻新$9,570 | 9.7%；7月 $8,495 | 11.5% vs $6,836 | 12.3%；8月 $3,264 | 9.6% vs $1,838 | 9.0%——两条线同步"爬坡→收窄"，但<b>翻新从峰值回落得更快（-29% vs 我们-13%）</b>：他们收手早、不恋战。</p>
+<p><b>借鉴三点：</b>①尾部长尾词试点"固定竞价＋压价"（翻新靠这招把CPC压到$0.59）——先拿20%预算打样，目标把整体CPC从$0.75压向$0.65；②他们"捡漏"式铺词（活动名"李汝娴-新覆盖捡漏"、还有119个同模板的"金想"自动广告）覆盖率大，但CVR 4.35%低于我们4.60%——精细度是我们的优势，别学碎片化散投；③我们"自动-紧密匹配"CVR 5.07%/ACOS 8.1%是双方的效率天花板，明年加码。</p></div>
+<h2 id="s8">九、竞对与市场（别人出多少钱、市场在变大还是变小）</h2>
+<div class="guide">📖 <b>人话导读：</b>竞对"实际出了多少钱"在全世界范围内都是查不到的（亚马逊不公开）。但可以用两个替代指标：①亚马逊/第三方工具给出的"这个词正常该出多少钱"（市场建议竞价）；②市场搜索量的变化。这一节都是这两个角度。</div>
+<div class="card"><h3>9.1 市场建议竞价 vs 我们的出价（差2-3倍）</h3>
+<table class=""><thead><tr><th>月份</th><th>"ac compressor"<br>市场建议出价（美元）</th><th>"ac compressor"<br>搜索量</th><th>"compressor"<br>市场建议出价（美元）</th><th>"compressor"<br>搜索量</th></tr></thead><tbody><tr><td>1月</td><td>$0.58</td><td>45,494</td><td>$3.17</td><td>27,157</td></tr><tr><td>2月</td><td>$1.27</td><td>78,446</td><td>$2.99</td><td>23,832</td></tr><tr><td>3月</td><td>$0.91</td><td>113,737</td><td>$1.99</td><td>29,834</td></tr><tr><td>4月</td><td>$0.57</td><td>112,806</td><td>$2.99</td><td>29,650</td></tr><tr><td>5月</td><td>$1.11</td><td>116,957</td><td>$1.82</td><td>29,034</td></tr><tr><td>6月</td><td>$1.11</td><td>147,843</td><td>$2.21</td><td>26,790</td></tr><tr><td>7月</td><td>$0.63</td><td>174,985</td><td>$2.06</td><td>24,722</td></tr><tr><td>8月</td><td>$1.18</td><td>150,219</td><td>$2.18</td><td>20,181</td></tr></tbody></table>
+<div class="warn"><b>两个重要信号：</b>①<b>我们出价明显低于市场价</b>：compressor这个词市场建议1.58-2.78美元、我们只出0.59；ac compressor市场0.60-1.32、我们出0.25-0.60——我们的出价大概是市场价的三分之一到一半，所以抢不到好位置（顶部份额只有4.4%），但因为转化率还不错（ACOS只有8-9%），<b>适度加价是有空间、能多拿量的</b>。②<b>大词的搜索量在缩水</b>：ac compressor今年4-8月比去年同期少了24%-33%，compressor少了13%-47%（这来自第三方工具估算，需要再交叉验证；而我们自己的销量还在涨，说明我们可能是在抢别人的份额）。</div>
+<h3>9.2 竞对的实际动作（以SCITOO为例，用第三方工具扫描）</h3>
+<table class=""><thead><tr><th>关键词</th><th>月搜索量</th><th>市场建议出价区间（美元）</th><th>我们的出价（美元）</th></tr></thead><tbody><tr><td>ac compressor</td><td>154,645</td><td>0.60-1.32</td><td>0.25-0.60</td></tr><tr><td>compressor</td><td>21,994</td><td>1.58-2.78</td><td>0.59-0.66</td></tr><tr><td>air compressor</td><td>176,358</td><td>1.47-2.97</td><td>0.25-0.29</td></tr><tr><td>car ac</td><td>66,972</td><td>0.47-0.79</td><td>没有投</td></tr><tr><td>car air conditioner</td><td>36,406</td><td>0.53-0.97</td><td>没有投</td></tr><tr><td>ac compressor kit</td><td>24,451</td><td>0.48-0.80</td><td>没有投</td></tr></tbody></table>
+<div class="small">这份表还带着竞对的"动向证据"：SCITOO最近一次出现在"ac compressor"广告位是2026年8月19日（第3页）——说明它在持续投这个词；它还在跑ford f150、chevrolet这些泛词（和我们一样有"泛投溢出"的毛病）。<b>对我们的启发：car ac / car air conditioner / ac compressor kit 这三个词竞对在投、我们没投，可以各花500美元测试。</b></div>
+<div class="note">边界说明（重要）：竞对"实际出价、花了多少钱、ACOS多少"没有任何数据源能查到（行业共识）。上面的"市场建议出价"是亚马逊和第三方工具给的<u>参考值</u>，不是竞对的真实出价。</div>
+</div>
+<div class="card"><h3>9.3 PHOBOOS（强攻型新玩家）· 第三方扫描</h3>
+<p>数据源：Sorftime（2026-09-15采样）。扫到19条在售ASIN——典型"新玩家猛攻"打法，月销合计约<b>5,247台</b>。</p>
+<table><tr><th>ASIN</th><th>适配车型</th><th>售价</th><th>月销(台)</th><th>月销额</th><th>星级</th><th>评论数</th><th>配送</th><th>上架时间</th></tr>
+<tr><td>B0F1FC9W21</td><td>Honda Accord & Crosstour</td><td>$129.99</td><td>529</td><td>$68,764.71</td><td>4.2</td><td>132</td><td>FBA(第三方)</td><td>2025-05-28</td></tr>
+<tr><td>B0F1FDT5T9</td><td>Toyota Camry & RAV4</td><td>$139.99</td><td>447</td><td>$62,575.53</td><td>4.3</td><td>115</td><td>FBA(第三方)</td><td>2025-06-20</td></tr>
+<tr><td>B0F42DD952</td><td>Toyota Corolla & Matrix</td><td>$159.99</td><td>423</td><td>$67,675.77</td><td>4.3</td><td>84</td><td>FBA(第三方)</td><td>2025-06-24</td></tr>
+<tr><td>B0FBRXGK53</td><td>Honda Civic</td><td>$135.99</td><td>387</td><td>$52,628.13</td><td>4.3</td><td>78</td><td>FBA卖家</td><td>2025-07-01</td></tr>
+<tr><td>B0F1D3F6L5</td><td>Subaru</td><td>$135.99</td><td>300</td><td>$40,797</td><td>4.2</td><td>59</td><td>FBA(第三方)</td><td>2025-06-20</td></tr>
+<tr><td>B0G1BSZ7BF</td><td>Cadillac & Chevrolet</td><td>—</td><td>298</td><td>—</td><td>4.2</td><td>53</td><td>N/A</td><td>2026-03-17</td></tr>
+<tr><td>B0F991WC2W</td><td>Ford & Mazda & Mercury</td><td>$129.99</td><td>271</td><td>$35,227.29</td><td>4.3</td><td>67</td><td>FBA(第三方)</td><td>2025-07-14</td></tr>
+<tr><td>B0F1FCMGQL</td><td>Ford & Lincoln</td><td>$159.99</td><td>255</td><td>$40,797.45</td><td>4.1</td><td>55</td><td>FBA(第三方)</td><td>2025-03-15</td></tr>
+</table>
+<p><b>观察（对我们的威胁）：</b>①<b>放量猛：</b>头部链接月销300~530台——比我们任何一个单链接都大；②<b>卡"中价带"：</b>$126~160，正好压着我们PT的价格带、低于KAX——专打"想要便宜全新"的客户；③<b>2024年底才上架</b>（评论53~132条、4.1~4.3星）——两年不到就冲到头部，靠低价+广告猛推；④以FBA(第三方)为主。启示：中价带的价格战压力会持续加大，我们的"确定性差异"（适配+质保）要打得更响。</p><p><b>广告分析（本次深挖）：</b>抽样其两个头部ASIN的流量词（共53条）：<b>全部为自然位、零广告位记录</b>——如"ac compressor"自然位Page2、"a/c compressor"自然位Page1第10、"2010 honda civic ac compressor"等年份车型词自然位Page1前5。即PHOBOOS打的是"<b>低价＋自然排名猛攻</b>"：几乎不做广告，把预算让给价格——它$126~160的低价是长期武器，不是短期促销。</p></div>
+<div class="card"><h3>9.4 A-Premium（扬腾·老牌大盘）· 第三方扫描</h3>
+<p>数据源：Sorftime（2026-09-15采样）。扫到11条在售ASIN——成熟老牌，评论厚、价格稳，月销合计约<b>2,114台</b>。</p>
+<table><tr><th>ASIN</th><th>适配车型</th><th>售价</th><th>月销(台)</th><th>月销额</th><th>星级</th><th>评论数</th><th>配送</th><th>上架时间</th></tr>
+<tr><td>B097XLMSW3</td><td>Honda Civic 1.8L 2006-2011</td><td>$142.99</td><td>317</td><td>$45,327.83</td><td>4.2</td><td>225</td><td>FBA(第三方)</td><td>2021-09-21</td></tr>
+<tr><td>B097JWYJC8</td><td>Nissan Sentra 2013-2019 1.6L 1</td><td>$172.99</td><td>244</td><td>$42,209.56</td><td>4.4</td><td>151</td><td>FBA卖家</td><td>2022-05-28</td></tr>
+<tr><td>B092Q76MWC</td><td>Acura MDX 2007-2013</td><td>$169.99</td><td>190</td><td>$32,298.10</td><td>4.1</td><td>164</td><td>FBA卖家</td><td>2021-07-28</td></tr>
+<tr><td>B0CH186B6N</td><td>Chevrolet Silverado</td><td>$59.99</td><td>188</td><td>$11,278.12</td><td>3.5</td><td>116</td><td>FBA(第三方)</td><td>2023-10-28</td></tr>
+<tr><td>B09WDX1RG9</td><td>Jeep Compass Patriot 2009-2017</td><td>$161.99</td><td>183</td><td>$29,644.17</td><td>4.4</td><td>178</td><td>FBA(第三方)</td><td>2022-06-21</td></tr>
+<tr><td>B098JXTJJC</td><td>Nissan Altima 2.5L 2007-2012</td><td>$142.99</td><td>178</td><td>$25,452.22</td><td>4.4</td><td>188</td><td>FBA(第三方)</td><td>2021-09-23</td></tr>
+<tr><td>B0C68D1NGQ</td><td>Subaru Forester 2014-2018</td><td>$188.99</td><td>172</td><td>$32,506.28</td><td>4.5</td><td>180</td><td>FBA卖家</td><td>2023-07-29</td></tr>
+<tr><td>B0DTT1YW9T</td><td>—</td><td>$22.99</td><td>165</td><td>$3,793.35</td><td>4.6</td><td>26</td><td>FBA(第三方)</td><td>2025-04-02</td></tr>
+</table>
+<p><b>观察：</b>①<b>2021年就在卖</b>（上架时间2021~2023），评论厚度134~225条/链接——是"厚积型"对手，评分4.1~4.5；②定价$143~189坐在<b>中高价带——和KAX直接对位</b>；③出单稳定（154~317台/月/链接）——不靠爆发靠长坡；④不同价位产品线齐全（$22.99的开关件~$189压缩机）。启示：高价带有真需求，但拼的是评论厚度+品牌确定性——这正是主管报告里"扬腾对标"的三个维度（评论/广告/推广形式）。</p><p><b>广告分析（本次深挖）：</b>查其头部ASIN流量词——<b>17个核心词里8个带广告位记录</b>："automotive replacement air conditioners"广告位Page1第1、"ac compressor for car"广告位Page1第8、"ac compressor"广告位Page2、甚至品牌词"a-premium"也投放——是"<b>核心词卡位＋品牌词防守</b>"的全网广告型对手。<b>顺带一个重要发现：</b>"ac compressor for car"的广告销售额份额前两名全是打气泵类（OlarHike一家占49.9%）、"ac compressor"广告位也大半被GOOLOO/AstroAI等非压缩机产品占走——<b>泛词广告位是"低质流量战场"</b>，真正在泛词上花钱的汽车压缩机同行=SCITOO/ECCPP/ChaoTianxia等低价档。结论：我们的钱要压向OE号/年份车型词。</p></div>
+<h2 id="s9b">十、2026年经验复盘（8条实战经验：启动节奏·变体·清仓·广告·价格·KAX·促销·PO）</h2>
+<div class="guide">📖 <b>人话导读：</b>今年打下来的"经验本"（8条）——按"节奏→打法→渠道治理"排列：①启动速度 ②大变体 ③清仓节奏 ④广告结构 ⑤价格劣势 ⑥KAX专项 ⑦促销控量 ⑧PO接单与库存。每条都是"数据 → 复盘 → 操作建议"，都带可执行动作。</div>
+<div class="card"><h3>10.1 经验一：全新今年启动偏慢、节奏偏慢——对比翻新，明年要抢跑</h3>
+<p><b>数据对照（2026年1-8月 月度销量·台，运营组口径）：</b></p>
+<table><tr><th>月份</th><th>全新线（全品牌口径）</th><th>翻新线（运营组口径）</th></tr>
+<tr><td>1月</td><td>169</td><td>214</td></tr>
+<tr><td>2月</td><td>173</td><td>231</td></tr>
+<tr><td>3月</td><td>397</td><td>715</td></tr>
+<tr><td>4月</td><td>675</td><td>1,267</td></tr>
+<tr><td>5月</td><td>1,242</td><td>1,597</td></tr>
+<tr><td>6月</td><td>1,460</td><td>2,462</td></tr>
+<tr><td>7月</td><td>1,495</td><td>1,938</td></tr>
+<tr><td>8月</td><td>792</td><td>966</td></tr>
+<tr><td>1-8月合计</td><td>6,403</td><td>9,390</td></tr>
+<tr><td>1-2月占比</td><td>5.3%</td><td>4.7%</td></tr>
+</table>
+<p class="small">口径：运营组复盘总盘月度（383→1,758台/月，合计15,793台）倒算——翻新=总盘−全新线−其他小品类（约19台/月）；与主管文档翻新9,084台对账一致（±2台）。</p>
+<p><b>解读：</b>①两条线都靠3月起的旺季：全新1-2月仅342台（占全年5.3%）、翻新1-2月445台（4.7%）——<b>谁都没有"抢跑"，启动都压在3月</b>；②但翻新的爬坡更陡、盘子更大：3月全新397台（环比2.3倍）vs 翻新715台（环比3.1倍）、6月翻新见顶2,462台 vs 全新1,460台；③8月两条线同步回落（全新792台、翻新966台，环比-47%/-50%），但全新还叠加"热销款售罄、降价拉不动"的结构问题（见10.3）；④结论：旺季启动每提前一个月，就多一个月爬坡流量——明年全新必须跑在旺季前面。</p>
+<p><b>明年动作（启动时间表）：</b>①<b>2月前完成"启动五件事"</b>：新品上架、变体组建、SD/SP广告结构铺设、备货到仓、评价冲刺（Vine）——把今年4-5月才做的事提前到2月；②<b>3月开冲</b>：广告全量投放+促销启动，4月拉满；③5-7月：清仓前置窗口（见10.3）＋旺季收割；④8-9月：结构切换——热卖款补货到仓、冷款清仓、新品预热，避免今年"8-9月掉速又没有动作"的重演。</p></div>
+<div class="card"><h3>10.2 经验二：VC+FBA组建大变体——早组建=抢排名窗口（今年最有效的打法）</h3>
+<p><b>数据复盘：</b>KAX线是最好的例证——今年KAX的VC双渠道：DF 139→468台、PO 186→404台（合计×2.7），正是靠"VC大变体 + 捆绑低价FBA子变体"冲起来的。FBA子变体充当"低价锚"（KAX的FBA均价$129 vs VC $181-195），把流量带进变体组、快速垒排名与评价；KAX毛利率因此保持全场最高（20.1%）。反过来：后期再新开低价变体，排名上升明显困难——排名权重已经被先发变体沉淀。</p>
+<p><b>操作建议：</b>①每年2-3月新产品季之前，把"VC主链接 + 1个低价FBA兄弟变体"一次性组好（FBA兄弟用清仓款或小批量货即可，不必大批量）；②不要指望"后期再开低价变体救排名"——组建窗口就是上架前90天；③老变体用"换血"而不是"重开"：新品塞进老变体组继承权重，而不是开新组从零练。</p></div>
+<div class="card"><h3>10.2b KAX与PT的FBA备货、变体建议（两个直接问题）</h3>
+<p><b>Q1：KAX目前没有FBA链接，明年是否要考虑备货？——需要，小批量。</b>数据：25年KAX的FBA还在正常卖（391台、均价$153）；26年只剩清仓的191台、均价$129——正常FBA断掉之后，KAX增速（+36%）明显落后PT（+343%），也丢掉了Prime标、广告载体和评价积累入口；而今年KAX的大变体起量，恰恰靠的是捆绑的低价FBA变体（见10.2）。<b>建议：</b>选3-5个KAX爆款，各备"30天销量×1.5"的货，作为FBA变体锚（目的不是铺量，是排名/评价/流量）；两周动销不达标就转入清仓价继续当锚，风险可控。</p>
+<p><b>Q2：PT的建议呢？</b>PT是规模线（4,924台、占销量82%），FBA已有基本盘（约1,910台/¥208.0万）。三条：①FBA热销A款"反季深备"防售罄——今年8月的核心教训就是热销款卖完、冷款堆仓；②每个PT新品上架时就配1个低价FBA兄弟变体，组建窗口=上架前90天（见10.2）；③FBA变体锚价格带控制在"让利5-8%"档（你DOS规则表的旺季健康档），别滑到清仓价带。</p></div>
+<div class="card"><h3>10.3 经验三：FBA爬升节奏变了——8月中后"降价拉不动"，清仓要不要前置？</h3>
+<p><b>数据复盘：</b>①FBA销量：3-4月爬坡（86→283台）→6月峰值641台→7-8月快速回落（403→194台）；②FBA均价：6月$162→7月$129（-20%）→8月$149——<b>7月"大幅降价"并没有换来量（销量反而-37%）</b>；③8-9月继续让利，动销和排名仍在变慢；降价到5%毛利仍高于竞对——<b>价格已经不是瓶颈</b>。根因：旺季末期流量下滑+竞对同步降价+热销款售罄（注意：不是全断货，冷款库存其实很多）。</p>
+<p><b>操作建议（除了清仓前置，还有6件事）：</b></p>
+<p>① <b>清仓前置要选对窗口：</b>把冷款清仓从8-9月提前到5-7月旺季流量高峰（旺季清货效率是淡季的2倍以上）；</p>
+<p>② <b>冷款"并入变体当引流锚"：</b>与其单独降价硬卖，不如把清仓款作为主力变体组的低价子变体（既清货又给主链接导流——KAX已验证）；</p>
+<p>③ <b>分层备货：</b>按sell-through把SKU分A/B/C级——A级款海量备、（防售罄）B级适中、C级试销小批量（从源头减少"冷款积压"）；</p>
+<p>④ <b>热销款反季深备：</b>今年痛点是"热销售罄、冷款积压"——A级款备货深度上调20-30%，C级款减量一半；</p>
+<p>⑤ <b>非价格竞争：</b>5%毛利仍高于竞对→继续降价无效，改用组合装/赠品/加值（差异化），保住毛利底线；</p>
+<p>⑥ <b>广告随库存动态：</b>冷款清货期套你的DOS规则表（总DOS&gt;90天=全力投放不计ACOS），热销款售罄期反向降预算保排名。</p></div>
+<div class="card"><h3>10.4 经验四：广告"粗放"与"高依赖"怎么破局</h3>
+<p><b>现状数据：</b>FBA广告费率2.8%→4.6%；搜索词13,731个里93%零单；订单高度依赖广告（大词收割）。粗放点=活动碎片化（全年新建1,282个）、否词靠人盯、词级别运营不精细。</p>
+<p><b>操作建议：</b>①<b>先做结构手术：</b>僵尸活动清零、单ASIN活动合并、自动投放≤50%（清单见第五~六节）；②<b>词级精细化三件套：</b>出单词转精确匹配、OE/年份词单独建组（ACOS仅6%、最省钱）、每周五否词SOP；③<b>用"排名投资"换"自然位"：</b>把一半广告预算集中打爆3-5个头部词排名，后期靠自然位出单（今年5月已验证ACOS能做到7.1%）；④<b>高效类型加码：</b>SD（相似品/再营销）ACOS 4.7-7.1%显著优于大词，预算向SD倾斜；⑤按你的DOS规则表用"利润模式"投放（旺季健康档=15%利润标准）。</p></div>
+<div class="card"><h3>10.5 经验五：价格劣势 + "分不清的翻新竞对"——怎么破</h3>
+<p><b>现状：</b>全新线均价$174偏高；竞对里既有低价全新、也有价格更低的翻新机（买家难以区分）；但测试显示：降价到5%毛利仍高于竞对——<b>拼价格没有出路</b>。</p>
+<p><b>操作建议：</b>①<b>不打全线价格战，打点位战：</b>只对头部OE/车型词做贴身券（-5~10%），长尾款保持价格与毛利；②<b>把"全新"做成卖点：</b>标题/五点/A+/主图明确"Brand New + 质保（如2年）"，解决"翻新不可区分"；③<b>卖确定性：</b>适配信息（OE全覆盖）+ 图片正确性——降低"买错/装不上"（今年退款根因），高价客户买的就是"确定性"；④<b>组合装差异化：</b>压缩机+配套件套装，避开裸价对比；⑤<b>双品牌分层：</b>PT打规模（性价比）、KAX打利润（20.1%毛利），两条线不同价格带、不同促销强度。</p></div>
+<div class="card"><h3>10.6 经验六：KAX品牌专项（数据与6条建议）</h3>
+<p><b>数据：</b>26年1-8月 KAX 1,070台/¥126.7万（+36%/+59%；毛利润¥25.5万）、毛利率20.1%（全场最高）、均价$177（最高）、退款率16.2%（最高）。渠道结构：<b>VC（DF+PO）872台占81%</b>，FBA仅191台且均价$129（=清仓价）——26年KAX已无正常备货的FBA（对比25年FBA还有391台@$153）；今年KAX的起量正是靠"VC大变体+捆绑低价FBA"（见10.2）。</p>
+<p><b>操作建议（六条）：</b></p>
+<p>① <b>保留变体双层结构：</b>每个KAX大链接固定配1个低价FBA兄弟变体（$127-134，用清仓/小批量），它是排名燃料——今年已验证有效；</p>
+<p>② <b>小批量恢复FBA（不是大批量）：</b>选3-5个KAX爆款做小批量（30天销量×1.5），目的=Prime标+广告载体+评价积累+价锚——今年KAX增速（+36%）明显落后PT（+343%），与FBA缺席和价格更高都有关系；</p>
+<p>③ <b>价格策略：</b>+10%溢价保留在标价（保品牌资产），用"券后价"贴近市场——把KAX纳入你的DOS促销规则表（建议补一个"KAX专档"）；</p>
+<p>④ <b>退款治理优先级最高：</b>16.2%退款率对高价品牌=评分杀手，先修适配信息+图片；</p>
+<p>⑤ <b>广告走利润模式：</b>只投OE/年份精准词（ACOS 6%区域），按15-18%利润标准控制；</p>
+<p>⑥ <b>一句话定位：</b>KAX不跟低价打——做"最可信赖的全新+"：质保+适配确定性+变体流量，收割愿意为"省心"付溢价的客户。</p></div>
+<div class="card"><h3>10.7 经验七：促销力度提升猛、但效果确实不错——明年"控促销、提利润、保量"方案</h3>
+<p><b>数据：</b>促销让利 ¥7.3万→¥44.4万（×6.1）、促销率 2.49%→6.36%；而同期销量+121%、销售额+137%、毛利率还提高了2.6pp——促销买到的是真增长（唯一例外是6-7月FBA：单台净利0.9%/-0.8%，那两个月折扣最深）。所以明年不是"砍促销"，是"<b>控促销</b>"。</p>
+<p><b>怎么控（5+1条）：</b></p>
+<p>① <b>分档收口：</b>用你的DOS规则表当执行基准（健康5-8% / 偏紧0-5% / 积压10-15% / 严重20%+），把整体促销率从6.36%压回5%附近——每压1pp≈多留¥7.0万利润，压到5%≈多留约¥9.5万；</p>
+<p>② <b>深折扣只发三个场合：</b>清仓（总DOS>90天）、新品排名窗口（上架前90天）、防守（竞对贴身降价才跟）；其余时间按分档上限，不超发；</p>
+<p>③ <b>尝试其余促销形式</b>（今年实际：FBA只用价格促销；VC=券+BD+Price Discount）：Prime专享折扣（只对会员、不伤非会员价感）、Outlet清仓场（专清库龄款）、LD/7天秒杀（旺季集中提报）、品牌定制促销BTP（新客/老客分层触达）、组合装优惠——不同形式触达不同人群，比全时段直降更保价格体系；</p>
+<p>④ <b>促销跟着流量走：</b>清仓前置到5-7月旺季流量高峰（见10.3）——同样的折扣换更多销量、更少利润损失；</p>
+<p>⑤ <b>建促销KPI月度看板：</b>促销率、每1%让利换来多少台（弹性）、促销结束后30天价格恢复情况——把"拍脑袋打折"变成"算账打折"；</p>
+<p>⑥ <b>先砍低效池：</b>今年低效促销（123个SKU-月 / ¥10.7万 / 加权毛利率1.9%）优先砍，≈省¥13.4万，清单见第三节。</p></div>
+<div class="card"><h3>10.8 经验八：PO（亚马逊供货）接单与库存清理——KAX高价链接的库存怎么推动</h3>
+<p><b>问题：</b>KAX高价链接有接单（PO/DF），但库存清理缓慢——多数款难以动销，靠优惠券与price discount也较难推动。以下用数据拆开，给出接单规则与清库打法。</p>
+<p><b>数据一：库存全景（ERP多仓快照 2026-09-15，KAX全部231个编码）。</b>美国仓可用 <b>3,098台</b>＋在途734台；另有国内/香港仓1,869台待发。美国侧分布：谷仓1,662 / FBA(清仓) 764 / 易达云448 / 运去哪176 / 桑椹48。对照KAX月销约134~153台：<b>仅美国仓可用就够卖20个月以上</b>（含在途约25个月）——这就是"清不动"的量化含义。（如与领星VC后台口径有出入，以后者为准。）</p>
+<p><b>数据二：库存金字塔——50个SKU库存≥30台，其中33个"今年卖了≤5台"，合计占压1,373台（占美国库存44%）。</b>高库存×慢动销典型款：</p>
+<table><tr><th>商品编码</th><th>美国库存（可用+在途）</th><th>26年1-8月销量</th></tr>
+<tr><td>ZC8ACC11800</td><td>83台</td><td>1台</td></tr>
+<tr><td>ZC8ACC12700</td><td>53台</td><td>0台</td></tr>
+<tr><td>ZC8ACC07900</td><td>52台</td><td>0台</td></tr>
+<tr><td>KC8ACC46400</td><td>49台</td><td>0台</td></tr>
+<tr><td>ZC8ACC14300</td><td>55台</td><td>1台</td></tr>
+<tr><td>KC8ACC46500</td><td>42台</td><td>1台</td></tr>
+<tr><td>ZC8ACC13200</td><td>64台</td><td>3台</td></tr>
+<tr><td>ZC8ACC11500 / 11700</td><td>94台 / 94台</td><td>8台 / 7台</td></tr></table>
+<p class="small">注：销量按商品名与编码大厂号/标题匹配（近似口径）；库存=US仓可用+在途。</p>
+<p><b>数据三：PO恰恰是KAX最亮的渠道。KAX PO 26年：404台/¥52.8万（毛利润¥12.2万）、均价$195（全渠道最高）、毛利率23.2%（全渠道最高）；对比25年：量+117%、价+37%（$143→$195）——PO的量不是靠降价换的。</b>节奏上：96%以上PO订单集中在4-8月（Amazon为旺季备库），8月起已在收窄（113→55台/月）。</p>
+<p><b>问题①：接单规则要不要按"销量×利润率"？——要，按三层定：</b></p>
+<table><tr><th>分层</th><th>标准（近90天动销）</th><th>接单策略</th></tr>
+<tr><td>A类 热销</td><td>≥10台/月（约TOP20）</td><td>PO优先保供、不降价；宁可排队也不超卖（保排名）</td></tr>
+<tr><td>B类 中销</td><td>1~9台/月</td><td>正常接单，按红线价执行</td></tr>
+<tr><td>C类 冷款</td><td>≤1台/月（107个SKU）</td><td><b>全接、让利接</b>：PO=清库阀，成本报价可下调5~10%换订单（批量出口比DF降价的利润损失更小）；PO不来单→走清仓路径（见下）</td></tr></table>
+<p>利润率底线：PO毛利率≥20%优先接（KAX当前23.2%达标）；10~20%正常接；&lt;10%只接"库龄&gt;270天"的清库款。</p>
+<p><b>问题②：不同月份不一样？——不一样，按Amazon的PO节奏走：</b>①1-3月：报价谈判+备货到美国仓（保证4月起有货可接）；②4-8月：接单全开+保供（今年KAX量涨117%全在这个窗口）；③9-12月：PO淡季=清库窗口——成本让利换单、清仓FBA、红线价一起上，为明年备货腾库容。今年8月PO已砍半（113→55台），9月后主动清，否则库存再躺一年。</p>
+<p><b>问题③：分品牌渠道？"KAX不做PO"？——答案是反的：KAX应"优先做PO"。</b>数据说话：PO是KAX毛利最高（23.2%）、价格最高（$195）的渠道，且25→26量价齐升；KAX没有正常FBA，PO+DF就是它的命脉。渠道分工建议：PT按上述规则常规执行（PO 1,335台/毛利率19.8%）；KAX=PO优先+DF日常维护+清仓FBA做价格锚。真正要治的不是PO，而是"非PO路径"的清货。</p>
+<p><b>怎么继续推动清库存（6条动作）：</b></p>
+<p>① <b>PO让利换单：</b>对C类冷款主动下调成本报价5~10%，让Amazon有动力加大下单——PO是批量出清，比DF链接降价的单位损失小得多；</p>
+<p>② <b>冷款转"清仓FBA"：</b>今年清仓FBA均价$129已验证能走量（191台）；把冷款库存移入清仓FBA链接，同时给变体组当"低价锚"引流（一货两用）；</p>
+<p>③ <b>红线价"一步到位"：</b>库龄&gt;270天的款直接按红线价清，别挤牙膏——数据说明：做过券+PD的款8个月仍只动1~8台，折扣深度不够击不穿价格带；</p>
+<p>④ <b>国内仓1,869台的处理：</b>按27年计划测算后再发——但要记住海运90天的硬周期：明年要卖的货，11月前必须离港；</p>
+<p>⑤ <b>差异化清货：</b>冷款做组合装/清仓专区，避免低价直接冲击PT正价品与KAX主线价格体系；</p>
+<p>⑥ <b>算清"持有 vs 折价"：</b>用"仓储+资金占用月成本"对比折价幅度做决策——压一年跌价+仓储通常吃掉5%以上，库龄&gt;270天该清就清。</p></div>
+<h2 id="s9">十一、2027年计划（每个月怎么花钱、每个词出价多少）</h2>
+<div class="guide">📖 <b>人话导读：</b>这一节把所有"明年怎么改"落成表：①每个核心词的出价应该调到多少（按月列了12个月）；②每个月的广告预算大概是多少；③要做的7个测试。</div>
+<div class="card"><h3>10.1 核心词出价计划（美元，26年10月→27年9月，每月照这个调）</h3>
+<table class=""><thead><tr><th>关键词</th><th>类型</th><th>年度目标出价</th><th>26-10</th><th>26-11</th><th>26-12</th><th>27-01</th><th>27-02</th><th>27-03</th><th>27-04</th><th>27-05</th><th>27-06</th><th>27-07</th><th>27-08</th><th>27-09</th></tr></thead><tbody><tr><td>compressor</td><td>加价</td><td>$0.97</td><td>$0.82</td><td>$1.12</td><td>$0.78</td><td>$0.82</td><td>$0.87</td><td>$0.97</td><td>$1.02</td><td>$1.07</td><td>$1.02</td><td>$0.97</td><td>$0.87</td><td>$0.82</td></tr><tr><td>ac compressor</td><td>加价</td><td>$0.61</td><td>$0.52</td><td>$0.7</td><td>$0.49</td><td>$0.52</td><td>$0.55</td><td>$0.61</td><td>$0.64</td><td>$0.67</td><td>$0.64</td><td>$0.61</td><td>$0.55</td><td>$0.52</td></tr><tr><td>air compressor</td><td>加价</td><td>$0.43</td><td>$0.37</td><td>$0.49</td><td>$0.34</td><td>$0.37</td><td>$0.39</td><td>$0.43</td><td>$0.45</td><td>$0.47</td><td>$0.45</td><td>$0.43</td><td>$0.39</td><td>$0.37</td></tr><tr><td>air conditioning compressor</td><td>加价</td><td>$0.48</td><td>$0.41</td><td>$0.55</td><td>$0.38</td><td>$0.41</td><td>$0.43</td><td>$0.48</td><td>$0.5</td><td>$0.53</td><td>$0.5</td><td>$0.48</td><td>$0.43</td><td>$0.41</td></tr><tr><td>ac compressor kit</td><td>加价</td><td>$0.38</td><td>$0.32</td><td>$0.44</td><td>$0.3</td><td>$0.32</td><td>$0.34</td><td>$0.38</td><td>$0.4</td><td>$0.42</td><td>$0.4</td><td>$0.38</td><td>$0.34</td><td>$0.32</td></tr><tr><td>car ac（新词）</td><td>新词测试</td><td>$0.37</td><td>$0.31</td><td>$0.43</td><td>$0.3</td><td>$0.31</td><td>$0.33</td><td>$0.37</td><td>$0.39</td><td>$0.41</td><td>$0.39</td><td>$0.37</td><td>$0.33</td><td>$0.31</td></tr></tbody></table>
+<div class="small">怎么读：比如 compressor，今年10月出价0.82美元、黑五（11月）提到1.12、年底回落0.78、明年5月旺季到了1.07……全年最高不超过1.07美元。<br>怎么算出来的：<b>年度目标</b>取"市场建议价×0.75"和"当前出价×1.6"里较小的那个（意思是：向市场价靠拢，但一年最多涨60%，分步走）；<b>每个月</b>=年度目标×当月季节系数（10月0.85、黑五1.15、12月0.80、3月1.00、5月1.10、9月0.85）。</div>
+<h3>10.2 2027年月度预算框架</h3>
+<table class=""><thead><tr><th>月份</th><th>建议预算（人民币）</th><th>建议预算（美元）</th><th>这个月是什么</th></tr></thead><tbody><tr><td>27年1月</td><td>3,295元</td><td>969美元</td><td>淡季，只维持排名</td></tr><tr><td>27年2月</td><td>3,325元</td><td>978美元</td><td>淡季+新品冷启动测试</td></tr><tr><td>27年3月</td><td>12,155元</td><td>3,575美元</td><td>旺季爬坡开始，加投放</td></tr><tr><td>27年4月</td><td>27,956元</td><td>8,222美元</td><td>旺季放量</td></tr><tr><td>27年5月</td><td>56,737元</td><td>16,687美元</td><td>旺季重点月（对标26年5月最佳效率）</td></tr><tr><td>27年6月</td><td>98,823元</td><td>29,066美元</td><td>旺季峰值月</td></tr><tr><td>27年7月</td><td>89,014元</td><td>26,181美元</td><td>全年需求最高月（Prime Day）</td></tr><tr><td>27年8月</td><td>30,411元</td><td>8,944美元</td><td>需求回落，清尾</td></tr><tr><td>27年9月</td><td>6,223元</td><td>1,830美元</td><td>收尾，只留维持</td></tr><tr><td>27年10月</td><td>12,479元</td><td>3,670美元</td><td>淡季</td></tr><tr><td>27年11月</td><td>10,613元</td><td>3,121美元</td><td>黑五短冲</td></tr><tr><td>27年12月</td><td>5,175元</td><td>1,522美元</td><td>淡季最低</td></tr></tbody></table>
+<div class="small">怎么算的：用今年同月的实际花费×系数（旺季1.25-1.35、淡季约1.0）——因为明年3-8月销量目标比今年高约31%，广告跟着涨三成、效率保持不变。如果明年想更省（广告费占销售的比例从3.3%压到3.0%），系数整体再降约10%。</div>
+<h3>10.3 七项测试（明年做完这些，就知道哪些打法真的有效）</h3>
+<table class=""><thead><tr><th>测试</th><th>做什么</th><th>怎么判断有效</th></tr></thead><tbody><tr><td>① 顶部广告位加价AB</td><td>把出单词（如compressor）的顶部加价从10-15%提到25-50%，对比一段时间</td><td>顶部曝光份额上去了、ACOS不超过10%</td></tr><tr><td>② OE号词扩投</td><td>把商品编号（OE号）做成精确投放的词，按全量清单铺开</td><td>OE词花费占比到10%以上、带来新增订单</td></tr><tr><td>③ SD广告扩量</td><td>相似品/类目/浏览再营销三种SD广告预算翻倍（目前ACOS只有4.7-7.1%，全场最好）</td><td>SD花费占比到15%</td></tr><tr><td>④ 否词SOP</td><td>每周五固定执行否词（先把A类262条清掉）</td><td>浪费词的花费占比明显下降</td></tr><tr><td>⑤ 新品冷启动流程</td><td>新品30天自动+紧密匹配→60天加词→90天收割</td><td>新品90天ACOS不超过15%</td></tr><tr><td>⑥ 商品投放（定点竞品）</td><td>直接投SCITOO/ECCPP等竞品的畅销ASIN商品页</td><td>商品投放花费占比和效果</td></tr><tr><td>⑦ 品牌词防御</td><td>给PT/KAX的品牌词做SB广告（现在几乎没做）</td><td>品牌词搜索首位是自家</td></tr></tbody></table>
+</div>
+<h2 id="s10">十二、2026年10月 → 2027年9月：每个月要做什么</h2>
+<div class="guide">📖 <b>人话导读：</b>把上面所有计划按月份排成一张作战日历，每个月看这一行就知道该干什么。</div>
+<div class="card">
+<table class=""><thead><tr><th>月份</th><th>这个月要做的重点</th></tr></thead><tbody><tr><td>26年10月（复盘月）</td><td>广告账户大扫除（清理僵尸活动、合并单ASIN活动群、把否定词全量挂上）；解决价格体系（清理536条死链、收窄同编码价差）；定稿明年的广告结构；给SD广告加预算</td></tr><tr><td>26年11月（黑五）</td><td>黑五网一那几天短冲（预算临时加20-30%，结束立刻收回）；券10-15%封顶、不叠加BD；同时跟进明年Q1备货的生产和物流；淡季流量便宜，用来测试明年的新词</td></tr><tr><td>26年12月（淡季储备）</td><td>广告降到全年最低（只保排名）；建好明年的词库（否定词/出单词/OE词三本台账）；用Vine攒评论；年底对账</td></tr><tr><td>27年1月（规划月）</td><td>用低价流量测试新的广告结构；新品打样落地；竞品月度监测</td></tr><tr><td>27年2月（上架月）</td><td>新链接上架——<b>一次性定好价格</b>（吸取今年"高价上架再降价迭代"的教训）；新品冷启动按流程走；新品只上券不上BD；3月初FBA库存必须全部到位</td></tr><tr><td>27年3月（爬坡月）</td><td>广告预算×2.5-3倍；手动词全面铺开；出单词转精确匹配；促销启动3-4%；开始每天的断货日报</td></tr><tr><td>27年4月（放量月）</td><td>广告预算×3；SD扩量；否词每周两次检查；第一轮BD提报（先过黑名单）</td></tr><tr><td>27年5月（效率月★）</td><td>目标ACOS≤8%——对标今年5月（7.1%）的打法；大词抢顶部位置；给7月旺季下第三批备货</td></tr><tr><td>27年6月（规模月）</td><td>广告高位运行（容忍ACOS≤10%）；促销不超过4%且严格执行规则v2；断货保卫战（每天盯库存）；差评当天处理</td></tr><tr><td>27年7月（峰值月）</td><td>第一优先级是库存和排名（Prime Day在这个月）；广告只守位不加杠杆，断货的链接立刻停广告；促销严格按规则不叠加</td></tr><tr><td>27年8月（收尾）</td><td>广告回收20-30%；按库销比清尾货；处理8-9月的退货高峰</td></tr><tr><td>27年9月（收官）</td><td>库存清理收口；广告低位运行（为明年测试结构）；启动明年备货下单（提前90天倒排）；开始做年度复盘</td></tr></tbody></table>
+<div class="small"><b>固定节奏（每周/每月）：</b>每周五=否词日+库存检查+促销提报；每月5日=广告/促销/退款三线复盘。</div>
+</div>
+<h2 id="s11">十三、风险、口径与数据自查</h2>
+<div class="card"><h3>12.0 本次口径修正（纯净版 · 2026-09-15）</h3><table class=""><thead><tr><th>修正项</th><th>改了什么</th><th>影响</th></tr></thead><tbody><tr><td>① 经营数据口径</td><td>26年=分品牌后PT+KAX（剔除翻新品牌408台与翻新品类176台）；25年=当年未分品牌，按全品牌合并口径（2,716台/293.7万）</td><td>26年全渠道由6,402→5,994台、732.0→697.4万</td></tr><tr><td>② 广告数据口径</td><td>从"标签全量"改为"朱鹏锃名下·非翻新活动"；剔除翻新活动（占原口径40.5%花费）与其他运营活动约7%</td><td>广告花费 $62,358→$32,377（ACOS均9.4%不变）</td></tr><tr><td>③ BI查询口径</td><td>BI在"带月份维度"查询时2026年1-3月金额失真（1月摊成¥139/台），全篇改用不带月份维度的口径（与BI前台一致）</td><td>月度人民币拆分暂不展示</td></tr><tr><td>④ KAX验证</td><td>KAX 1,070台=全部"全新"命名商品、全部朱鹏锃名下；KAX翻新机在独立翻新品类（6台）；主管文档1,255台=总部全口径</td><td>口径差异已解释</td></tr><tr><td>⑤ 25年数据质量</td><td>部分拉取通道25年毛利/退款金额出现"截半"异常，已取最可信值并用恒等式交叉验证（2,716台/293.7万/14.9%/净利8.4万）</td><td>如与前台出入请告知</td></tr></tbody></table></div>
+<div class="card"><h3>12.0b 数据纯净度排查结论（你问的"干净纯粹"）</h3>
+<p>① <b>运营维度：本身就是纯净的</b>——本次直连的BI数据集全品类只有"朱鹏锃"一个运营值，天然就是你的名下口径，不会有别人混进来。</p>
+<p>② <b>翻新维度：两处已处理</b>——"翻新空调压缩机"是独立品类（176台），从未计入；"全新"品类里混入的翻新品牌（Torchbeam等408台）26年已剔除（25年按你要求=当年全品牌口径）。</p>
+<p>③ <b>KAX：已验证干净</b>——1,070台全部全新命名、全部朱鹏锃名下；你担心的"小部分翻新机"在翻新品类里、"其他运营的全新机"不在本数据集内（主管口径1,255台是全公司数）。</p>
+<p>④ <b>广告：已按纯净口径重算</b>——标签全量里40.5%花费是翻新活动（李汝娴为主），已剔除；重算后$32,377/ACOS 9.4%，月度峰值6月$9,795、效率最差7月11.5%、最佳5月7.1%（故事线与旧口径一致）。</p>
+<p>⑤ <b>边界提醒：</b>搜索词明细/竞价方式/广告位/27年出价计划这几个小节的细节统计仍为标签全量口径（v3重算），但关键结论方向不变；SKU级指标（新品贡献/老品单均）为品类口径。</p>
+</div>
+<div class="guide">📖 <b>人话导读：</b>这一节讲：①明年可能出什么问题、怎么防；②报告里几个"口径"是什么、为什么数字对不上；③我们自查发现的11个数据异常/疑点（含需要你确认的4件事）。</div>
+<div class="card"><h3>12.1 风险清单</h3>
+<table class=""><thead><tr><th>风险</th><th>具体情况</th><th>怎么防</th></tr></thead><tbody><tr><td>结构性缺货（最要紧）</td><td>8月已发生：热销款售罄、冷款积压；降价拉不动量（5%毛利仍高于竞对）</td><td>广告和库存联动：库存不足30天就降一半预算、不足15天直接停广告；提前安排海外仓移仓</td></tr><tr><td>市场需求缩水</td><td>大词搜索量比去年同期少24%-47%（第三方估算，需交叉验证）</td><td>预算往少量高效词集中；开发西语词、车型长尾词</td></tr><tr><td>竞对打法</td><td>竞对低价卖（97-135美元）还在泛投抢词</td><td>守住零件号/年份词的高效率；用加价测试抢顶部；不打价格战</td></tr><tr><td>账户太乱</td><td>1,282个花钱的活动+1,213个僵尸活动，管理不过来</td><td>10月大扫除+每月维护（见第十二节）</td></tr><tr><td>口径打架</td><td>同一个数在领星和财务系统里差2-3倍（下面详细说）</td><td>所有汇报都标注来源；和公司数据组对齐一次</td></tr><tr><td>靠人执行</td><td>否词、调价都需要人做，容易断</td><td>固定的周/月流程+操作记录台账</td></tr></tbody></table>
+<h3>12.2 为什么数字对不上（口径说明，一条就够）</h3>
+<table class=""><thead><tr><th>数据源</th><th>是什么</th><th>例：今年1-8月广告费</th></tr></thead><tbody><tr><td>领星（广告后台）</td><td>广告的真实消耗，美元计费</td><td>约3.2万美元（≈22万人民币；标签全量口径为6.1万）</td></tr><tr><td>BI（公司财务系统）</td><td>财务账上的广告费，人民币</td><td>13.8万元人民币（纯净口径）</td></tr><tr><td>差异原因</td><td>两套系统统计范围和分摊方式不同（差异集中在VC渠道，FBA渠道两边基本一致）</td><td>差2-3倍</td></tr></tbody></table>
+<h3>12.3 数据自查发现（11项，逐项处理）</h3>
+<table class=""><thead><tr><th>类别</th><th>发现</th><th>怎么处理</th></tr></thead><tbody><tr><td>已修正</td><td>① 报告里两个页面的加价建议数值口径不统一（一页写"+5~10%"、另一页写"目标价0.97美元"）</td><td>已加注释说明：一个是"第一步怎么调"、一个是"一年后到什么位置"，不矛盾</td></tr><tr><td>已修正</td><td>② 西语词"compresor de aire acondicionado"的搜索量同比+165%</td><td>判断为第三方工具新收录导致的假象，不是市场真的翻倍，已从表中移除该数字</td></tr><tr><td>已确认：改名导致</td><td>③ 9月新建了87个活动（8月只有18个）</td><td>用户已确认：是"改名字"刷新了创建时间，不是批量新建——"迭代节奏"结论不受影响。</td></tr><tr><td>待你确认</td><td>④ FBA渠道1-3月的"领星vs财务"比值只有0.40-0.77（4月起≈1.0）</td><td>年初入账口径差异，建议找数据组核一次</td></tr><tr><td>待你确认</td><td>⑤ 主管报告1-8月广告费约7.2万美元（总部全口径）vs 我们纯净口径3.2万美元（标签全量6.1万）——范围差，已注明</td><td>统计范围差（可能是含未打标签的活动），如需对账可以再出对照</td></tr><tr><td>已确认：正常</td><td>⑥ US19/US37等店铺完全没有空压广告</td><td>已确认：US19/US37仅挂2025年"全新未分品牌"时期遗留的清仓FBA产品、投放极小；PT品牌广告只投US22-FBA——属正常安排。</td></tr><tr><td>口径提醒</td><td>⑦ "否定清单"里A/B/C（词×活动1,186条）与另一个表（词级2,082个词）数字不同</td><td>粒度不同不能直接比：一个是"某个活动里这个词"，一个是"把词跨活动加起来"，执行以对照表为准</td></tr><tr><td>口径提醒</td><td>⑧ "air compressor"这个搜索词0单、但作为关键词投放却出了33单</td><td>词本身是能出单的（广泛匹配带动长尾），只是"精确搜这几个字"的人不买——分类处理是对的</td></tr><tr><td>口径提醒</td><td>⑨ 零单率93%（全年）vs 95%（8月双周）</td><td>统计窗口不同，都正确</td></tr><tr><td>已核对通过</td><td>⑩ 纯净口径月度加总=$32,377（与总表一致）；⑪ 活动清单加总=2,495个</td><td>数字经得起对账</td></tr></tbody></table>
+</div>
+<h2 id="s12">十四、附录：名词解释 · 文件清单 · 数据来源</h2>
+<div class="card"><h3>附录A 名词解释表（全文通用）</h3>
+<table class="gloss"><thead><tr><th>名词</th><th>大白话解释</th></tr></thead><tbody><tr><td>纯净口径</td><td>本报告的经营数据=朱鹏锃名下·全新线（PHILTOP+KAX），剔除翻新品牌与翻新品类；广告数据=朱鹏锃名下非翻新活动。</td></tr><tr><td>口径</td><td>同一个数字在不同系统里记出来的值不一样，所以每个数字都要说明"从哪个系统来的"。本报告常用三套：<b>BI</b>=公司财务系统（人民币）；<b>领星</b>=广告后台的真实花费（美元）；<b>Sorftime</b>=第三方工具（估算值）。</td></tr><tr><td>ACOS</td><td>广告花的钱 ÷ 广告带来的销售额 × 100%。越低越好。</td></tr><tr><td>TACoS</td><td>广告花的钱 ÷ 全店销售额（含自然流量出的单）×100%。</td></tr><tr><td>CPC</td><td>平均每次点击花多少钱（美元）。</td></tr><tr><td>广告单占比</td><td>全部订单里，"由广告带来的订单"占多少（剩下的叫"自然单"）。</td></tr><tr><td>广告活动</td><td>广告后台里的一个独立单元（campaign），下面有广告组和关键词。</td></tr><tr><td>零花费活动</td><td>建了但一分钱没花过的活动（"僵尸"活动）。</td></tr><tr><td>库销比(DOS)</td><td>现有库存够卖多少天/多少月。</td></tr><tr><td>促销率</td><td>促销让利金额（含券）÷ 销售额。</td></tr><tr><td>搜索词</td><td>顾客在搜索框里实际输入的字（关键词=你主动投放的词）。</td></tr><tr><td>否定词</td><td>告诉亚马逊"这些词以后别给我的广告了"，用来堵住白花钱的词。</td></tr></tbody></table>
+</div>
+<div class="appendix">
+<b>附录B 底稿文件（桌面 → AI总结 → 压缩机总结 → 26年复盘 文件夹）：</b><br><br>
+① <b>本报告HTML</b>（含同名PDF版）；<br>
+② <b>《空压26年广告深度复盘_v2_全年活动级.xlsx》</b>（22个明细表）——其中广告总表为标签全量口径，纯净口径重算后随v3更新；<br>
+③ <b>《空压_广告操作前对照表_未执行.xlsx》</b>（否词A/B/C + 出价预览，<b>尚未执行</b>）；<br>
+④ 文字版：《全新空压26年1-9月复盘_文字版.md》《空压26年广告深度复盘_文字版.md》《空压广告复盘_主管汇报摘要.md》《空压_26年10月-27年9月运营节奏_文字稿v1.md》；<br>
+⑤ 早期交付：《全新空压26年1-9月复盘_分析报告.xlsx》《全新空压26年促销专项复盘_1-9月.xlsx》《空压_促销规则v2与刊登代差诊断.xlsx》。<br><br>
+<b>数据来源：</b>公司BI系统（损益/渠道/品牌/退款/售后）｜领星ERP（广告后台/关键词/搜索词）｜ERP库存系统｜Sorftime（市场竞价/搜索量/广告位）。<br><br>
+<b>边界与声明：</b>①竞对实际出价无数据源；②Sorftime为第三方估算；③搜索词分析覆盖头部活动；④1-8月完整月对比、9月只到14日；⑤所有"写操作"（否词/调价）<b>都没有执行</b>。
+</div>
+<div class="foot">空调压缩机（空压）2026年经营复盘 · 纯净口径版 · 2026-09-15</div>
+</div></body></html>
