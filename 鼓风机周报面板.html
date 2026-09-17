@@ -135,7 +135,7 @@ tr:nth-child(even) td{background:#f5f7fb;}
 <div id="view-sales" style="display:none">
 <div class="header">
   <div><h1>📦 KAX · 销售数据汇总</h1>
-  <div class="sub">所有在售产品库存+销售数据（全量定义 <b>207 SKU</b>）｜近30天=BI损益口径（2026-08-17~09-16）｜周销量=BI口径（W34-W37）</div></div>
+  <div class="sub">所有在售产品（全量定义 <b>207 ASIN</b>）｜库存=916进销存报表（同SKU双链接共享）｜近30天=BI损益口径（2026-08-17~09-16）｜周销量=BI口径（W34-W37）</div></div>
 </div>
 <div class="panel"><h3>一：所有在售产品库存销售数据</h3><div id="sm-tbl"></div></div>
 </div><!--/view-sales-->
@@ -143,9 +143,9 @@ tr:nth-child(even) td{background:#f5f7fb;}
 <div id="view-inv" style="display:none">
 <div class="header">
   <div><h1>🏭 KAX · 库存情况</h1>
-  <div class="sub">进销存报表口径（2026-09-08）｜总库存=FBA+海外仓+本地仓+各在途｜近30天销量=BI损益核对列</div></div>
+  <div class="sub">库存=916进销存报表（2026-09-16）｜总库存=FBA可用+各在途+海外仓+本地仓｜同SKU双链接库存去重计一次</div></div>
 </div>
-<div class="panel"><h3>库存全景（全量定义 207 SKU）</h3><div id="inv-tbl"></div></div>
+<div class="panel"><h3>库存全景（全量定义 194 SKU / 207 ASIN——同SKU双链接库存计一次）</h3><div id="inv-tbl"></div></div>
 </div><!--/view-inv-->
 
 </div><!--/brand-kax-->
@@ -561,7 +561,7 @@ $('foot').innerHTML=`<b>本周 vs 上周：</b>销量${K.qty_d}｜销售额${K.a
  const W=[9.5,10,7,6,6,6.5,6.5,6.5,6,8.5,8,7,7];
  const rows=S.inv_rows.map(r=>[`<b>${esc(r.asin)}</b>`,r.sku,tcol(r.defn),r.fba||0,r.fba_t||0,r.ovs||0,r.loc||0,r.loc_t||0,
   r.total||0,r.amt?Math.round(r.amt).toLocaleString():'-',r.sales30_dos||0,r.ratio?(Number(r.ratio).toFixed(2)):'-',r.q30!=null?r.q30:'-']);
- $('inv-tbl').innerHTML=mkTable(H,rows,W)+`<div class="note" style="margin-top:6px">口径：全部=进销存报表(2026-09-08)；总库存=FBA可用+在途+海外仓+本地仓+采购在途；库存金额=进销存总库存金额；全链路库销比=进销存口径；近30天销量(BI)=损益明细核对列(2026-08-12~09-10)。</div>`;
+ $('inv-tbl').innerHTML=mkTable(H,rows,W)+`<div class="note" style="margin-top:6px">口径：全部=916进销存报表(2026-09-16)；总库存=FBA可用+在途+海外仓+本地仓+采购在途；库存金额=进销存总库存金额；全链路库销比=进销存口径；近30天销量(BI)=损益明细核对列(2026-08-17~09-16)。</div>`;
 })();
 </script>
 </body></html>
