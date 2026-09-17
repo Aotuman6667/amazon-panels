@@ -626,7 +626,9 @@ $('foot').innerHTML=`<b>本周 vs 上周：</b>销量${K.qty_d}｜销售额${K.a
  $('dev-tbl').innerHTML=STYLE+mkTable(H,rows,W);
  const nq=N.list.filter(x=>x.q28>0).length;
  const n100=N.list.filter(x=>x.dd_rate!=null&&x.dd_rate>=100).length;
- $('dev-note').innerHTML='口径：<b>定义表新品 '+N.n+'个</b>（=定义新品口径，立项表内未定义款已剔除）｜近30天销量=BI运营口径（2026-08-17~09-15 完整30天，ASIN级）；实际DD=销量÷30；AMZ DD=立项下单明细预估值；<b>完成率=实际DD÷AMZ DD</b>（<span style="color:#00A650">≥100%达标</span> / <span style="color:#BF8F00">60-99%</span> / <span style="color:#C00000">&lt;60%</span>）。库存=916进销存；定价利润=算价器@现价；实际利润率/退款率=损益30天。有销量 '+nq+' 个、完成率≥100% 共 <b>'+n100+'</b> 个。';
+ const nMid=N.list.filter(x=>x.dd_rate!=null&&x.dd_rate>0&&x.dd_rate<100).length;
+ const nZero=N.list.length-n100-nMid;
+ $('dev-note').innerHTML='口径：<b>定义表新品 '+N.n+'个</b>（=定义新品口径，立项表内未定义款已剔除）｜近30天销量=BI运营口径（2026-08-17~09-15 完整30天，ASIN级）；实际DD=销量÷30；AMZ DD=立项下单明细预估值；<b>完成率=实际DD÷AMZ DD</b>（<span style="color:#00A650">≥100%达标</span> / <span style="color:#BF8F00">60-99%</span> / <span style="color:#C00000">&lt;60%</span>）。库存=916进销存；定价利润=算价器@现价；实际利润率/退款率=损益30天。有销量 '+nq+' 个。<br><b style="color:#1F4E79">📊 数值分析</b>（完成率分布 · 共'+N.list.length+'个）：完成率<b style="color:#C00000">&gt;100%</b>：<b>'+n100+'个</b>（'+(N.list.length?(n100/N.list.length*100).toFixed(1):0)+'%）｜<b style="color:#00A650">0-100%</b>：<b>'+nMid+'个</b>（'+(N.list.length?(nMid/N.list.length*100).toFixed(1):0)+'%）｜<b style="color:#000">0（未动销）</b>：<b>'+nZero+'个</b>（'+(N.list.length?(nZero/N.list.length*100).toFixed(1):0)+'%）。';
 })();
 
 </script>
