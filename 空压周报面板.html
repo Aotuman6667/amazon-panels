@@ -616,7 +616,7 @@ function renderC7Stock(){
   ch.setOption({
     tooltip:{trigger:'axis'},legend:{top:0,textStyle:{fontSize:11}},
     grid:{left:60,right:60,top:38,bottom:28},
-    xAxis:{type:'category',data:['FBA','DF(海外仓)','PO(FLUX)'],axisLabel:{fontSize:11}},
+    xAxis:{type:'category',data:['FBA(US22)','DF(海外仓)','PO(VC库存)'],axisLabel:{fontSize:11}},
     yAxis:[{type:'value',name:'可售库存',axisLabel:{fontSize:10}},{type:'value',name:'周均销量',axisLabel:{fontSize:10}}],
     series:[
       {name:'在库库存',type:'bar',data:[iv.FBA.sellable,iv.DF.sellable,iv.PO.sellable],
