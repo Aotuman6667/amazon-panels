@@ -1119,14 +1119,20 @@ function q3render(){
   var hiS=S.filter(function(x){return x.fba_gm!==null&&x.fba_gm>=0.15;}).length;
   var pvS=S.filter(function(x){return x.fba_price!==null&&x.fba_price!==undefined;}).map(function(x){return Number(x.fba_price);});
   var pAvgS=pvS.length?pvS.reduce(function(a,b){return a+b;},0)/pvS.length:0;
+  var nStockS=S.filter(function(x){return (Number(x.stock5m)||0)>0;}).length;
+  var gmS=(gS.reduce(function(a,b){return a+b;},0)/gS.length*100).toFixed(1);
+  var totS=esS+ptS;
   document.getElementById('q3a-cards').innerHTML=
-    q3card('单品数量',S.length+' 个','26年Q3新品')
-   +q3card('KAX预估月销',esS+' 件/月','合计 '+S.length+' 个SKU','#1F4E79')
-   +q3card('5个月总备货',stS.toLocaleString()+' 件','整体预估DD值 '+(stS/5/30).toFixed(2)+' 件/天','#C00000')
+    q3card('单品数量',S.length+' 个','已备货 '+nStockS+' 个SKU')
+   +q3card('5个月总备货',stS.toLocaleString()+' 件','','#C00000')
    +q3card('FBA测算价均价','$'+pAvgS.toFixed(2),pvS.length+' 个有值')
-   +q3card('整体预估DD值',(stS/5/30).toFixed(2)+' 件/天','=5个月总备货÷5÷30','#1F4E79')
-   +q3card('PT预估月销',ptS+' 件/月','PT 5月备货 '+S.reduce(function(a,x){return a+(x.pt_stock||0);},0)+' 件')
-   +q3card('平均FBA毛利率',(gS.reduce(function(a,b){return a+b;},0)/gS.length*100).toFixed(1)+'%',(loS)+'个<10% ｜ '+hiS+'个≥15%',(loS>S.length*0.3?'#C00000':'#00A650'));
+   +q3card('平均FBA毛利率',gmS+'%',(loS)+'个<10% ｜ '+hiS+'个≥15%',(loS>S.length*0.3?'#C00000':'#00A650'))
+   +q3card('KAX预估月销',esS+' 件/月','KAX 5月备货 '+S.reduce(function(a,x){return a+(x.stock5m||0);},0)+' 件','#1F4E79')
+   +q3card('KAX预估DD',(esS/30).toFixed(2)+' 件/天','=KAX预估月销÷30','#1F4E79')
+   +q3card('PT预估月销',ptS+' 件/月','PT 5月备货 '+S.reduce(function(a,x){return a+(x.pt_stock||0);},0)+' 件','#0070C0')
+   +q3card('PT预估DD',(ptS/30).toFixed(2)+' 件/天','=PT预估月销÷30','#0070C0')
+   +q3card('整体预估月销',totS+' 件/月','KAX+PT 合计','#C00000')
+   +q3card('整体预估DD',(totS/30).toFixed(2)+' 件/天','=整体预估月销÷30','#C00000');
   document.getElementById('q3a-d').innerHTML='<b>计算逻辑</b>：列＝商品编码｜大厂号｜AMZ中位价(竞对中位价USD)｜中位价销量｜组内销量(亚马逊竞对组内月销)｜FBA测算价(表内定价,USD)｜FBA毛利率(<span style="color:#C00000">红&lt;10%</span> / <span style="color:#B45309">10-15%</span> / <span style="color:#00A650">绿≥15%</span>)｜原因(表内备货原因)｜<b>KAX预估月销</b>｜<b>DD值(=KAX预估月销÷30,2位小数)</b>｜PT预估月销｜5个月总备货数量。<span style="color:#888">排序：5个月总备货=0 的排最下方，其余按备货量从高到低。</span>';
   document.getElementById('q3a-tbl').innerHTML=q3table(q3sort(S));
   document.getElementById('q3a-n').innerHTML='<b>数值分析</b>：单品共 <b>'+S.length+'</b> 个，5个月总备货 <b>'+stS.toLocaleString()+'</b> 件（预估月销合计 '+esS+' 件）；毛利率均值 <b>'+(gS.reduce(function(a,b){return a+b;},0)/gS.length*100).toFixed(1)+'%</b>——其中 <span style="color:#C00000">'+loS+' 个低于10%</span>、<span style="color:#00A650">'+hiS+' 个≥15%</span>，低毛利款占 '+(loS/S.length*100).toFixed(0)+'%，建议对低毛利款回溯定价或剔除。';
@@ -1139,14 +1145,19 @@ function q3render(){
   var needP=P.filter(function(x){return (x.need||'').indexOf('是')===0;}).length;
   var pvP=P.filter(function(x){return x.fba_price!==null&&x.fba_price!==undefined;}).map(function(x){return Number(x.fba_price);});
   var pAvgP=pvP.length?pvP.reduce(function(a,b){return a+b;},0)/pvP.length:0;
+  var nStockP=P.filter(function(x){return (Number(x.stock5m)||0)>0;}).length;
+  var gmP=(gP.reduce(function(a,b){return a+b;},0)/gP.length*100).toFixed(1);
   document.getElementById('q3b-cards').innerHTML=
-    q3card('组套数量',P.length+' 个','单品+滤清组合')
-   +q3card('KAX预估月销',esP+' 件/月','组套合计 '+P.length+' 个','#1F4E79')
-   +q3card('5个月总备货',stP.toLocaleString()+' 件','整体预估DD值 '+(stP/5/30).toFixed(2)+' 件/天','#C00000')
+    q3card('组套数量',P.length+' 个','已备货 '+nStockP+' 个SKU')
+   +q3card('5个月总备货',stP.toLocaleString()+' 件','','#C00000')
    +q3card('FBA测算价均价','$'+pAvgP.toFixed(2),pvP.length+' 个有值')
-   +q3card('整体预估DD值',(stP/5/30).toFixed(2)+' 件/天','=5个月总备货÷5÷30','#1F4E79')
-   +q3card('确认备货',needP+' 个','其余待定/无法备货')
-   +q3card('平均FBA毛利率',(gP.reduce(function(a,b){return a+b;},0)/gP.length*100).toFixed(1)+'%',(loP)+'个<10% ｜ '+hiP+'个≥15%',(loP>P.length*0.3?'#C00000':'#00A650'));
+   +q3card('平均FBA毛利率',gmP+'%',(loP)+'个<10% ｜ '+hiP+'个≥15%',(loP>P.length*0.3?'#C00000':'#00A650'))
+   +q3card('KAX预估月销',esP+' 件/月','组套合计 '+P.length+' 个','#1F4E79')
+   +q3card('KAX预估DD',(esP/30).toFixed(2)+' 件/天','=KAX预估月销÷30','#1F4E79')
+   +q3card('PT预估月销','-','组套表无此字段','#888')
+   +q3card('PT预估DD','-','-','#888')
+   +q3card('整体预估月销',esP+' 件/月','=KAX(组套无PT)','#C00000')
+   +q3card('整体预估DD',(esP/30).toFixed(2)+' 件/天','=整体预估月销÷30','#C00000');
   document.getElementById('q3b-d').innerHTML='<b>计算逻辑</b>：同单品 11 列；其中 <b>AMZ中位价</b>取表内「鼓风机+滤清中位价」（缺则回退鼓风机单品中位价）、<b>预估月销</b>取「预计30天销量」、<b>5个月总备货</b>取「5个月销量备货」；<b>KAX预估月销</b>取「预计30天销量」、<b>DD值</b>=KAX预估月销÷30（2位）；<span style="color:#888">组套表无 PT预估月销字段，该列显示"-"</span>。<span style="color:#888">排序：5个月总备货=0 的排最下方，其余按备货量从高到低。</span>。原因列取表内[129]列（鼓风机+滤清组套备货原因）。';
   document.getElementById('q3b-tbl').innerHTML=q3table(q3sort(P));
   document.getElementById('q3b-n').innerHTML='<b>数值分析</b>：组套共 <b>'+P.length+'</b> 个，5个月总备货 <b>'+stP.toLocaleString()+'</b> 件（预估月销合计 '+esP+' 件）；确认备货 <b>'+needP+'</b> 个；毛利率均值 <b>'+(gP.reduce(function(a,b){return a+b;},0)/gP.length*100).toFixed(1)+'%</b>（<span style="color:#C00000">'+loP+' 个&lt;10%</span>、<span style="color:#00A650">'+hiP+' 个≥15%</span>）。组套毛利率整体低于单品 1-2pp（多了滤清成本与打包），建议优先推进 ≥15% 的 '+hiP+' 个高毛利组套。';
