@@ -1087,7 +1087,7 @@ function q3sort(rows){
 }
 function q3table(rows,id){
   var cols=[['sku','商品编码',0],['factory','大厂号',0],['amz_mid','AMZ中位价',1],['amz_mid_qty','中位价销量',1],['amz_grp_qty','组内销量',1],
-            ['fba_price','FBA测算价',1],['fba_gm','FBA毛利率',2],['reason','原因',0],['est_m','KAX预估月销',3],['ddv','DD值',4],['pt_m','PT预估月销',3],['stock5m','5个月总备货',3]];
+            ['fba_price','FBA测算价',1],['fba_gm','FBA毛利率',2],['reason','原因',0],['est_m','KAX预估月销',3],['ddv','DD值',4],['pt_m','PT预估月销',3],['ptddv','DD值(PT)',5],['stock5m','5个月总备货',3]];
   var t='<div class="tscroll"><table class="dt"><thead><tr>';
   cols.forEach(function(c){t+='<th'+(c[2]>=1?' style="text-align:right"':'')+'>'+c[1]+'</th>';});
   t+='</tr></thead><tbody>';
@@ -1099,6 +1099,7 @@ function q3table(rows,id){
       else if(c[2]===2){ cell=(v===null||v===undefined)?'-':(Number(v)*100).toFixed(1)+'%'; st='text-align:right;font-weight:600;color:'+(v<0.10?'#C00000':(v>=0.15?'#00A650':'#B45309')); }
       else if(c[2]===3){ cell=(v===null||v===undefined)?'-':q3fmt(v,0); st='text-align:right'; }
       else if(c[2]===4){ cell=q3fmt((Number(x.est_m)||0)/30,2); st='text-align:right;color:#1F4E79'; }
+      else if(c[2]===5){ cell=(x.pt_m===null||x.pt_m===undefined||x.pt_m==='')?'-':q3fmt(Number(x.pt_m)/30,2); st='text-align:right;color:#0070C0'; }
       else { cell=(v===null||v===undefined||v==='')?'-':String(v); }
       if(c[0]==='stock5m'&&v){ st+=';font-weight:600'; }
       t+='<td style="'+st+'">'+cell+'</td>';
@@ -1133,7 +1134,7 @@ function q3render(){
    +q3card('PT预估DD',(ptS/30).toFixed(2)+' 件/天','=PT预估月销÷30','#0070C0')
    +q3card('整体预估月销',totS+' 件/月','KAX+PT 合计','#C00000')
    +q3card('整体预估DD',(totS/30).toFixed(2)+' 件/天','=整体预估月销÷30','#C00000');
-  document.getElementById('q3a-d').innerHTML='<b>计算逻辑</b>：列＝商品编码｜大厂号｜AMZ中位价(竞对中位价USD)｜中位价销量｜组内销量(亚马逊竞对组内月销)｜FBA测算价(表内定价,USD)｜FBA毛利率(<span style="color:#C00000">红&lt;10%</span> / <span style="color:#B45309">10-15%</span> / <span style="color:#00A650">绿≥15%</span>)｜原因(表内备货原因)｜<b>KAX预估月销</b>｜<b>DD值(=KAX预估月销÷30,2位小数)</b>｜PT预估月销｜5个月总备货数量。<span style="color:#888">排序：5个月总备货=0 的排最下方，其余按备货量从高到低。</span>';
+  document.getElementById('q3a-d').innerHTML='<b>计算逻辑</b>：列＝商品编码｜大厂号｜AMZ中位价(竞对中位价USD)｜中位价销量｜组内销量(亚马逊竞对组内月销)｜FBA测算价(表内定价,USD)｜FBA毛利率(<span style="color:#C00000">红&lt;10%</span> / <span style="color:#B45309">10-15%</span> / <span style="color:#00A650">绿≥15%</span>)｜原因(表内备货原因)｜<b>KAX预估月销</b>｜<b>DD值(=KAX预估月销÷30,2位小数)</b>｜PT预估月销｜<b>DD值(PT)(=PT预估月销÷30,2位小数)</b>｜5个月总备货数量。<span style="color:#888">排序：5个月总备货=0 的排最下方，其余按备货量从高到低。</span>';
   document.getElementById('q3a-tbl').innerHTML=q3table(q3sort(S));
   document.getElementById('q3a-n').innerHTML='<b>数值分析</b>：单品共 <b>'+S.length+'</b> 个，5个月总备货 <b>'+stS.toLocaleString()+'</b> 件（预估月销合计 '+esS+' 件）；毛利率均值 <b>'+(gS.reduce(function(a,b){return a+b;},0)/gS.length*100).toFixed(1)+'%</b>——其中 <span style="color:#C00000">'+loS+' 个低于10%</span>、<span style="color:#00A650">'+hiS+' 个≥15%</span>，低毛利款占 '+(loS/S.length*100).toFixed(0)+'%，建议对低毛利款回溯定价或剔除。';
   // ---- 组套 ----
