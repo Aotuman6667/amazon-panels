@@ -232,7 +232,7 @@ tr:nth-child(even) td{background:#f5f7fb;}
   <div class="sub" id="vs-sub">所有在售产品（全量定义 <b>207 ASIN</b>）｜库存=ERP实时库存(10/21)（同SKU双链接共享）｜近30天=BI损益口径（2026-09-13~10-12）｜周销量=BI口径（W42-W42）</div></div>
   
 </div>
-<div class="note" id="vs-note" style="margin:0 0 12px;line-height:2;background:#f7fbff;border:1px solid #d6e6f5;border-radius:8px;padding:11px 15px;font-size:11.5px"><b>口径：</b>库存=ERP实时库存（2026-10-21），FBA/仓库库存为SKU级——同SKU双链接（含互换）物理共享；近30天销量/毛利率/退款率=BI损益明细（2026-09-13~10-12滚动30天，按ASIN独立统计）；<b>定价毛利率=算价器@现价</b>（材料/头程/FBA尾程/关税/佣金12%/仓储店铺3%/退货10%/促销10%，缺FBA尾程按同类中位估算）；周销量=BI运营口径按ASIN（W42=10/4-10/10, W41, W40, W39）；表按近30天销量降序；<b>近30天退款率&gt;10%标红</b>。<b>近1周/近1月均价=BI损益销售额÷损益销量</b>（USD=¥÷6.7；近1周=10/06-10/12、近1月=09/13-10/12）；<b>首行「整类目」</b>=全店汇总均价，括号内为离 $40 参照价的差距。</div>
+<div class="note" id="vs-note" style="margin:0 0 12px;line-height:2;background:#f7fbff;border:1px solid #d6e6f5;border-radius:8px;padding:11px 15px;font-size:11.5px"><b>口径：</b>库存=ERP实时库存（2026-10-21），FBA/仓库库存为SKU级——同SKU双链接（含互换）物理共享；近30天销量/毛利率/退款率=BI损益明细（2026-09-13~10-12滚动30天，按ASIN独立统计）；<b>定价毛利率=算价器@现价</b>（材料/头程/FBA尾程/关税/佣金12%/仓储店铺3%/退货10%/促销10%，缺FBA尾程按同类中位估算）；周销量=BI运营口径按ASIN（W42=10/4-10/10, W41, W40, W39）；表按近30天销量降序；<b>近30天退款率&gt;10%标红</b>。<b>近1周/近1月均价=BI损益销售额÷损益销量</b>（USD=¥÷6.7；近1周=10/06-10/12、近1月=09/13-10/12）；<b>首行「整类目」</b>=全店汇总均价，括号内为离 $40 参照价的差距。<span style="color:#C00000">均价带 * = 样本&lt;3件（价格噪声大，勿单看）</span>；<b>退款率&gt;100%</b>=跨期退款（本期退款量含往期订单，非计算错误）。</div>
 <div class="panel" id="pane-kax-sales"><h3>一：所有在售产品库存销售数据</h3><div id="sm-tbl"></div></div>
 
 <div class="panel" id="pane-pt-sales">
@@ -844,9 +844,9 @@ $('foot').innerHTML=`<b>本周 vs 上周：</b>销量${K.qty_d}｜销售额${K.a
    '-','-','-','-'];
  const rows=[head].concat(S.rows.map(r=>{const ap=AP[r.asin]||{};
   return [`<b>${esc(r.asin)}</b>`,r.sku,r.psku,r.price!=null?r.price:'-',tcol(r.defn),
-  r.fba||0,r.fba_t||0,r.ovs||0,r.loc||0,r.loc_t||0,nz(r.q30),(r.gm_price!=null?r.gm_price.toFixed(1)+'%':'-'),r.gm30!=null?(Number(r.gm30)*100).toFixed(1)+'%':'-',(r.rfrate!=null&&Number(r.rfrate)>0.10)?'<span style="color:#C00000;font-weight:700">'+(Number(r.rfrate)*100).toFixed(1)+'%</span>':(r.rfrate!=null?(Number(r.rfrate)*100).toFixed(1)+'%':'-'),
-  ap.aw1!=null?('$'+Number(ap.aw1).toFixed(2)):'-', ap.am1!=null?('$'+Number(ap.am1).toFixed(2)):'-',
-  nz(r.w41),nz(r.w40),nz(r.w39),nz(r.w38)];}));
+  r.fba||0,r.fba_t||0,r.ovs||0,r.loc||0,r.loc_t||0,nz(r.q30),(r.gm_price!=null?r.gm_price.toFixed(1)+'%':'-'),r.gm30!=null?(Number(r.gm30)*100).toFixed(1)+'%':'-',(r.rfrate!=null&&Number(r.rfrate)>1)?'<span style="color:#C00000;font-weight:700">&gt;100%<span style="font-size:8.5px">跨期</span></span>':(r.rfrate!=null&&Number(r.rfrate)>0.10)?'<span style="color:#C00000;font-weight:700">'+(Number(r.rfrate)*100).toFixed(1)+'%</span>':(r.rfrate!=null?(Number(r.rfrate)*100).toFixed(1)+'%':'-'),
+  ap.aw1!=null?('$'+Number(ap.aw1).toFixed(2)+(ap.q1w!=null&&ap.q1w<3?'<span style="color:#C00000;font-size:9px">*</span>':'')):'-', ap.am1!=null?('$'+Number(ap.am1).toFixed(2)+(ap.q1m!=null&&ap.q1m<3?'<span style="color:#C00000;font-size:9px">*</span>':'')):'-',
+  nz(r.w42),nz(r.w41),nz(r.w40),nz(r.w39)];}));
  $('sm-tbl').innerHTML='<style>#sm-tbl td{padding:5px 4px;line-height:1.5;font-size:10.5px;white-space:normal;word-break:break-all}#sm-tbl th{padding:6px 3px;font-size:10.5px;white-space:normal}#sm-tbl tr:nth-child(even) td{background:#f8fafd}</style>'+mkTable(H,rows,W)+``;
 })();
 // 库存情况表
