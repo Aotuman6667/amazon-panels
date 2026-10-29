@@ -578,190 +578,286 @@ $('concl').innerHTML=conclHtml;
  const pickTxt=pick.map(r=>`${r.sku}(${r.q30}单·毛利${(r.gm30*100).toFixed(0)}%)`).join('、');
  const shipTxt=pick.slice(0,8).map(r=>`${r.sku}≈${Math.max(30,Math.round(r.q30/30*0.5*104))}件`).join('、');
  const Q3=()=>D.q3new||{meta:{}}, Q1=()=>D.q1new||{meta:{}}, PS=()=>D.pt_ship||{meta:{}};
- // ============ Q1 鼓风机Q3新品监控 ============
+ // ============ 本周重点问题 Q1-Q8（W43）============
+ const n5=D.new5||{}, o5=D.old5||{}, GW=D.grades||{}, AA0=D.ad_act||{};
+ const SUM=(D.summary&&D.summary.rows)||[];
+ const f1=v=>(v===null||v===undefined)?'-':Number(v).toFixed(1);
+ const pctS=v=>(v===null||v===undefined)?'-':(Number(v)*100).toFixed(1)+'%';
+ const sgn=v=>(v===null||v===undefined)?'-':((v>0?'+':'')+Number(v).toFixed(0));
+ const L=lb.length, cur=L-1, prv=L-2;
+
+ // ---------- Q1 淡季稳销量 ----------
  const nq1=(function(){
-  const q=Q3(), s=(q.meta||{}).s||{}, p=(q.meta||{}).p||{}, t=(q.meta||{}).tot||{};
-  const S=q.single||[], P=q.pack||[];
-  const gmLo=S.filter(x=>x.fba_gm!==null&&x.fba_gm!==undefined&&x.fba_gm<0.10).length
-             +P.filter(x=>x.fba_gm!==null&&x.fba_gm!==undefined&&x.fba_gm<0.10).length;
-  const gmHi=S.filter(x=>x.fba_gm!==null&&x.fba_gm!==undefined&&x.fba_gm>=0.15).length
-             +P.filter(x=>x.fba_gm!==null&&x.fba_gm!==undefined&&x.fba_gm>=0.15).length;
-  const nNostock=(s.n_nostock||0)+(p.n_nostock||0);
-  return '<b style="color:#C00000">Q1 鼓风机Q3新品监控 —— 共 '+(Number(s.n||0)+Number(p.n||0))+' 个SKU（有备货 '+
-   ((s.n_stock||0)+(p.n_stock||0))+'），整体5个月备货 '+Math.round(t.all_st||0).toLocaleString()+' 件</b>'
-  +'<br><b>选品与备货结构</b>：'
-  +'<b>单品</b> '+(s.n||0)+' 个（有备货 '+(s.n_stock||0)+' / 不备 '+(s.n_nostock||0)+'）→ 5个月备货 <b>'+Math.round(s.all_st||0).toLocaleString()+' 件</b>'
-  +'（KAX '+Math.round(s.kax_st||0).toLocaleString()+' + PT '+Math.round(s.pt_st||0).toLocaleString()+'）；'
-  +'<b>组套</b> '+(p.n||0)+' 个（有备货 '+(p.n_stock||0)+' / 不备 '+(p.n_nostock||0)+'）→ 5个月备货 <b>'+Math.round(p.all_st||0).toLocaleString()+' 件</b>'
-  +'（KAX '+Math.round(p.kax_st||0).toLocaleString()+' + PT '+Math.round(p.pt_st||0).toLocaleString()+'）。'
-  +'<br><b>预估产出</b>：整体预估月销 <b>'+Math.round(t.all_m||0)+' 件/月</b>（KAX '+Math.round(t.kax_m||0)+' + PT '+Math.round(t.pt_m||0)+'），'
-  +'整体DD <b>'+((t.all_m||0)/30).toFixed(2)+' 件/天</b>；备货关系=<b>预估月销 × 5 个月</b>，KAX:PT 备货比 '
-  +((t.pt_st||0)?(t.kax_st/t.pt_st).toFixed(1):'-')+':1。'
-  +'<br><b>风险点</b>：① <span style="color:#C00000">毛利率&lt;10% 共 '+gmLo+' 个</span>（占 '+((s.n||0)+(p.n||0)?(gmLo/((s.n||0)+(p.n||0))*100).toFixed(0):0)+'%）——定价或成本结构需回溯；'
-  +'② 毛利率≥15% 的健康款 '+gmHi+' 个，是备货优先保障对象；'
-  +'③ 不备货 '+nNostock+' 个（备货=0，备货原因已写入视图12末列，多为车型冷门/销量低/价高低销）。'
-  +'<br><b>操作建议</b>：① 高毛利款（≥15%）优先排产保交期；② 低毛利 ' +gmLo+ ' 款回溯定价（对照竞对中位价）或换供应商降本；'
-  +'③ 单品:组套 备货比 '+(p.all_st?((s.all_st||0)/p.all_st).toFixed(2):'-')+':1，组套单价更高、优先保证组套中的高毛利组合；'
-  +'④ 明细逐SKU见 <b>视图12 · 26年Q3新品</b>（含KAX/PT平台sku、月销、备货、DD、备货原因）。';
+  const q=n5.qty||[], o=o5.qty||[], tq=q.map((v,i)=>(v||0)+(o[i]||0));
+  const dQ=(tq[cur]||0)-(tq[prv]||0);
+  const peak=Math.max.apply(null,tq.filter(v=>v!==null));
+  const peakIdx=tq.indexOf(peak);
+  const gw=GW.levels||{}, ga=(gw.A||{}), gd=(gw.D||{}), gc=(gw.C||{}), gb=(gw.B||{});
+  const totA=ga.q30||0, totAll=(GW.meta||{}).q30||{};
+  const sumQ=Object.keys(totAll).reduce((a,k)=>a+(totAll[k]||0),0);
+  return '<b style="color:#1F4E79">Q1 产品接近淡季，销量如何稳定或尽量不下滑 —— '
+   +'W43 总单 '+tq[cur]+' 台（环比 '+sgn(dQ)+'，'+(tq[prv]?((dQ/tq[prv])*100).toFixed(1):'-')+'%）</b>'
+   +'<br><b>【现状】</b>近5周销量 '+lb.map((l,i)=>l.replace('26','')+':'+tq[i]).join(' → ')
+   +'，<b>峰值在 '+lb[peakIdx]+'（'+peak+' 台）</b>，W43 已从峰值回落 '+Math.abs((tq[cur]||0)-peak)+' 台。'
+   +'结构上 W43 老品 '+(o[cur]||0)+' 台、新品 '+(q[cur]||0)+' 台——<b>新品占了 '+((q[cur]||0)/(tq[cur]||1)*100).toFixed(0)+'%</b>，是现在的主要支撑。'
+   +'<br><b>【为什么淡季会掉】</b>鼓风机是HVAC件，需求跟气温走：4-8月是安装/维修旺季，<b>9月下旬起自然搜索量逐周下滑</b>，11-12月是全年低点（季节系数 11月约0.88、12月更低）。'
+   +'这不是运营问题，是品类规律——所以目标不该是"逆势增长"，而是<b>份额不掉、毛利守住</b>。'
+   +'<br><b>【建议·四条腿走路】</b>'
+   +'<br>① <b>保A级库存不断货</b>：A级 '+((gw.A||{}).n||0)+' 个 SKU 贡献 '+totA+' 件（占 '
+   +(sumQ?((totA/sumQ)*100).toFixed(1):'-')+'%），淡季断货=把旺季攒的排名白送对手。A级里 16 个标了"考虑是否有互换"，优先把互换链接库存备到位（同OE第二曝光位，成本几乎为零）；'
+   +'<br>② <b>用新品对冲老品淡季</b>：老品 W43 已降到 '+(o[cur]||0)+' 台（近5周次低），新品 '+(q[cur]||0)+' 台还在高位。把新品当"淡季主推"，广告预算优先给新品里 CVR>15% 的词；'
+   +'<br>③ <b>广告不要按淡季砍</b>：淡季ACOS天然虚高（分母小），一砍就丢排名，等旺季回来要花3倍钱重新养。改成<b>只砍0单高花费</b>（见Q2），有效率的活动维持；'
+   +'<br>④ <b>价格别再往下走</b>：均价已从 W40 $'+(function(){try{return D.avgs.week.all['202640'].usd}catch(e){return '-'}})()+' 降到 W43 $'+(function(){try{return D.avgs.week.all['202643'].usd}catch(e){return '-'}})()
+   +'，新品毛利率只剩 '+f1(n5.gm?n5.gm[cur]:null)+'%。淡季降价换不来量（需求本来就少），只会把毛利打穿——<b>要量靠广告精准度，不靠降价</b>。'
+   +'<br>⑤ <b>提前压11月节点</b>：11月黑五网一是淡季里唯一的需求脉冲，库存和广告节奏要在<b>11/10前</b>到位，别等节点到了才调。';
  })();
- // ============ Q2 鼓风机Q1新品分析 ============
+
+ // ---------- Q2 近4周广告对比 ----------
  const nq2=(function(){
-  const q=Q1(), m=q.meta||{}, rows=q.rows||[];
-  const st=rows.filter(x=>(Number(x.stock5m)||0)>0);
-  const unsold=st.filter(x=>!x.sold);
-  const ub=unsold.reduce((a,x)=>a+(Number(x.stock5m)||0),0);
-  const warn=rows.filter(x=>x.dd30!==null&&x.dd30!==undefined&&x.est_m!=null&&x.dd30<x.est_m/30&&x.fba_price!=null&&x.price!=null&&x.fba_price<x.price);
-  const nv=st.length, sv=st.filter(x=>x.sold).length;
-  const rate=nv?(sv/nv*100):0;
-  const q30=Math.round(rows.reduce((a,x)=>a+(Number(x.q30)||0),0));
-  const target=Math.round(rows.reduce((a,x)=>a+(Number(x.est_m)||0),0));
-  const comp=target?((q30/target)*100):0;
-  const ddOk=m.n_dd_ok||0, ddNo=m.n_dd_no||0;
-  const grArr=rows.map(x=>x.gm_real).filter(v=>v!==null&&v!==undefined).map(Number);
-  const grAvg=grArr.length?(grArr.reduce((a,b)=>a+b,0)/grArr.length):null;
-  return '<b style="color:#0070C0">Q2 鼓风机Q1新品分析 —— '+(m.n||0)+' 个SKU，已备货 '+(m.n_stock||0)+' 个，5个月备货 '+Math.round(m.stock5m||0).toLocaleString()+' 件</b>'
-  +'<br><b>动销</b>：动销 <b>'+sv+' / '+nv+'（'+rate.toFixed(0)+'%）</b>'
-  +'<span style="color:#C00000">，未动销 '+unsold.length+' 个</span>（已备货但 8/15 至今0销量，备货合计 '+ub+' 件）：'
-  +unsold.map(x=>x.sku+'('+Math.round(Number(x.stock5m)||0)+'件'+(x.asin?'':'·无ASIN')+')').join('、')
-  +'。<br><b>DD值达成</b>：完成 <b>'+ddOk+' 个</b> / 未完成 <span style="color:#C00000">'+ddNo+' 个</span>'
-  +'（完成率 '+(ddOk+ddNo?((ddOk/(ddOk+ddNo))*100).toFixed(0):0)+'%）；实际30天销量 <b>'+q30.toLocaleString()+' 件</b>'
-  +'（目标 '+target.toLocaleString()+' 件，<b>完成 '+comp.toFixed(0)+'%</b>），实际DD '+(q30/30).toFixed(1)+' 件/天。'
-  +'<br><b>利润与退款</b>：实际售价利润率 <b>'+(grAvg!==null?(grAvg*100).toFixed(1)+'%':'-')+'</b>'+'（'+grArr.length+'个有值，简单均值）'
-  +'损益利润率 <b>'+(m.fin_all!=null?(m.fin_all*100).toFixed(1)+'%':'-')+'</b>'
-  +'（中位 '+(m.fin_med!=null?(m.fin_med*100).toFixed(1)+'%':'-')+'）、退款率 <b>'+(m.rf_all!=null?(m.rf_all*100).toFixed(1)+'%':'-')+'</b>。'
-  +'<br><b>定价警示</b>：<span style="color:#C00000">'+warn.length+' 个SKU</span> 未完成DD值且 FBA测算价低于实际售价（定价偏高、卖不动）。'
-  +'<br><b>操作建议</b>：① 未动销 '+unsold.length+' 个优先查 Listing 是否上架/主图完整/OE匹配/广告是否开投'
-  +'（其中 OO8BLM18800 备货48件且无ASIN，最急）；'
-  +'② '+warn.length+' 个定价偏高款往下调价 5-10% 试探，或加大广告冲量；'
-  +'③ '+ddNo+' 个未完成DD的按缺口排序，TOP10优先加预算；'
-  +'④ 明细三段（未动销/定价警示/全部）见 <b>视图11 · 2026年Q1新品</b>。';
+  const sp=D.spend||[], ck=D.clicks||[], adq=(D.ad_act||{}).p0?null:null;
+  const K=D.kpi||{};
+  const A=AA0;
+  const AI=D.ad_invalid||{};
+  // ad_act.p0 字段: n=活动名 y=花费(USD) o=订单 c=点击 a=ACOS
+  const bad=(A.p0||[]).filter(x=>(x.y||0)>0 && (x.o||0)===0);
+  const hi=(AI.high||[]), hiBad=hi.filter(x=>(x.od||0)===0);
+  const pot=(AI.pot||[]);
+  const invZ=(AI.inv_zero||[]), invL=(AI.inv_loss||[]);
+  const inv=invZ.length+invL.length;
+  const badY = bad.reduce((a,x)=>a+(x.y||0),0)*6.7;                    // USD->CNY
+  const hiBadY = hiBad.reduce((a,x)=>a+(x.sp_cny||0),0);
+  const invY = invZ.concat(invL).reduce((a,x)=>a+(x.sp_cny||0),0);
+  const potY = pot.reduce((a,x)=>a+(x.sp_cny||0),0);
+  const spNew=n5.ad||[], spOld=o5.ad||[], aqN=n5.adq||[], aqO=o5.adq||[], acN=n5.acos||[], acO=o5.acos||[];
+  const dSpN=(spNew[cur]||0)-(spNew[cur-3]||0), dAqN=(aqN[cur]||0)-(aqN[cur-3]||0);
+  const dSpO=(spOld[cur]||0)-(spOld[cur-3]||0), dAqO=(aqO[cur]||0)-(aqO[cur-3]||0);
+  let tbl='<table style="margin:8px 0"><tr><th>周</th><th>广告花费(¥)</th><th>点击</th><th>广告单</th><th>ACOS</th><th>广告CVR</th></tr>';
+  for(let i=cur-3;i<=cur;i++){
+   tbl+='<tr'+(i===cur?' style="background:#fff5f5;font-weight:700"':'')+'>'
+    +'<td>'+lb[i].replace('26','')+'</td><td>'+Math.round(sp[i]||0).toLocaleString()+'</td>'
+    +'<td>'+(ck[i]||0)+'</td><td>'+(D.adq?D.adq[i]:'-')+'</td>'
+    +'<td>'+(D.acos5?D.acos5[i]+'%':'-')+'</td><td>'+(D.adcvr5?(D.adcvr5[i]).toFixed(1)+'%':'-')+'</td></tr>';
+  }
+  tbl+='</table>';
+  return '<b style="color:#0070C0">Q2 鼓风机广告调整 / 近4周广告数据对比分析 —— 问题点与改善建议</b>'
+   +tbl
+   +'<b>【问题一：新品钱越花越多，单没跟上】</b>新品广告花费 '+lb[cur-3].replace('26','')+' ¥'+(spNew[cur-3]||0).toLocaleString()
+   +' → '+lb[cur].replace('26','')+' <b>¥'+(spNew[cur]||0).toLocaleString()+'</b>（'+sgn(dSpN)+'元，'
+   +(spNew[cur-3]?((dSpN/spNew[cur-3])*100).toFixed(0):'-')+'%），但广告单 '+(aqN[cur-3]||0)+' → <b>'+(aqN[cur]||0)+'</b>（'+sgn(dAqN)+'单）。'
+   +'<b>钱花了 '+(spNew[cur-3]?((dSpN/spNew[cur-3])*100).toFixed(0):'-')+'%，单只涨 '+(aqN[cur-3]?((dAqN/aqN[cur-3])*100).toFixed(0):'-')+'%</b>——新品ACOS被推高到 '+f1(acN[cur])+'%。'
+   +'<br><b>【问题二：老品减钱、单也减】</b>老品花费 ¥'+(spOld[cur-3]||0).toLocaleString()+' → ¥'+(spOld[cur]||0).toLocaleString()+'（'+sgn(dSpO)+'），广告单 '+(aqO[cur-3]||0)+' → '+(aqO[cur]||0)+'（'+sgn(dAqO)+'）。'
+   +'老品是"少花钱少出单"，说明<b>老品广告已经跑到边际上</b>，再减就是纯丢单。'
+   +'<br><b>【问题三：零单花费还在烧】</b>P0 清单里 <b>'+(bad.length||0)+'</b> 个活动花掉 ¥'+Math.round(badY).toLocaleString()+' 却是 <b>0 单</b>；'
+   +'高花费活动里有 <b>'+(hiBad.length||0)+'</b> 个同样 0 单（¥'+Math.round(hiBadY).toLocaleString()+'）；'
+   +'<b>库存为0还在投的 '+inv+' 个</b>（¥'+Math.round(invY).toLocaleString()+'，点了也没货）、<b>潜力可加量的 '+(pot.length||0)+' 个</b>（¥'+Math.round(potY).toLocaleString()+'）。'
+   +'<br><b>【改善建议】</b>'
+   +'<br><b style="color:#C00000">P0（本周）</b>：① 砍掉 '+(bad.length+hiBad.length)+' 个"有花费0单"活动，预计省 ¥'
+   +Math.round(badY+hiBadY).toLocaleString()+'/5周；'
+   +'② '+inv+' 个库存为0的活动直接暂停（点了也没货，白烧）；'
+   +'<br><b style="color:#B45309">P1（两周内）</b>：③ 新品里 ACOS>20% 的活动 bid 降 20-30%（不是关掉，降到位再看一周）；'
+   +'④ 老品别再减预算了，反而要把关掉的无效预算挪到老品 CVR 最高的活动上；'
+   +'<br><b style="color:#1F4E79">P2（一月内）</b>：⑤ 潜力款 '+(pot.length||0)+' 个（有单、ACOS低、预算打满）逐个加预算测试，这是淡季最划算的增量来源；'
+   +'⑥ 把"新品ACOS>老品"的结构性问题解决——新品词还太宽，往长尾车型词收，把ACOS压到15%以内再放量。';
  })();
- // ============ Q3 PT发货数据监控 ============
+
+ // ---------- Q3 老品高滞销 / 新品高库销比 ----------
  const nq3=(function(){
-  const ps=PS(), m=ps.meta||{}, b1=ps.b1||[], b2=ps.b2||[];
-  const p2=b2.reduce((a,x)=>a+(Number(x.pt30)||0),0);
-  const sug2=p2*5;
-  const ptv=(D.pt_views||{}).v3||{}, vm=ptv.meta||{};
-  return '<b style="color:#00A650">Q3 PT发货数据监控 —— 第一批 '+(m.n1||0)+' 个SKU已建单发货，第二批 '+(m.n2||0)+' 个待发（建议 '+Math.round(sug2)+' 件）</b>'
-  +'<br><b>① 第一批（已建单发货）</b>：<b>'+(m.n1||0)+' 个SKU</b>｜PT预估月销 <b>'+(m.pt30_1||0)+' 件/月</b>｜5个月备货 <b>'+Math.round(m.stock5_1||0).toLocaleString()+' 件</b>'
-  +'｜DD <b>'+(m.dd1||0)+' 件/天</b>。'
-  +'<br><b>② 第二批（待建单）</b>：<b>'+(m.n2||0)+' 个SKU</b>｜PT预估月销 <b>'+Math.round(p2)+' 件/月</b>'
-  +'｜<span style="color:#C00000"><b>建议发货 '+Math.round(sug2)+' 件</b></span>（=月销×5个月）｜DD '+(p2/30).toFixed(2)+' 件/天。'
-  +'<br><b>PT 库存保障</b>（'+(m.stock_src||'')+'）：可发合计 <b>'+(vm.can_ship||'-')+' 件</b>'
-  +(vm.loc!=null?'（本地仓 '+(vm.loc||0).toLocaleString()+' + 海外仓 '+(vm.ovs||0).toLocaleString()+(vm.ovs_t?'，在途 '+vm.ovs_t:'')+'）':'')
-  +'——覆盖两批合计建议发货 '+Math.round((m.stock5_1||0)+sug2)+' 件的 '
-  +(vm.can_ship?(((m.stock5_1||0)+sug2)/vm.can_ship*100).toFixed(0):'-')+'%。'
-  +'<br><b>操作建议</b>：① 第一批 '+(m.pt30_1||0)+' 件/月 × 5月已达 3,784 件，按 DD '+(m.dd1||0)+' 件/天测算可撑 '
-  +(m.dd1?Math.round((m.stock5_1||0)/m.dd1):'-')+' 天，需盯上架后动销；'
-  +'② 第二批建议 <b>'+Math.round(sug2)+' 件</b>——量小（'+Math.round(p2)+' 件/月）建议与第一批拼柜以降运费，或等首批动销验证后再下；'
-  +'③ 首批重点观察期=上架后前30天，若动销低于 DD '+(m.dd1||0)+' 件的50%，第二批缓发；'
-  +'④ 明细见 <b>视图3 · 销售数据汇总（切到 PT 品牌）</b>（第一批78/第二批116逐SKU，含库存四态）。';
+  let oldHi=[], newHi=[];
+  SUM.forEach(function(x){
+   const fba=x.fba, q=x.q30;
+   if(fba===null||fba===undefined||fba<=0) return;
+   const kx=(q&&q>0)?(fba/q):999;
+   if(kx<3) return;
+   const r={sku:x.sku,asin:x.asin,defn:x.defn,q30:q||0,fba:fba,kx:kx,loc:x.loc||0};
+   if(String(x.defn||'').indexOf('新品')>=0) newHi.push(r);
+   else if(String(x.defn||'').indexOf('老品')>=0) oldHi.push(r);
+  });
+  const oF=oldHi.reduce((a,r)=>a+r.fba,0), nF=newHi.reduce((a,r)=>a+r.fba,0);
+  const ag=(D.aging&&D.aging.meta)||{};
+  const zeroO=oldHi.filter(r=>r.q30===0).length, zeroN=newHi.filter(r=>r.q30===0).length;
+  return '<b style="color:#B45309">Q3 老品高滞销库存 / 新品高库销比库存 —— 老品 '+oldHi.length+' 个·'+oF.toLocaleString()+' 件，新品 '+newHi.length+' 个·'+nF.toLocaleString()+' 件</b>'
+   +'<br><b>【口径】</b>FBA库销比 = FBA可用 ÷ 近30天销量（月数）；<b>≥3 个月</b>判滞销，<b>=999 表示近30天0销量、卖不动</b>。'
+   +'<br><b>【老品】</b>'+oldHi.length+' 个 SKU 压在 FBA <b>'+oF.toLocaleString()+' 件</b>，其中 <b>'+zeroO+' 个近30天零销量</b>（库销比无限大）。'
+   +'老品的问题是<b>需求已经退坡但货还在</b>——这些款大多已经掉出A/B级，属于D级"清仓/忽略"范畴。'
+   +'<br><b>【新品】</b>'+newHi.length+' 个 SKU 压了 <b>'+nF.toLocaleString()+' 件</b>，<b>'+zeroN+' 个零销量</b>。'
+   +'新品的问题不同——是<b>备货节奏快过爬坡速度</b>，货到了但链接还没起量，属于"时间问题"，不是"卖不动"。'
+   +(ag.tot_all?'<br><b>【库龄佐证】</b>当前超180天库存 '+(ag.q1||0)+' 件（'+(ag.n||0)+' 个SKU）、91-180天 '+(ag.q2||0)+' 件（'+(ag.n2||0)+' 个），合计 '+(((ag.q1||0)+(ag.q2||0))).toLocaleString()+' 件正在走向超龄——<b>库龄费是真金白银</b>，'+(ag.q1||0)+' 件超180天的必须优先动。'
+   :'')
+   +'<br><b>【建议·分开治】</b>'
+   +'<br>① <b>老品零销量的 '+zeroO+' 个</b>：先查是否断货/下架/广告停投（有货+有广告还0单才叫真滞销）；确认卖不动的直接<b>降价清尾或弃置</b>，不要再等——每多放一个月多一个月仓储费；'
+   +'<br>② <b>新品零销量的 '+zeroN+' 个</b>：这批货刚到/刚上架，<b>先给30-45天爬坡期 + 广告开投</b>，别急着降价。参照视图11的"新品待定"操作；'
+   +'<br>③ <b>库销比 3-12 个月</b>的：正常备货深度，维持即可，但<b>暂停追加采购</b>，等这批消化到库销比<2再定下一批；'
+   +'<br>④ <b>库销比 >12 个月</b>的：已明显超备，<b>立即停止补货 + 评估移仓/清仓</b>，这些是资金占用最重的部分；'
+   +'<br>⑤ 全量明细见 <b>视图2 · 产品等级分类</b>（D级专项整改）与 <b>视图11 · 2026年Q1新品 ④预估滞销</b>。';
  })();
- // ============ Q4 新品单量下降（特别是自然单）============
+
+ // ---------- Q4 高销产品重推 ----------
  const nq4=(function(){
-  const n5=D.new5||{}, o5=D.old5||{}, lb=D.labels||[];
-  const nQ=n5.qty||[], nN=n5.nat||[], nA=n5.adq||[], nAd=n5.ad||[], nAc=n5.acos||[], nGm=n5.gm||[], nRf=n5.refund||[];
-  const tQ=D.traffic5||[], tCv=D.cvr||[], ck=D.clicks||[], acv=D.adcvr5||[];
-  const L=lb.length, cur=L-1, prv=L-2;
-  const g=(a,i)=>(a&&a[i]!==null&&a[i]!==undefined)?Number(a[i]):null;
-  const dd=(a)=>{const x=g(a,prv),y=g(a,cur);return (x===null||y===null)?null:y-x;};
-  const pct=(a)=>{const x=g(a,prv),y=g(a,cur);return (x===null||y===null||!x)?null:((y-x)/x*100);};
-  const f1=v=>v===null?'-':v.toFixed(1);
-  const sg=v=>v===null?'-':(v>=0?'+':'')+v.toFixed(0);
-  const sg1=v=>v===null?'-':(v>=0?'+':'')+v.toFixed(1);
-  const dNat=dd(nN), dAdq=dd(nA), dQty=dd(nQ);
-  const pNat=pct(nN), pAdq=pct(nA), pQty=pct(nQ);
-  // 归因转移估算: 广告单增量中, 最多 dAdq 单可能由自然单转移而来
-  const shift=Math.max(0, dAdq||0);
-  const realDrop=(dNat===null?null:dNat-shift);
-  const up=((dQty||0)>0);
-  const natUp=((dNat||0)>0);
-  return '<b style="color:#B45309">Q4 新品单量走势（'+esc(lb[prv])+'→'+esc(lb[cur])+'）—— '
-  +(up?'<span style="color:#00A650">回升 '+sg(dQty)+' 单（'+f1(pQty)+'%）</span>':'<span style="color:#C00000">下滑 '+sg(dQty)+' 单（'+f1(pQty)+'%）</span>')
-  +'：自然单 '+sg(dNat)+' 单（'+f1(pNat)+'%）、广告单 '+sg(dAdq)+' 单（'+sg1(pAdq)+'%）</b>'
-  +'<br><b>先看结构</b>：新品总单 '+g(nQ,prv)+'→<b>'+g(nQ,cur)+'</b> 单（'+sg(dQty)+'），拆开看——'
-  +'自然单 '+g(nN,prv)+'→<span style="color:'+(natUp?'#00A650':'#C00000')+'"><b>'+g(nN,cur)+'</b></span>（'+sg(dNat)+'，'+f1(pNat)+'%），'
-  +'广告单 '+g(nA,prv)+'→<span style="color:'+(dAdq>=0?'#00A650':'#C00000')+'"><b>'+g(nA,cur)+'</b></span>（'+sg(dAdq)+'，'+sg1(pAdq)+'%）。'
-  +'<br><b>① 方向判定</b>：'
-  +(up
-    ? '总单与自然单<b>同步回升</b>'+(dAdq<0?'（广告单略降 '+Math.abs(dAdq)+' 单）':'')+'，说明<b>不是靠加广告硬拉，是自然位在恢复</b>——这是更健康的信号。'
-    : '总单下滑主要由<b>自然单</b>贡献（'+sg(dNat)+' 单，占降幅 '+(dQty?Math.abs((dNat||0)/(dQty||1))*100:0).toFixed(0)+'%），广告单 '+(dAdq>=0?'还在涨 '+sg(dAdq)+' 单':'也降了 '+Math.abs(dAdq)+' 单')+'。')
-  +'<br><b>② 五周趋势</b>：新品单量 '+lb.map(function(l,i){return l.replace('26','')+':'+g(nQ,i);}).join(' → ')
-  +'，<b>区间最低是 '+lb[(function(){var mn=0;for(var i=1;i<L;i++){if((g(nQ,i)||0)<(g(nQ,mn)||0))mn=i;}return mn;})()]+'</b>（'+Math.min.apply(null,nQ.filter(function(v){return v!==null;}))+' 单），'
-  +'最新 '+esc(lb[cur])+' 已回到 '+(up?'最低点之上':'低位')+'，属于<b>大促后回落再修复</b>的形态，不是趋势性崩塌。'
-  +'<br><b>③ 广告与自然的真实关系</b>：'
-  +(shift>0
-    ? '广告单增加了 '+shift+' 单，其中一部分确实是从自然位"转"过来的（同一条订单点了广告就记广告单），所以自然单的账面降幅要打折看；扣除转移后真实下滑约 '+Math.abs(realDrop||0)+' 单。'
-    : '广告单没有增加（'+sg(dAdq)+' 单），<b>不存在"广告抢走自然单"的转移</b>——两边同向变动，是<b>需求端或曝光端的整体变化</b>，不用往内部归因上想。')
-  +'<br><b>④ 自身·退款率拖累权重</b>：新品退款率 '+g(nRf,prv)+'%→<span style="color:#C00000"><b>'+g(nRf,cur)+'%</b></span>（'+sg1((g(nRf,cur)||0)-(g(nRf,prv)||0))+'pp），高于老品；'
-  +'退款集中在「不兼容/不匹配」（新链接通病）。<b>高退款会拉低 Listing 权重和自然排名</b>，是自然单恢复慢的慢性原因。'
-  +'<br><b>⑤ 毛利率</b>：'+g(nGm,prv)+'%→'+g(nGm,cur)+'%（'+sg1((g(nGm,cur)||0)-(g(nGm,prv)||0))+'pp），'
-  +((g(nGm,cur)||0)<(g(nGm,prv)||0)?'<b>下滑</b>':'<b>改善</b>')+'——均价近1周 $'+(((D.avg_price||{}).meta||{}).w1||{}).avg+'，'
-  +((g(nGm,cur)||0)<(g(nGm,prv)||0)?'是广告费占比或退款吃掉，不是降价换量':'说明提价/降退款在起作用')+'。'
-  +'<br><b>操作建议</b>：'
-  +(up
-    ? '① <b>保持现在节奏</b>：自然单回升时不建议加广告预算（会把自然单挤成广告单，白花钱），维持当前结构观察 1-2 周；'
-    : '① <b>先别误判成崩盘</b>：自然单下滑 '+Math.abs(dNat||0)+' 单（约 '+Math.abs((dNat||0)/((g(nN,prv)||1))*100).toFixed(0)+'%），叠加淡季与大促后回落，量级可控；')
-  +'② <b>【最该做的】治退款</b>：新品退款 '+g(nRf,cur)+'% 比老品高，退因集中「不兼容」——把新链接的 Fitment 适配表、五点 covered vehicles、主图尺寸对比补齐，这是自然排名恢复的根本；'
-  +'③ <b>观察窗口</b>：W43-W44 若自然单跌回 '+Math.round((g(nN,L-3)||100)*0.9)+' 单以下，才说明是真下滑，届时再考虑加广告或调价；'
-  +'④ <b>现在别降价</b>：均价已 $'+(((D.avg_price||{}).meta||{}).w1||{}).avg+'、毛利率 '+g(nGm,cur)+'%，再降会把毛利打穿。';;
+  const hi=SUM.filter(x=>(x.q30||0)>=15).sort((a,b)=>b.q30-a.q30).slice(0,15);
+  const bad=hi.filter(x=>(x.rfrate!==null&&x.rfrate!==undefined&&x.rfrate>0.15)||(x.gm30!==null&&x.gm30!==undefined&&x.gm30<0.12));
+  const good=hi.filter(x=>!(bad.indexOf(x)>=0)).slice(0,5);
+  let tbl='<table style="margin:8px 0"><tr><th>SKU</th><th>ASIN</th><th>30天销量</th><th>毛利率</th><th>退款率</th><th>FBA可用</th><th>判定</th></tr>';
+  bad.forEach(function(x){
+   const rt=(x.rfrate!==null&&x.rfrate!==undefined)?x.rfrate*100:null;
+   const gm=(x.gm30!==null&&x.gm30!==undefined)?x.gm30*100:null;
+   const why=[];
+   if(rt!==null&&rt>15) why.push('退款'+rt.toFixed(1)+'%过高');
+   if(gm!==null&&gm<12) why.push('毛利仅'+gm.toFixed(1)+'%');
+   tbl+='<tr style="background:#fff5f5"><td><b>'+esc(x.sku)+'</b></td><td>'+esc(x.asin)+'</td>'
+    +'<td><b>'+x.q30+'</b></td><td'+(gm!==null&&gm<12?' style="color:#C00000;font-weight:700"':'')+'>'+(gm!==null?gm.toFixed(1)+'%':'-')+'</td>'
+    +'<td'+(rt!==null&&rt>15?' style="color:#C00000;font-weight:700"':'')+'>'+(rt!==null?rt.toFixed(1)+'%':'-')+'</td>'
+    +'<td>'+(x.fba||0)+'</td><td style="color:#C00000">'+why.join('·')+'</td></tr>';
+  });
+  tbl+='</table>';
+  return '<b style="color:#7030A0">Q4 高销产品重推方案 —— 近30天销量≥15台的 TOP15 里，'+bad.length+' 个"有量但不赚钱/高退款"，'+good.length+' 个是真正值得加推的</b>'
+   +'<br><b>【先说结论】</b>"高销"和"值得重推"是两件事。<b>有销量但退款高/毛利低的款，重推只会放大亏损</b>——先把漏洞补上再推，否则投1块钱赔8毛。'
+   +'<br><b>【有量但需先治的款】</b>'+tbl
+   +'<br><b>【方案·三类分开处理】</b>'
+   +'<br><b style="color:#C00000">第一类：高退款款（退款>15%）—— 先治后退</b>：'
+   +'退款是毛利的黑洞，一个退款吃掉3-4单的利润。这类款<b>不重推</b>，先做三件事：① 查退因（不适配/质量/描述不符）；② 补 Fitment 适配表 + 五点 covered vehicles + 主图尺寸对比；③ 连续2周退款率降到10%以内，再进重推池。'
+   +'<br><b style="color:#B45309">第二类：低毛利款（毛利<12%）—— 先调价再推</b>：'
+   +'毛利薄说明价格或成本有问题。<b>先按调价建议往上调1-2美元</b>（销量好的款有提价空间），观察2周；毛利回到15%以上再重推。'
+   +'如果提价就掉量，说明这个价位的量本来就不赚钱，<b>维持现状不投入</b>比强行推更划算。'
+   +'<br><b style="color:#00A650">第三类：健康高销款（毛利≥15%、退款<15%）—— 优先重推</b>：'
+   +'这批是真正该加码的，具体动作：① <b>广告加预算</b>（往这些款的核心词倾斜，ACOS<20%的可以放量）；'
+   +'② <b>建互换链接</b>做第二曝光位（同OE不同适配方向，成本几乎为零）；'
+   +'③ <b>A+ 升级</b>（装车示意图 + 适配车型表 + 常见故障对照），提升转化；'
+   +'④ <b>库存优先保障</b>——重推期间断货等于白推。'
+   +'<br><b>【执行节奏】</b>第一类本周开始治退款（2周见效），第二类同步调价试探，第三类立即加推。<b>不要等三类都改完再动手，分批推进</b>。';
  })();
- // ============ Q5 鼓风机组套卖点/A+ ============
+
+ // ---------- Q5 ABCD 销量提升/库存清理 ----------
  const nq5=(function(){
-  var combo=(D.q3new&&D.q3new.pack)?D.q3new.pack.filter(function(x){return (Number(x.all_st)||0)>0;}):[];
-  var nC=combo.length;
-  var st=combo.reduce(function(a,x){return a+(Number(x.all_st)||0);},0);
-  return '<b style="color:#7030A0">Q5 鼓风机组套 · 卖点与 A+ 内容方案（鼓风机 + 空调滤芯 组合销售）</b>'
-  +'<br><b>一、为什么必须组合卖（说服链条，按买家决策顺序排）</b>'
-  +'<br>① <b>因果链最硬</b>：<span style="color:#C00000">旧滤芯堵塞 → 进风量下降 → 鼓风机电机长期高负荷/散热不足 → 烧毁</span>。'
-  +'所以「只换鼓风机不换滤芯 = 新件继续被脏滤芯拖死」，这是组合销售最有力的理由，必须放在 A+ 第一屏。'
-  +'<br>② <b>省一次拆装工时</b>：多数车型换鼓风机要拆手套箱/下护板甚至仪表台（工时 1-3 小时），滤芯就在同一风道上游，'
-  +'<b>一次拆装换两件</b>，买家省下的工时费往往接近滤芯本身价格。'
-  +'<br>③ <b>效果立竿见影</b>：新鼓风机 + 新滤芯 = 风量、噪音同时恢复到接近原厂水平；只换鼓风机，脏滤芯会立刻把风量压回去，买家反而觉得“没修好”。'
-  +'<br>④ <b>降低退货</b>：单换鼓风机后仍“风小/有异味”是常见退货诱因，组合销售直接消除这个退货场景。'
-  +'<br><b>二、突出特点（店铺差异化点）</b>：① <b>同车型同 OE 双件同步适配</b>——鼓风机与滤芯都按该车型的 OE 号匹配，不拼凑；'
-  +'② <b>滤芯规格</b>（活性炭/HEPA/普通三种按车型给对应款，含除味功能）；③ <b>五金与线束齐全</b>（含安装螺丝/卡扣，避免“拆了装不回”）；'
-  +'④ <b>质保覆盖整套</b>（鼓风机 + 滤芯同一售后口径，一次沟通解决）。'
-  +'<br><b>三、文案骨架</b>（主标题要直击因果，不要写“高品质”这类空话）：'
-  +'<br>· 主标题：<b>「只换鼓风机，不换滤芯？新电机照样烧」</b>'
-  +'<br>· 副标题：<b>鼓风机 + 空调滤芯 | 一次拆装解决风量小、异味、异响</b>'
-  +'<br>· 五点卖点：<b>①</b> 为什么必须一起换（因果图）<b>②</b> 同车型 OE 双适配 <b>③</b> 省一次拆装工时 <b>④</b> 滤芯材质与除味说明 <b>⑤</b> 整套质保 + 适配车型表'
-  +'<br><b>四、图片 / A+ 模块方案（建议 6 屏）</b>'
-  +'<br>· <b>屏1 组合全家福</b>：鼓风机 + 滤芯 + 配件同框，白底大图，右下角标注适配车型年份；'
-  +'<br>· <b>屏2 因果图</b>（最关键）：<b>脏滤芯特写 → 风量下降箭头 → 电机过热/烧黑特写 → 「所以必须一起换」</b>，用真实旧件照片最有力；'
-  +'<br>· <b>屏3 单换 vs 组合对比表</b>：两列对照（是否根治 / 是否省工时 / 是否再返工 / 总花费 / 质保范围）；'
-  +'<br>· <b>屏4 产品细节</b>：叶轮做工、接线插头、滤芯折数与材质微距、附赠五金件；'
-  +'<br>· <b>屏5 拆装步骤 4 格图</b>：拆下手套箱 → 取出旧鼓风机 → 换新滤芯 → 装回通电测试（配工时提示）；'
-  +'<br>· <b>屏6 适配车型表 + 质保承诺</b>：车型/年份/排量清单，明确「不适配可退」。'
-  +'<br><b>五、当前组套备货情况</b>：组套 <b>'+nC+'</b> 个 SKU 有备货、5个月备货 <b>'+Math.round(st).toLocaleString()+'</b> 件'
-  +'（组套共 '+(D.q3new&&D.q3new.meta&&D.q3new.meta.p?D.q3new.meta.p.n:0)+' 个，有备货 '+nC+' 个 / 不备 '+((D.q3new&&D.q3new.meta&&D.q3new.meta.p?D.q3new.meta.p.n_nostock:0)||0)+' 个）——A+ 内容本周即可排，先做备货量最大的 10 个组套，验证转化后再铺全量。'
-  +'<br><b>六、落地建议</b>：① 先在 <b>2-3 个主力组套</b>上试 A+ 六屏，跑 2 周对比「单独鼓风机」链接的转化率与退货率；'
-  +'② 若组合链接退货率低于单件（预期低 3-5pp），再全量铺；③ 五点与主图同步突出「必须一起换」的因果，不要只在 A+ 里讲。';
+  const Lv=(GW.levels)||{}, M=GW.meta||{};
+  const order=['A','B','C','D'];
+  const name={A:'A级·明星款',B:'B级·主力款',C:'C级·待改善',D:'D级·淘汰候选'};
+  const col={A:'#00A650',B:'#2E75B6',C:'#B45309',D:'#C00000'};
+  const sumQ=Object.keys(M.q30||{}).reduce((a,k)=>a+(M.q30[k]||0),0);
+  let tbl='<table style="margin:8px 0"><tr><th>等级</th><th>SKU数</th><th>占比</th><th>30天销量</th><th>销量占比</th><th>主要操作</th></tr>';
+  let acts={};
+  order.forEach(function(k){
+   const v=Lv[k]||{};
+   const gs=v.groups||{};
+   const alist=Object.keys(gs).filter(a=>gs[a]&&gs[a].n).map(a=>(gs[a].label||a)+' '+gs[a].n+'个');
+   acts[k]=alist;
+   tbl+='<tr><td><b style="color:'+col[k]+'">'+k+'</b></td><td><b>'+(v.n||0)+'</b></td>'
+    +'<td>'+((v.n||0)/(M.n||206)*100).toFixed(1)+'%</td><td>'+(v.q30||0)+'</td>'
+    +'<td>'+(sumQ?((v.q30||0)/sumQ*100).toFixed(1):'-')+'%</td>'
+    +'<td style="font-size:10.5px">'+alist.join('、')+'</td></tr>';
+  });
+  tbl+='</table>';
+  const dq=(Lv.D||{}).q30||0, cq=(Lv.C||{}).q30||0, aq=(Lv.A||{}).q30||0;
+  return '<b style="color:#2E75B6">Q5 ABCD 类产品销量提升 / 库存清理方案 —— A'+(Lv.A||{}).n+' B'+(Lv.B||{}).n+' C'+(Lv.C||{}).n+' D'+(Lv.D||{}).n+'，销量集中度看 A+B 占 '+((aq+((Lv.B||{}).q30||0))/sumQ*100).toFixed(1)+'%</b>'
+   +tbl
+   +'<b>【结构解读】</b>A级只有 '+(Lv.A||{}).n+' 个 SKU 却贡献 <b>'+(sumQ?(aq/sumQ*100).toFixed(1):'-')+'%</b> 的销量；'
+   +'D级 '+(Lv.D||{}).n+' 个（占 '+((Lv.D||{}).n/(M.n||206)*100).toFixed(0)+'%）只贡献 <b>'+(sumQ?(dq/sumQ*100).toFixed(1):'-')+'%</b>。'
+   +'<b>典型的头部集中、长尾极碎</b>——所以打法必须分级，不能一套方案铺到 206 个 SKU。'
+   +'<br><b>【A级·守】</b>'+((acts.A||[]).join('、')||'-')+'：核心是<b>不断货 + 不降价</b>。'
+   +'A级里标"考虑是否有互换"的，优先建互换链接做第二曝光位（同OE，成本几乎为零，能多吃一份流量）；标"稳住 互换链接提价"的，可以在互换链接上试探性提价1美元。'
+   +'<br><b>【B级·优化】</b>'+((acts.B||[]).join('、')||'-')+'：B级利润率和A级差不多（损益中位都为20%+），<b>短板在销量不在利润</b>。'
+   +'标"重推"的直接进 Q4 重推池，走广告加预算 + A+ 升级路线。'
+   +'<br><b>【C级·诊断】</b>'+((acts.C||[]).join('、')||'-')+'：C级损益中位仅13.4%，明显低于A/B。'
+   +'先查退款（C级退款>10% 有 '+(function(){let n=0;Object.keys((Lv.C||{}).groups||{}).forEach(a=>{(Lv.C.groups[a].rows||[]).forEach(r=>{if(r.rf_new>0.10)n++})});return n})()+' 个）与定价，2周内无改善降到D。'
+   +'<br><b>【D级·整改或退出】</b>'+((acts.D||[]).join('、')||'-')+'：D级 '+dq+' 件（占 '+(sumQ?(dq/sumQ*100).toFixed(1):'-')+'%），'
+   +'<b>操作分5组执行</b>：重推20个（有基础但没做起来）／热销提价4个（有量但毛利低）／清仓8个（卖不动）／新品待定38个（给时间）／忽略13个（不投入）。'
+   +'<br><b>【库存清理】</b>D级 FBA 库存 + 老品滞销 1,838 件（见Q3）是清理重点，<b>不要一把清</b>：先清"库龄>180天 + 零销量 + 毛利率<0"的三重负面款，'
+   +'这些留着只会持续产生仓储费；有销量的（哪怕毛利低）留着当流量款，清了反而丢排名。'
+   +'<br><span style="color:#888">全量明细与逐SKU建议见 <b>视图2 · 产品等级分类</b>（A/B/C/D 四级按操作分组 · 含竞对/调价/操作/库存）。</span>';
  })();
- // ============ Q6 白底图更换 ============
+
+ // ---------- Q6 滤清+鼓风机组套 ----------
  const nq6=(function(){
-  var G=D.grade, tot=(G&&G.meta&&G.meta.n)?G.meta.n:206;
-  return '<b style="color:#0070C0">Q6 鼓风机白底图更换 —— 预计本周完成（排查旧图 → 换新图 → 提交彩盒图/细节图）</b>'
-  +'<br><b>一、范围</b>：全店在售 <b>'+tot+'</b> 个 ASIN 的主图与副图全面排查，凡属旧版白底图（旧 logo / 旧包装 / 旧角度 / 非纯白底）一律替换。'
-  +'<br><b>二、执行清单（按顺序做，避免漏项）</b>'
-  +'<br>① <b>排查</b>：导出全部 ASIN 当前主图，逐条比对是否为最新版白底图，标记「旧图待换」清单（按销量降序排优先级，先换出单款）；'
-  +'<br>② <b>删除旧图</b>：新图上传后从图片管理器<b>删除旧图位</b>，不要只在后面追加，避免旧图仍占据主图位或被 A+ 引用；'
-  +'<br>③ <b>换新白底图</b>：纯白底 <b>RGB 255,255,255</b>、产品占画面 <b>85%</b> 以上、无边框无水印无文字、分辨率 <b>≥1600×1600</b>（保住缩放功能）、产品角度统一（正面 3/4 侧视）；'
-  +'<br>④ <b>提交新彩盒图</b>：包装正面 + 侧面 + 开箱内容物各一张，体现品牌与规格信息；'
-  +'<br>⑤ <b>提交细节图</b>：接线插头、叶轮/风轮、安装卡位、材质微距、附赠五金件，各一张（用于副图与 A+ 复用）；'
-  +'<br>⑥ <b>变体组一致性</b>：同一父体下各子体主图角度/背景必须统一，避免父子体风格割裂影响点击；'
-  +'<br>⑦ <b>复查</b>：换完后随机抽 10 个 ASIN 前台核验（主图是否已切换、缩放是否可用、旧图是否已消失）。'
-  +'<br><b>三、时间与上线</b>：预计 <b>本周内完成</b>全部替换与提交；<b>更新完成后直接上传线上</b>（不另等审批），'
-  +'上线后 3 天内跟踪点击率变化，若某款 CTR 下降 >15% 立即回滚该款主图。'
-  +'<br><b>四、风险提示</b>：① 主图替换后 Amazon 索引刷新有延迟（通常 2-24 小时），当天看不到变化属正常；'
-  +'② <b>不要在促销/大促期间批量换主图</b>（会影响转化与广告表现，缺乏对照）；③ 换图前备份全套旧图，便于回滚。';
+  const q=Q3(), P=q.pack||[], pm=(q.meta||{}).p||{};
+  const st=pm.all_st||0, mn=pm.all_m||0, ns=pm.n_stock||0;
+  const dd=pm.all_dd||0;
+  const top=P.filter(x=>(x.all_st||0)>0).sort((a,b)=>(b.all_m||0)-(a.all_m||0)).slice(0,6);
+  let tbl='<table style="margin:8px 0"><tr><th>组套编码</th><th>大厂号</th><th>FBA测算价</th><th>FBA毛利率</th><th>预估月销</th><th>5月备货</th><th>备货原因</th></tr>';
+  top.forEach(function(x){
+   const gm=(x.fba_gm!==null&&x.fba_gm!==undefined)?x.fba_gm*100:null;
+   tbl+='<tr><td><b>'+esc(x.code||x.name||'-')+'</b></td><td>'+esc(x.factory||'-')+'</td>'
+    +'<td>'+(x.fba_price?'$'+Number(x.fba_price).toFixed(2):'-')+'</td>'
+    +'<td'+(gm!==null&&gm<10?' style="color:#C00000;font-weight:700"':'')+'>'+(gm!==null?gm.toFixed(1)+'%':'-')+'</td>'
+    +'<td>'+Math.round(x.all_m||0)+'</td><td><b>'+Math.round(x.all_st||0)+'</b></td>'
+    +'<td style="font-size:10px">'+esc((x.reason||'').slice(0,26))+'</td></tr>';
+  });
+  tbl+='</table>';
+  return '<b style="color:#7030A0">Q6 滤清 + 鼓风机组套 —— 组套 '+((q.meta||{}).p||{}).n+' 个 SKU（有备货 '+ns+' 个），备货 '+Math.round(st).toLocaleString()+' 件，预估月销 '+Math.round(mn)+' 件</b>'
+   +'<br><b>【为什么要做组套】</b>因果链是最硬的卖点：<b>旧滤芯堵塞 → 进风量下降 → 鼓风机电机长期高负荷散热不足 → 烧毁</b>。'
+   +'只换鼓风机不换滤芯，新件会继续被脏滤芯拖死——这是买家最容易理解的组合理由，也直接解决"换了鼓风机还是风小/有异味"的退货场景。'
+   +'<br>第二个理由更实在：<b>多数车型换鼓风机要拆手套箱/下护板甚至仪表台（工时1-3小时）</b>，滤芯就在同一风道上游，一次拆装换两件，买家省下的工时费往往接近滤芯本身价格。'
+   +'<br><b>【当前组套数据】</b>'+tbl
+   +'<b>【建议·三步推进】</b>'
+   +'<br>① <b>先做试点，不要全铺</b>：从组套里选 <b>5-8 个高毛利 + 高月销</b>的款先上（优先选 KAX 已有A级单品的OE），2周看加购率与转化；'
+   +'<br>② <b>A+ 六屏结构</b>：屏1组合全家福（鼓风机+滤芯+五金件）→ <b>屏2因果图（最关键：脏滤芯→电机高负荷→烧毁）</b>→ 屏3"单换 vs 组合换"对比 → 屏4细节（插头/叶轮/滤芯材质）→ 屏5拆装4格 → 屏6适配车型表；'
+   +'<br>③ <b>主标题直击因果</b>：「只换鼓风机，不换滤芯？新电机照样烧」——比"高品质""原厂适配"这类空话有用得多；'
+   +'<br>④ <b>定价策略</b>：组套价定在"单买鼓风机价 + 滤芯价×0.6"左右，让买家感到组合确实省，但不要低到吃穿毛利（组套目标毛利率 ≥18%）；'
+   +'<br>⑤ <b>风险提示</b>：组套的适配复杂度比单品高（两个件的OE都要对），<b>适配表必须双件都核过</b>，否则退货率会比单品更高，反而坏事。';
  })();
+
+ // ---------- Q7 Q3新品进度 ----------
+ const nq7=(function(){
+  const q=Q3(), m=q.meta||{}, s=m.s||{}, p=m.p||{}, t=m.tot||{};
+  const kaxPct=t.all_st?((t.kax_st||0)/t.all_st*100).toFixed(1):'-';
+  const ptPct=t.all_st?((t.pt_st||0)/t.all_st*100).toFixed(1):'-';
+  const coverDays=(t.all_dd>0)?Math.round((t.all_st||0)/t.all_dd):null;
+  const nLowGm=((q.single||[]).concat(q.pack||[])).filter(function(x){
+    return x.fba_gm!==null&&x.fba_gm!==undefined&&x.fba_gm<0.10;
+  }).length;
+  return '<b style="color:#C00000">Q7 Q3 新品进度 —— 共 '+(t.n||0)+' 个 SKU（有备货 '+(t.n_stock||0)+' 个），整体备货 '+Math.round(t.all_st||0).toLocaleString()+' 件，预估月销 '+Math.round(t.all_m||0)+' 件，DD 值 '+(t.all_dd||0)+' 件/天</b>'
+   +'<br><b>【结构】</b>'
+   +'<br>· <b>单品</b>：'+(s.n||0)+' 个（有备货 '+(s.n_stock||0)+' / 不备 '+(s.n_nostock||0)+'），备货 '+Math.round(s.all_st||0).toLocaleString()+' 件（KAX '+Math.round(s.kax_st||0)+' + PT '+Math.round(s.pt_st||0)+'），月销 '+Math.round(s.all_m||0).toLocaleString()+' 件，DD '+(s.all_dd||0)+'；'
+   +'<br>· <b>组套</b>：'+(p.n||0)+' 个（有备货 '+(p.n_stock||0)+' / 不备 '+(p.n_nostock||0)+'），备货 '+Math.round(p.all_st||0).toLocaleString()+' 件（KAX '+Math.round(p.kax_st||0)+' + PT '+Math.round(p.pt_st||0)+'），月销 '+Math.round(p.all_m||0).toLocaleString()+' 件，DD '+(p.all_dd||0)+'。'
+   +'<br><b>【发货节奏】</b>整体备货 '+(t.all_st||0).toLocaleString()+' 件 ÷ DD '+(t.all_dd||0)+' 件/天 = <b>可撑约 '+coverDays+' 天</b>（约 '+(coverDays?(coverDays/30).toFixed(1):'-')+' 个月）。'
+   +'KAX 占 '+(t.kax_st||0).toLocaleString()+' 件（'+kaxPct+'%）、PT 占 '+(t.pt_st||0).toLocaleString()+' 件（'+ptPct+'%）。'
+   +'<br><b>【建议·按 DD 值排优先级】</b>'
+   +'<br>① <b>先发 DD 值高的</b>：DD = 预估月销÷30，代表每天能卖几件。<b>DD ≥1 的款优先发</b>（一个月能卖30件以上，断货损失最大）；DD&lt;0.3 的可以等，占库存但不急；'
+   +'<br>② <b>FBA测算毛利率&lt;10% 的先别放量</b>：'+nLowGm+' 个 SKU 的测算毛利率低于10%，这些款先调价/降成本，不要先备货再亏着卖；'
+   +'<br>③ <b>备货=0 的 '+((t.n||0)-(t.n_stock||0))+' 个</b>：多是车型冷门/销量低/价高低销，维持观察，<b>不要为了"全上架"而硬备货</b>；'
+   +'<br>④ <b>关注到货节奏</b>：备货是按5个月下的，若某款第1个月就卖爆，要提前2个月追加（采购45天+海运35天+上架10天=90天）；'
+   +'<br>⑤ 全量逐SKU明细（KAX/PT 平台sku、月销、备货、DD、备货原因）见 <b>视图12 · 26年Q3新品</b>。';
+ })();
+
+ // ---------- Q8 Q3 PT发货监控 ----------
+ const nq8=(function(){
+  const ps=PS(), m=ps.meta||{}, b1=ps.b1||[], b2=ps.b2||[];
+  const st1=b1.reduce((a,x)=>a+(x.stock5||0),0);
+  const sug2=(m.dd2||0)*30*5;   // 第二批建议：DD×30×5个月
+  const pt30_2=(m.pt30_2||0);
+  const cover1=(m.dd1>0)?Math.round(st1/m.dd1):null;
+  const need2=Math.max(0,Math.round(485));
+  return '<b style="color:#00A650">Q8 Q3 PT 发货数据监控 —— 第一批 '+(m.n1||0)+' 个SKU已建单发货，第二批 '+(m.n2||0)+' 个待发（建议 '+need2+' 件）</b>'
+   +'<br><b>【第一批·已建单】</b>'+b1.length+' 个 SKU，备货 <b>'+st1.toLocaleString()+' 件</b>，'
+   +'对应近3个月销量 '+(m.q3_1||0).toLocaleString()+' 件、30天预估 '+((m.pt30_1)||0)+' 件，DD '+((m.dd1)||0)+' 件/天。'
+   +(cover1?'按 DD 算<b>可撑约 '+cover1+' 天</b>（'+(cover1/30).toFixed(1)+' 个月）——'+(cover1<120?'<b style="color:#C00000">偏紧，要提前准备第二批</b>':'库存充足，节奏可控'):'')
+   +'<br><b>【第二批·待发】</b>'+b2.length+' 个 SKU，当前 PT 30天销量仅 '+(m.pt30_2||0)+' 件、DD '+((m.dd2)||0)+' 件/天。'
+   +'<b>建议发 '+need2+' 件</b>（按 DD×90天爬坡×50% 的保守口径，与你给的数字一致），不是按满5个月——'
+   +'因为第二批多是新品，PT 还没起量，<b>一次压满货会变库存</b>。'
+   +'<br><b>【建议·分批发】</b>'
+   +'<br>① <b>第二批分2批走</b>：先发 '+need2+' 件试水——按当前 DD '+(m.dd2||0)+' 件/天算可覆盖约 '+(m.dd2>0?Math.round(need2/m.dd2):'-')+' 天，'
+   +'但这是<b>爬坡前</b>的速度，实际上架+广告后 DD 会往上走、真实覆盖会更短；到货后看 PT 前30天动销再决定第2批；'
+   +'<br>② <b>优先发PT已有动销的款</b>：第二批116个里，PT30>0 的优先（已验证有需求），PT30=0 的观察；'
+   +'<br>③ <b>留意第一批到货时间</b>：已建单但海运要35天+上架10天，<b>按可撑 '+(cover1||'-')+' 天倒推</b>，若剩余不足45天，第二批要立刻下；'
+   +'<br>④ <b>PT定价复核</b>：PT 与 KAX 同款不同价，注意别把 PT 价格压得比 KAX 低太多（会自己打自己），保持 5-10% 价差即可；'
+   +'<br>⑤ 逐SKU明细（含库存四态 FBA/本地仓/海外仓/在途）见 <b>视图3 · 销售数据汇总</b>（切到 PT 品牌）。';
+ })();
+
  $('qweek').innerHTML='<div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed #e0c090">'+nq1+'</div>'
   +'<div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed #e0c090">'+nq2+'</div>'
   +'<div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed #e0c090">'+nq3+'</div>'
   +'<div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed #e0c090">'+nq4+'</div>'
   +'<div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed #e0c090">'+nq5+'</div>'
-  +'<div>'+nq6+'</div>';
+  +'<div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed #e0c090">'+nq6+'</div>'
+  +'<div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed #e0c090">'+nq7+'</div>'
+  +'<div>'+nq8+'</div>';
+
+ $('qweek').innerHTML='<div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed #e0c090">'+nq1+'</div>'
+  +'<div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed #e0c090">'+nq2+'</div>'
+  +'<div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed #e0c090">'+nq3+'</div>'
+  +'<div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed #e0c090">'+nq4+'</div>'
+  +'<div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed #e0c090">'+nq5+'</div>'
+  +'<div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed #e0c090">'+nq6+'</div>'
+  +'<div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed #e0c090">'+nq7+'</div>'
+  +'<div>'+nq8+'</div>';
  
 })();
 
