@@ -243,7 +243,7 @@ tr:nth-child(even) td{background:#f5f7fb;}
 
 <div class="panel" id="pane-pt-sales">
   <h3>一：PT·PHILTOP 备货数据（第一批已备货 + 第二批待发）</h3>
-  <div class="note" style="margin:0 0 10px;line-height:1.9;background:#f7fbff;border:1px solid #d6e6f5;border-radius:8px;padding:10px 14px;font-size:11.5px"><b>数据源</b>：《PHILTOP上架_30天预估+定价+Q3月销_1013.xlsx》（2026-10-13）｜<b>第一批 78 个 SKU 已备货</b>（含 ASIN(PT)、5个月备货、DD值）｜<b>第二批 116 个待发</b>（PT ASIN 待建）｜DD值=预估PT30天÷30（2位小数）</div>
+  <div class="note" style="margin:0 0 10px;line-height:1.9;background:#f7fbff;border:1px solid #d6e6f5;border-radius:8px;padding:10px 14px;font-size:11.5px"><b>数据源</b>：《PHILTOP上架_30天预估+定价+Q3月销_1013.xlsx》＋ <b>ERP 实时库存 2026-10-27</b>（含 US22 店铺 FBA 可用/在途）。<br><b>US22 = PT 品牌所在店铺的 FBA 仓</b>（ASIN 为 B0HM… 开头的 PT 独立链接）；US23 = KAX 店；NB/NB-YPC = 宁波国内仓；其余为海外仓。<br><b>⚠️ 关键现状</b>：第一批 78 个 SKU 计划备货 <b>3,784 件</b>，但真正进了 <b>US22 FBA 在途只有 432 件</b>（46 个 SKU，占 11.4%）、<b>可用 0 件</b>——货还没变成可售。第一批的货大部分仍压在 <b>宁波国内仓 5,222 件</b>和 US23 店，<b>PT 现在的瓶颈不是没货、是货还没发走</b>。<br><span style="color:#888">第二批 116 个 SKU 在 US22 基本没动作（仅 5 个有记录、在途 0），等第一批动销验证后再定。</span></div>
   <div id="pt-ship-cards" style="display:flex;flex-wrap:wrap;gap:12px;margin:8px 0 14px"></div>
   <h4 style="margin:6px 0 8px;font-size:13px;color:#1F4E79;border-left:4px solid #1F4E79;padding-left:8px">（1）第一批发货 · 78 个 SKU（已备货）</h4>
   <div id="pt-b1"></div>
@@ -635,16 +635,41 @@ $('concl').innerHTML=conclHtml;
   const spNew=n5.ad||[], spOld=o5.ad||[], aqN=n5.adq||[], aqO=o5.adq||[], acN=n5.acos||[], acO=o5.acos||[];
   const dSpN=(spNew[cur]||0)-(spNew[cur-3]||0), dAqN=(aqN[cur]||0)-(aqN[cur-3]||0);
   const dSpO=(spOld[cur]||0)-(spOld[cur-3]||0), dAqO=(aqO[cur]||0)-(aqO[cur-3]||0);
-  let tbl='<table style="margin:8px 0"><tr><th>周</th><th>广告花费(¥)</th><th>点击</th><th>广告单</th><th>ACOS</th><th>广告CVR</th></tr>';
+  const CP=(D.cpc5||[]);
+  const CK_get=function(i){ return (ck&&ck[i]!==null&&ck[i]!==undefined)?Number(ck[i]):null; };
+  let tbl='<table style="margin:8px 0"><tr><th>周</th><th>广告花费(¥)</th><th>点击</th><th>广告单</th><th>ACOS</th><th>广告CVR</th><th>CPC(USD)</th></tr>';
   for(let i=cur-3;i<=cur;i++){
+   const cpcUsd=(CK_get(i)!==null)?(CP[i]/6.7):null;
+   const cpcPrev=(i>0&&CP[i]!==null&&CP[i-1]!==null)?(CP[i]-CP[i-1]):null;
+   let cpcCell='-';
+   if(cpcUsd!==null){
+     const cpcCol=(cpcPrev!==null&&cpcPrev>0)?'color:#C00000;font-weight:700':'';
+     cpcCell='<span style="'+cpcCol+'">$'+cpcUsd.toFixed(2)+'</span>'
+       +(cpcPrev!==null?('<br><span style="font-size:9.5px;color:'+(cpcPrev>0?'#C00000':'#00A650')+'">环比'+(cpcPrev>0?'+':'')+(cpcPrev/6.7).toFixed(2)+'</span>'):'');
+   }
    tbl+='<tr'+(i===cur?' style="background:#fff5f5;font-weight:700"':'')+'>'
     +'<td>'+lb[i].replace('26','')+'</td><td>'+Math.round(sp[i]||0).toLocaleString()+'</td>'
     +'<td>'+(ck[i]||0)+'</td><td>'+(D.adq?D.adq[i]:'-')+'</td>'
-    +'<td>'+(D.acos5?D.acos5[i]+'%':'-')+'</td><td>'+(D.adcvr5?(D.adcvr5[i]).toFixed(1)+'%':'-')+'</td></tr>';
+    +'<td>'+(D.acos5?D.acos5[i]+'%':'-')+'</td><td>'+(D.adcvr5?(D.adcvr5[i]).toFixed(1)+'%':'-')+'</td>'
+    +'<td>'+cpcCell+'</td></tr>';
   }
   tbl+='</table>';
+  const cpcNow=CP[cur], cpcBase=CP[cur-3];
+  const cpcRise=(cpcNow!==null&&cpcBase)?((cpcNow-cpcBase)/cpcBase*100):null;
+  const ckDrop=((ck&&ck[cur]!==null&&ck[cur-3]!==null)?(ck[cur]-ck[cur-3]):null);
+  const spRise=((sp[cur]-(sp[cur-3]||0)));
   return '<b style="color:#0070C0">Q2 鼓风机广告调整 / 近4周广告数据对比分析 —— 问题点与改善建议</b>'
    +tbl
+   +'<b style="color:#C00000">【根因先说：CPC 一路走高，钱花在单价上】</b>CPC(USD) '
+   +lb[cur-3].replace('26','')+' $'+((cpcBase||0)/6.7).toFixed(2)+' → '+lb[cur].replace('26','')+' <b>$'+((cpcNow||0)/6.7).toFixed(2)+'</b>'
+   +(cpcRise!==null?('（<b style="color:#C00000">+'+cpcRise.toFixed(0)+'%</b>）'):'')
+   +'，同期点击 '+(ck&&ck[cur-3]||0)+' → '+(ck&&ck[cur]||0)+'（'+sgn(ckDrop)+'，'
+   +(ckDrop!==null&&ck&&ck[cur-3]?((ckDrop/ck[cur-3])*100).toFixed(1):'-')+'%）。'
+   +'<b>花费涨 '+sgn(spRise)+'元，但点击反而少了 '+Math.abs(ckDrop||0)+' 次——钱全花在单价上涨上，没有换来更多流量</b>。'
+   +'<br>这就是"钱越花越多、单没跟上"的底层原因：<b>不是投放效率变差，是买流量的单价变贵了</b>。'
+   +'<br><b style="color:#00A650">✔ 已处理</b>：该竞价规则（导致CPC逐周抬升的那条）<b>已暂停</b>。'
+   +'下周重点看两个指标验证效果：① CPC 能否回到 $0.80 以内；② 点击量是否恢复到 750+。'
+   +'<b>若CPC降了但点击没起来</b>，说明是流量池本身在缩（淡季），那就要靠提高CVR而不是加价抢位。'
    +'<b>【问题一：新品钱越花越多，单没跟上】</b>新品广告花费 '+lb[cur-3].replace('26','')+' ¥'+(spNew[cur-3]||0).toLocaleString()
    +' → '+lb[cur].replace('26','')+' <b>¥'+(spNew[cur]||0).toLocaleString()+'</b>（'+sgn(dSpN)+'元，'
    +(spNew[cur-3]?((dSpN/spNew[cur-3])*100).toFixed(0):'-')+'%），但广告单 '+(aqN[cur-3]||0)+' → <b>'+(aqN[cur]||0)+'</b>（'+sgn(dAqN)+'单）。'
@@ -854,7 +879,13 @@ $('concl').innerHTML=conclHtml;
   const cover1=(m.dd1>0)?Math.round(st1/m.dd1):null;
   const need2=Math.max(0,Math.round(485));
   return '<b style="color:#00A650">Q8 Q3 PT 发货数据监控 —— 第一批 '+(m.n1||0)+' 个SKU已建单发货，第二批 '+(m.n2||0)+' 个待发（建议 '+need2+' 件）</b>'
-   +'<br><b>【第一批·已建单】</b>'+b1.length+' 个 SKU，PT 备货 <b>'+st1.toLocaleString()+' 件</b>'
+   +'<br><b>【第一批·已建单】</b>'+b1.length+' 个 SKU，PT 计划备货 <b>'+st1.toLocaleString()+' 件</b>'
+   +'，其中<b style="color:#C00000">真正进入 US22 FBA 在途 '+(m.us22_ow_1||0)+' 件</b>（'+(m.us22_n_ow||0)+' 个SKU，占 '
+   +(st1?((m.us22_ow_1||0)/st1*100).toFixed(1):'-')+'%）、<b>FBA可用 0 件</b>——'
+   +'<b>货还没变成可售，PT 目前处于「已建单未上架」状态</b>；'
+   +'这 '+(st1-(m.us22_ow_1||0)).toLocaleString()+' 件还没发出去的货，主要卡在国内仓待运——'
+   +'PT 清单（全部 '+(b1.length+b2.length)+' 个 SKU，含第二批及后续备货）目前在<b>宁波国内仓有 '+(((ps.dist||[]).filter(function(x){return x.wh==='NB';})[0]||{}).av||0).toLocaleString()+' 件可用</b>，'
+   +'另有部分在 US23 店和海外仓。<b>所以 PT 的瓶颈不是没货，是「有货没发运 + 发了没上架」这两段卡住了</b>。'
    +'（对比：KAX 同款近3个月卖 <b>'+(m.q3_1||0).toLocaleString()+' 件</b>、月均 '+Math.round((m.q3_1||0)/3)+' 件——说明<b>产品本身有需求</b>；'
    +'PT 30天预估 '+((m.pt30_1)||0)+' 件、DD '+((m.dd1)||0)+' 件/天）。'
    +(cover1?'按 DD 算<b>可撑约 '+cover1+' 天</b>（'+(cover1/30).toFixed(1)+' 个月）——'+(cover1<120?'<b style="color:#C00000">偏紧，要提前准备第二批</b>':'库存充足，节奏可控'):'')
