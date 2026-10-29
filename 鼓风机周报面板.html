@@ -50,16 +50,16 @@ tr:nth-child(even) td{background:#f5f7fb;}
     <option value="report">1 · 周报面板</option>
     <option value="sales">2 · 销售数据汇总</option>
     <option value="inv">3 · 库存情况</option>
-    <option value="dev">4 · 新品动销分析</option>
-    <option value="replen">5 · 备货补货分析</option>
-    <option value="adq">6 · 无效/高花费广告</option>
-    <option value="q4">7 · Q4 规划</option>
-    <option value="kw">8 · 关键词库</option>
-      <option value="q1new">9 · 2026年Q1新品</option>
-      <option value="q3new">10 · 26年Q3新品（单品/组套）</option>
-      <option value="grade">11 · 产品等级分类</option>
-      <option value="compete">12 · 竞对/市占分析</option>
-      <option value="refund">13 · 退款专项</option>
+      <option value="refund">4 · 退款专项</option>
+    <option value="dev">5 · 新品动销分析</option>
+    <option value="replen">6 · 备货补货分析</option>
+    <option value="adq">7 · 无效/高花费广告</option>
+    <option value="q4">8 · Q4 规划</option>
+    <option value="kw">9 · 关键词库</option>
+      <option value="q1new">10 · 2026年Q1新品</option>
+      <option value="q3new">11 · 26年Q3新品（单品/组套）</option>
+      <option value="grade">12 · 产品等级分类</option>
+      <option value="compete">13 · 竞对/市占分析</option>
   </select>
   <span style="color:#999;font-size:11.5px;margin-left:6px">PT暂无周报面板（待上架）</span>
 </div>
@@ -599,10 +599,10 @@ $('concl').innerHTML=conclHtml;
   +((t.pt_st||0)?(t.kax_st/t.pt_st).toFixed(1):'-')+':1。'
   +'<br><b>风险点</b>：① <span style="color:#C00000">毛利率&lt;10% 共 '+gmLo+' 个</span>（占 '+((s.n||0)+(p.n||0)?(gmLo/((s.n||0)+(p.n||0))*100).toFixed(0):0)+'%）——定价或成本结构需回溯；'
   +'② 毛利率≥15% 的健康款 '+gmHi+' 个，是备货优先保障对象；'
-  +'③ 不备货 '+nNostock+' 个（备货=0，备货原因已写入视图10末列，多为车型冷门/销量低/价高低销）。'
+  +'③ 不备货 '+nNostock+' 个（备货=0，备货原因已写入视图11末列，多为车型冷门/销量低/价高低销）。'
   +'<br><b>操作建议</b>：① 高毛利款（≥15%）优先排产保交期；② 低毛利 ' +gmLo+ ' 款回溯定价（对照竞对中位价）或换供应商降本；'
   +'③ 单品:组套 备货比 '+(p.all_st?((s.all_st||0)/p.all_st).toFixed(2):'-')+':1，组套单价更高、优先保证组套中的高毛利组合；'
-  +'④ 明细逐SKU见 <b>视图10 · 26年Q3新品</b>（含KAX/PT平台sku、月销、备货、DD、备货原因）。';
+  +'④ 明细逐SKU见 <b>视图11 · 26年Q3新品</b>（含KAX/PT平台sku、月销、备货、DD、备货原因）。';
  })();
  // ============ Q2 鼓风机Q1新品分析 ============
  const nq2=(function(){
@@ -634,7 +634,7 @@ $('concl').innerHTML=conclHtml;
   +'（其中 OO8BLM18800 备货48件且无ASIN，最急）；'
   +'② '+warn.length+' 个定价偏高款往下调价 5-10% 试探，或加大广告冲量；'
   +'③ '+ddNo+' 个未完成DD的按缺口排序，TOP10优先加预算；'
-  +'④ 明细三段（未动销/定价警示/全部）见 <b>视图9 · 2026年Q1新品</b>。';
+  +'④ 明细三段（未动销/定价警示/全部）见 <b>视图10 · 2026年Q1新品</b>。';
  })();
  // ============ Q3 PT发货数据监控 ============
  const nq3=(function(){
@@ -1130,7 +1130,7 @@ $('foot').innerHTML=`<b>本周 vs 上周：</b>销量${K.qty_d}｜销售额${K.a
  else{$('pt-mon').innerHTML='<div style="font-size:12.5px;color:#888;padding:10px;background:#fafbfe;border-radius:8px">PT 首批尚未发货 —— 发货后逐SKU接入监控（列：SKU / ASIN / 平台sku / 价格 / 测算毛利润 / 实际毛利润 / 退款率 / FBA可用 / FBA在途 / 海外仓 / 本地仓可用 / 本地仓在途）。</div>';}
 })();
 
-// ===== 新品动销分析(第4点·板块一) =====
+// ===== 新品动销分析(视图5·板块一) =====
 (function(){const N=D.newdev;if(!N||!N.list)return;
  const STYLE='<style>#dev-tbl td{padding:5px 4px;font-size:10.5px;line-height:1.6;white-space:normal;word-break:break-all}#dev-tbl th{font-size:10.5px;padding:5px 3px;white-space:normal}#dev-tbl tr:nth-child(even) td{background:#f8fafd}</style>';
  const H=['商品编码','ASIN','平台sku','近30天销量','实际DD值','AMZ DD值','DD值完成率','FBA可用','FBA在途','海外仓可用','本地可用','本地在途','价格$','定价利润','实际利润率','退款率'];
@@ -1175,7 +1175,7 @@ $('foot').innerHTML=`<b>本周 vs 上周：</b>销量${K.qty_d}｜销售额${K.a
  $('ag-note').innerHTML='<b>📊 数值分析</b>：181-270天 <b>'+M.n+'个SKU / '+num(M.q1)+'件</b>（占在仓'+pct(M.q1)+'）｜91-180天 <b>'+M.n2+'个 / '+num(M.q2)+'件</b>（'+pct(M.q2)+'）｜预估超180 <b>'+M.n3+'个 / '+num(M.q3)+'件</b>（'+pct(M.q3)+'）｜271-365及预估超270 <b>'+M.n4+'个 / '+num(M.q4)+'件</b>（'+pct(M.q4)+'）｜大于365及预估超365 <b>'+M.n5+'个 / '+num(M.q5)+'件</b>（'+pct(M.q5)+'）。<br>口径：库龄=BI库龄快照('+M.d+' · US23 · 空调鼓风机)；7天/30天出库=ERP库存(10/27)；预估超X=max(0, 下一段库存−(FBA30天销量÷30)×45天)；在仓合计'+num(tot)+'件。';
 })();
 
-// ===== 备货补货分析(视图5) =====
+// ===== 备货补货分析(视图6) =====
 (function(){const R=D.replen;if(!R||!R.meta)return;
  const STYLE='<style>#rp1 td,#rp2 td,#rp3 td{padding:5px 5px;font-size:10.5px;line-height:1.6;white-space:normal;word-break:break-all}#rp1 th,#rp2 th,#rp3 th{font-size:10.5px;padding:5px 4px;white-space:normal}#rp1 tr:nth-child(even) td,#rp2 tr:nth-child(even) td{background:#f8fafd}</style>';
  const pf=v=>(v===null||v===undefined)?'-':(v>=15?'<span style="color:#00A650">'+Number(v).toFixed(1)+'%</span>':(v>=10?'<span style="color:#BF8F00">'+Number(v).toFixed(1)+'%</span>':'<span style="color:#C00000">'+Number(v).toFixed(1)+'%</span>'));
@@ -1198,7 +1198,7 @@ $('foot').innerHTML=`<b>本周 vs 上周：</b>销量${K.qty_d}｜销售额${K.a
  $('rp3n').innerHTML='<div style="font-weight:700;color:#1F4E79;margin-bottom:4px">📐 计算逻辑</div>① <b>异常判定</b>：W43 vs W42 周环比 |Δ| ≥ 50% 且两周任一周销量 ≥ 5件；<br>② <b>大涨 → 补货备货</b>：缺口 = 补货目标 − FBA可用 − FBA在途（并提示海外仓/本地仓可移量）；<br>③ <b>大跌 → 分两类</b>：FBA可用=0 → <b>断货导致</b>（优先补货，不是需求问题）；FBA可用&gt;0 → <b>真实下滑</b>（建议停止发货/暂缓补货，避免积压）。<br><div style="font-weight:700;color:#1F4E79;margin:6px 0 4px">📊 数值分析</div>共 <b>'+M.n3+'个SKU</b>：<span class="up">大涨 '+M.n3_up+'个</span> / <span class="dn">大跌 '+M.n3_dn+'个</span>（大跌中：断货致跌 <b>'+M.n3_break+'个</b> / 真实下滑 <b>'+M.n3_real+'个</b>）。';
 })();
 
-// ===== 无效/高花费/潜力广告(视图6) =====
+// ===== 无效/高花费/潜力广告(视图7) =====
 (function(){const A=D.ad_invalid;if(!A||!A.base)return;
  const B=A.base;
  const cps=A.cpc||[];
@@ -1226,7 +1226,7 @@ $('foot').innerHTML=`<b>本周 vs 上周：</b>销量${K.qty_d}｜销售额${K.a
  $('aq3n').innerHTML='<b>📊 数值分析</b>：潜力活动 <b>'+A.meta.n_pot+'个</b> / 两周仅花 ¥'+A.meta.q_pot+'（占全站 '+(A.base.sp_all_cny?(A.meta.q_pot/A.base.sp_all_cny*100).toFixed(1):0)+'%）——高转化低投入，是本周最值得加码的一批；按当前ACOS水平，加量后月增量空间约 ¥'+(A.meta.q_pot*3).toFixed(0)+'–'+(A.meta.q_pot*6).toFixed(0)+'。';
 })();
 
-// ===== 视图4扩展: 新品动销趋势(周) + 类目市场趋势 =====
+// ===== 视图5扩展: 新品动销趋势(周) + 类目市场趋势 =====
 (function(){const M=D.dev_market;if(!M)return;
  const s=M.series||[];
  if(s.length){
@@ -1260,7 +1260,7 @@ $('foot').innerHTML=`<b>本周 vs 上周：</b>销量${K.qty_d}｜销售额${K.a
  $('dev2-note').innerHTML='<b>📊 数值分析</b>：类目月销售额区间 <b>¥'+Math.round(mn.amt/10000)+'万~¥'+Math.round(mx.amt/10000)+'万</b>（峰'+mx.m.slice(4)+'月、谷'+mn.m.slice(4)+'月，季节性：旺季6-8月、低谷3-5月）；最新 '+last.m+' <b>¥'+Math.round(last.amt/10000)+'万</b>'+(mom!==null?'（环比 '+(mom>=0?'▲+':'▼')+Math.abs(mom).toFixed(1)+'%）':'')+'。注：柱=类目月销售额（BI市场预测 · 月度）；线=类目月销量（Sorftime Top100口径 · 完整25个月）。原BI「预测销量」字段仅旺季7个月有值（源表脏值）已弃用。';
 })();
 
-// 视图4板块三②: 类目搜索趋势(Sorftime)
+// 视图5板块三②: 类目搜索趋势(Sorftime)
 (function(){const S=(D.sf_trend||{})['blower motor']||{};const ms=Object.keys(S.sv||{}).sort();
  if(!ms.length||!$('ch-dev3'))return;
  const sv=ms.map(m=>S.sv[m]),sr=ms.map(m=>(S.sr||{})[m]||null);
