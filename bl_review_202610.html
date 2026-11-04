@@ -19,6 +19,16 @@ tr:nth-child(even) td{background:#fafbfc}
 .bad{color:var(--red);font-weight:600}.good{color:var(--green);font-weight:600}.warn{color:var(--amber);font-weight:600}
 .tip{background:#f2f8ff;border:1px solid #cfe3f7;border-radius:8px;padding:9px 13px;margin:8px 0;font-size:12px;line-height:1.8}
 .warnbox{background:#fff8f0;border:1px solid #f5d9b8;border-radius:8px;padding:9px 13px;margin:8px 0;font-size:12px;line-height:1.8}
+.kgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:10px 0 16px}
+.kcard{background:#f7fafd;border:1px solid #d6e4f0;border-radius:8px;padding:10px 12px;text-align:center}
+.kcard .kk{font-size:11.5px;color:#666;margin-bottom:4px}
+.kcard .kv{font-size:19px;font-weight:800;color:#1F4E79;line-height:1.25}
+.kcard .ks{font-size:10.5px;color:#999;margin-top:3px}
+.sumtbl{width:100%;border-collapse:collapse;margin:10px 0 14px;font-size:13px}
+.sumtbl th{background:#1F4E79;color:#fff;padding:9px 10px;text-align:center;font-weight:700;border:1px solid #1F4E79;white-space:nowrap}
+.sumtbl td{padding:8px 10px;text-align:center;border:1px solid #d6dde6;white-space:nowrap}
+.sumtbl tr:nth-child(even) td{background:#fafcfe}
+.sumtbl td.l{text-align:left;white-space:normal;line-height:1.5}
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:8px 0}
 .card{background:#fff;border:1px solid var(--line);border-radius:9px;padding:10px 13px}
 .card .k{font-size:11.5px;color:var(--mut)}.card .v{font-size:19px;font-weight:700;color:var(--blue);margin:2px 0}
@@ -37,16 +47,19 @@ ul{margin:4px 0 4px 20px;font-size:12.5px}li{margin:3px 0}
 <!-- ========== 0. 摘要 ========== -->
 <div class="panel">
   <h2>0 · 复盘摘要</h2>
-  <div class="cards">
-    <div class="card"><div class="k">销售额</div><div class="v">¥408,274</div><div class="d"><span class="bad">-5.5%</span> vs 9月 · <span class="good">+334.7%</span> vs 去年10月</div></div>
-    <div class="card"><div class="k">销量</div><div class="v">1,712 件</div><div class="d"><span class="bad">-1.1%</span> vs 9月 · <span class="good">+350.5%</span> 同比</div></div>
-    <div class="card"><div class="k">客单价 ASP</div><div class="v">¥238.5</div><div class="d"><span class="bad">-4.4%</span> vs 9月 · <span class="bad">-14.7%</span> 同比</div></div>
-    <div class="card"><div class="k">毛利额</div><div class="v">¥65,280</div><div class="d"><span class="bad">-8.6%</span> vs 9月 · <span class="good">+570.4%</span> 同比</div></div>
-    <div class="card"><div class="k">毛利率</div><div class="v">15.99%</div><div class="d"><span class="bad">-0.54pp</span> vs 9月 · <span class="good">+5.6pp</span> 同比</div></div>
-    <div class="card"><div class="k">单件毛利</div><div class="v">¥38.1</div><div class="d"><span class="bad">-7.5%</span> vs 9月 · <span class="good">+76.4%</span> 同比</div></div>
-    <div class="card"><div class="k">广告费率</div><div class="v">4.41%</div><div class="d"><span class="bad">+0.14pp</span> vs 9月（¥17,986）</div></div>
-    <div class="card"><div class="k">退款率(量)</div><div class="v">11.3%</div><div class="d"><span class="bad">+0.7pp</span> vs 9月（193件）· 连升3月</div></div>
-  </div>
+  <table class="sumtbl">
+    <tr><th style="width:15%">指标</th><th style="width:14%">2026年10月</th><th style="width:13%">vs 9月</th><th style="width:15%">同比（去年10月）</th><th>口径 / 说明</th></tr>
+    <tr><td class="l"><b>销售额</b></td><td><b>¥408,274</b></td><td class="bad">-5.5%</td><td class="good">+334.7%</td><td class="l">BI finance 月度</td></tr>
+    <tr><td class="l"><b>销量</b></td><td><b>1,712 件</b></td><td class="bad">-1.1%</td><td class="good">+350.5%</td><td class="l">损益口径出库销量</td></tr>
+    <tr><td class="l"><b>客单价 ASP</b></td><td><b>$35.60</b></td><td class="bad">-4.4%</td><td class="bad">-14.7%</td><td class="l">人民币 ¥238.5 ÷ 6.7（汇率）</td></tr>
+    <tr><td class="l"><b>毛利额</b></td><td><b>¥65,280</b></td><td class="bad">-8.6%</td><td class="good">+570.4%</td><td class="l">毛利润(真实)</td></tr>
+    <tr><td class="l"><b>毛利率</b></td><td><b>15.99%</b></td><td class="bad">-0.54pp</td><td class="good">+5.6pp</td><td class="l">毛利 ÷ 销售额</td></tr>
+    <tr><td class="l"><b>单件毛利</b></td><td><b>¥38.1</b></td><td class="bad">-7.5%</td><td class="good">+76.4%</td><td class="l">毛利 ÷ 销量</td></tr>
+    <tr style="background:#F0F7FF"><td class="l"><b>ACOS</b></td><td><b>13.9%</b></td><td class="bad">+1.1pp</td><td>—</td><td class="l"><b>广告花费 ¥17,986 ÷ 广告销售额 ¥129,794</b>（9月 12.8%）</td></tr>
+    <tr style="background:#F0F7FF"><td class="l"><b>CVR（广告转化率）</b></td><td><b>16.0%</b></td><td class="good">+1.5pp</td><td>—</td><td class="l">广告订单 454 ÷ 点击 2,839（W41–W44 四周）</td></tr>
+    <tr style="background:#F0F7FF"><td class="l"><b>CPC（美元）</b></td><td><b>$0.86</b></td><td class="bad">+9.6%</td><td>—</td><td class="l">广告花费 ¥16,414÷6.7 = $2,450 ÷ 点击 2,839（W41–W44 四周）</td></tr>
+        <tr><td class="l"><b>退款率（量）</b></td><td><b>11.3%</b></td><td class="bad">+0.7pp</td><td>—</td><td class="l">退款 193 件 ÷ 出库销量 · <b>连升3月</b>（8月174→9月184→10月193）</td></tr>
+  </table>
   <h3>三个关键判断</h3>
   <div class="j1"><b>① 毛利下滑不是成本恶化，是"卖便宜了"。</b>毛利-6,117元中：销售额效应（ASP -4.4%）占 <b>-3,917元</b>；成本端其实净改善——头程费率 3.95%→2.50%（+5,926元）、佣金-2,773元，抵消了尾程-3,349、税费-1,292、平台费-1,389、仓储-714的恶化。ASP下降<b>不是主动降价</b>：是高价爆款结构下移（8月TOP12占47.6%→10月21.7%）+退款冲减（净额口径），详见专题B。</div>
   <div class="j1"><b>② 销量基本盘没崩，但老品高价爆款在失速。</b>总量1,712（-1.1%），是新品放量（723件，占42.2%）补上了老品腰斩（7款62,831→17,034元）的缺口；9月类目大盘-9.1%、KAX份额1.94%，属旺季前正常回落。风险在结构：高价款销量占比从47.6%掉到21.7%。</div>
@@ -71,28 +84,29 @@ ul{margin:4px 0 4px 20px;font-size:12.5px}li{margin:3px 0}
 <div class="panel">
   <h2>2 · 月度趋势（22个月 · BI最新口径）</h2>
   <table>
-    <tr><th>月份</th><th>销售额</th><th>销量</th><th>ASP</th><th>毛利额</th><th>毛利率</th><th>单件毛利</th><th>广告费率</th><th>退款率(量)</th></tr>
-    <tr><td>2025.01</td><td>111,758</td><td>457</td><td>244.5</td><td>6,658</td><td>6.0%</td><td>14.6</td><td>6.6%</td><td>14.2%</td></tr>
-    <tr><td>2025.02</td><td>89,982</td><td>344</td><td>261.6</td><td>17,823</td><td>19.8%</td><td>51.8</td><td>3.5%</td><td>8.1%</td></tr>
-    <tr><td>2025.03</td><td>67,934</td><td>264</td><td>257.3</td><td>12,000</td><td>17.7%</td><td>45.5</td><td>3.4%</td><td>14.4%</td></tr>
-    <tr><td>2025.04</td><td>48,080</td><td>219</td><td>219.5</td><td>8,728</td><td>18.2%</td><td>39.9</td><td>3.5%</td><td>11.4%</td></tr>
-    <tr><td>2025.05</td><td>58,080</td><td>249</td><td>233.3</td><td>6,101</td><td>10.5%</td><td>24.5</td><td>4.1%</td><td>9.6%</td></tr>
-    <tr><td>2025.06</td><td>131,676</td><td>514</td><td>256.2</td><td>24,544</td><td>18.6%</td><td>47.8</td><td>3.2%</td><td>6.2%</td></tr>
-    <tr><td>2025.07</td><td>146,254</td><td>615</td><td>237.8</td><td>16,328</td><td>11.2%</td><td>26.5</td><td>5.6%</td><td>8.1%</td></tr>
-    <tr><td>2025.08</td><td>127,817</td><td>482</td><td>265.2</td><td>14,592</td><td>11.4%</td><td>30.3</td><td>4.2%</td><td>9.3%</td></tr>
-    <tr><td>2025.09</td><td>96,719</td><td>368</td><td>262.8</td><td>8,020</td><td>8.3%</td><td>21.8</td><td>4.3%</td><td>11.7%</td></tr>
-    <tr><td>2025.10</td><td>93,906</td><td>380</td><td>247.1</td><td>9,738</td><td>10.4%</td><td>25.6</td><td>4.4%</td><td>9.2%</td></tr>
-    <tr><td>2025.11</td><td>92,943</td><td>398</td><td>233.5</td><td>4,597</td><td>4.9%</td><td>11.5</td><td>3.9%</td><td>9.8%</td></tr>
-    <tr><td>2025.12</td><td>95,101</td><td>411</td><td>231.4</td><td>4,220</td><td>4.4%</td><td>10.3</td><td>4.4%</td><td>8.8%</td></tr>
-    <tr><td>2026.01</td><td>140,381</td><td>557</td><td>252.1</td><td>15,767</td><td>11.2%</td><td>28.3</td><td>3.5%</td><td>9.5%</td></tr>
-    <tr><td>2026.02</td><td>146,389</td><td>566</td><td>258.6</td><td>21,333</td><td>14.6%</td><td>37.7</td><td>2.6%</td><td>11.5%</td></tr>
-    <tr><td>2026.03</td><td>150,195</td><td>585</td><td>256.7</td><td>24,033</td><td>16.0%</td><td>41.1</td><td>3.1%</td><td>12.1%</td></tr>
-    <tr><td>2026.04</td><td>135,246</td><td>661</td><td>204.6</td><td>19,344</td><td>14.3%</td><td>29.3</td><td>3.1%</td><td>10.6%</td></tr>
-    <tr><td>2026.05</td><td>204,517</td><td>787</td><td>259.9</td><td>34,049</td><td>16.6%</td><td>43.3</td><td>2.9%</td><td>10.0%</td></tr>
-    <tr><td>2026.06</td><td>212,323</td><td>787</td><td>269.8</td><td>24,697</td><td>11.6%</td><td>31.4</td><td>4.5%</td><td>12.6%</td></tr>
-    <tr><td>2026.07</td><td>316,070</td><td>1,282</td><td>246.5</td><td>64,232</td><td>20.3%</td><td>50.1</td><td>1.9%</td><td>9.1%</td></tr>
-    <tr><td>2026.08</td><td>412,826</td><td>1,620</td><td>254.8</td><td>77,627</td><td>18.8%</td><td>47.9</td><td>1.6%</td><td>10.7%</td></tr>
-    <tr><td>2026.09</td><td>431,973</td><td>1,731</td><td>249.5</td><td>71,397</td><td>16.5%</td><td>41.2</td><td>4.3%</td><td>10.6%</td></tr>
+    <tr><th>月份</th><th>销售额</th><th>销量</th><th>ASP(¥)</th><th>毛利额</th><th>毛利率</th><th>单件毛利</th><th>ACOS</th><th>退款率(量)</th></tr>
+    <tr><td>2025.01</td><td>111,758</td><td>457</td><td>244.5</td><td>6,658</td><td>6.0%</td><td>14.6</td><td>21.3%</td><td>14.2%</td></tr>
+    <tr><td>2025.02</td><td>89,982</td><td>344</td><td>261.6</td><td>17,823</td><td>19.8%</td><td>51.8</td><td>13.3%</td><td>8.1%</td></tr>
+    <tr><td>2025.03</td><td>67,934</td><td>264</td><td>257.3</td><td>12,000</td><td>17.7%</td><td>45.5</td><td>12.6%</td><td>14.4%</td></tr>
+    <tr><td>2025.04</td><td>48,080</td><td>219</td><td>219.5</td><td>8,728</td><td>18.2%</td><td>39.9</td><td>17.7%</td><td>11.4%</td></tr>
+    <tr><td>2025.05</td><td>58,080</td><td>249</td><td>233.3</td><td>6,101</td><td>10.5%</td><td>24.5</td><td>16.6%</td><td>9.6%</td></tr>
+    <tr><td>2025.06</td><td>131,676</td><td>514</td><td>256.2</td><td>24,544</td><td>18.6%</td><td>47.8</td><td>14.1%</td><td>6.2%</td></tr>
+    <tr><td>2025.07</td><td>146,254</td><td>615</td><td>237.8</td><td>16,328</td><td>11.2%</td><td>26.5</td><td>20.9%</td><td>8.1%</td></tr>
+    <tr><td>2025.08</td><td>127,817</td><td>482</td><td>265.2</td><td>14,592</td><td>11.4%</td><td>30.3</td><td>25.1%</td><td>9.3%</td></tr>
+    <tr><td>2025.09</td><td>96,719</td><td>368</td><td>262.8</td><td>8,020</td><td>8.3%</td><td>21.8</td><td>14.8%</td><td>11.7%</td></tr>
+    <tr><td>2025.10</td><td>93,906</td><td>380</td><td>247.1</td><td>9,738</td><td>10.4%</td><td>25.6</td><td>18.0%</td><td>9.2%</td></tr>
+    <tr><td>2025.11</td><td>92,943</td><td>398</td><td>233.5</td><td>4,597</td><td>4.9%</td><td>11.5</td><td>14.8%</td><td>9.8%</td></tr>
+    <tr><td>2025.12</td><td>95,101</td><td>411</td><td>231.4</td><td>4,220</td><td>21.5%</td><td>10.3</td><td>4.4%</td><td>8.8%</td></tr>
+    <tr><td>2026.01</td><td>140,381</td><td>557</td><td>252.1</td><td>15,767</td><td>11.2%</td><td>28.3</td><td>16.4%</td><td>9.5%</td></tr>
+    <tr><td>2026.02</td><td>146,389</td><td>566</td><td>258.6</td><td>21,333</td><td>14.6%</td><td>37.7</td><td>13.6%</td><td>11.5%</td></tr>
+    <tr><td>2026.03</td><td>150,195</td><td>585</td><td>256.7</td><td>24,033</td><td>16.0%</td><td>41.1</td><td>16.4%</td><td>12.1%</td></tr>
+    <tr><td>2026.04</td><td>135,246</td><td>661</td><td>204.6</td><td>19,344</td><td>14.3%</td><td>29.3</td><td>18.1%</td><td>10.6%</td></tr>
+    <tr><td>2026.05</td><td>204,517</td><td>787</td><td>259.9</td><td>34,049</td><td>16.6%</td><td>43.3</td><td>14.5%</td><td>10.0%</td></tr>
+    <tr><td>2026.06</td><td>212,323</td><td>787</td><td>269.8</td><td>24,697</td><td>11.6%</td><td>31.4</td><td>21.2%</td><td>12.6%</td></tr>
+    <tr><td>2026.07</td><td>316,070</td><td>1,282</td><td>246.5</td><td>64,232</td><td>20.3%</td><td>50.1</td><td>14.8%</td><td>9.1%</td></tr>
+    <tr><td>2026.08</td><td>412,826</td><td>1,620</td><td>254.8</td><td>77,627</td><td>18.8%</td><td>47.9</td><td>9.9%</td><td>10.7%</td></tr>
+    <tr><td>2026.09</td><td>431,973</td><td>1,731</td><td>249.5</td><td>71,397</td><td>16.5%</td><td>41.2</td><td>12.8%</td><td>10.6%</td></tr>
+    <tr style="background:#FFF3E0;font-weight:700"><td>2026.10</td><td>408,274</td><td>1,712</td><td>238.5</td><td>65,280</td><td>15.99%</td><td>38.1</td><td class="bad">13.9%</td><td class="bad">11.3%</td></tr>
     <tr><td><b>2026.10</b></td><td><b>408,274</b></td><td><b>1,712</b></td><td class="bad"><b>238.5</b></td><td><b>65,280</b></td><td class="bad"><b>16.0%</b></td><td class="bad"><b>38.1</b></td><td class="bad"><b>4.4%</b></td><td class="bad"><b>11.3%</b></td></tr>
   </table>
   <div class="tip">10月定位：销售额/毛利额均为历史第2高（仅次于9月/8月），但<b>毛利率连续2月下滑（18.8%→16.5%→16.0%）</b>，退款率为近9个月最高。旺季前（11-12月系数0.88/0.97）需守住毛利率。</div>
@@ -125,36 +139,135 @@ ul{margin:4px 0 4px 20px;font-size:12.5px}li{margin:3px 0}
   <div class="warnbox"><b>一句话：</b>毛利降6,117元里，"卖便宜了"占3,917（ASP -4.4%），费用端净改善约2,000（头程+佣金省的 &gt; 尾程+税费+仓储+平台费亏的），剩余约3,884是其他科目与分摊。<b>尾程是唯一持续恶化的运营成本大项（+0.82pp/-3,349元），与9月同比+3.6pp的方向一致，需按尾程专项结论执行（27条漏计修正+旺季附加费复核）。</b></div>
 </div>
 
-<!-- ========== 4A. 专题-广告 ========== -->
+<!-- ========== 4A. 专题-广告（多维度） ========== -->
 <div class="panel">
-  <h2>4A · 专题一：广告效率（10月）</h2>
-  <h3>10月广告总览（领星 SP+SD 周合计）</h3>
-  <table>
-    <tr><th>周</th><th>花费(¥)</th><th>广告销售额(¥)</th><th>ACOS</th><th>订单</th><th>CPC(¥)</th><th>CVR</th><th>备注</th></tr>
-    <tr><td>W41 (10/4-10)</td><td>4,293.83</td><td>28,241</td><td>15.2%</td><td>110</td><td>5.40</td><td>13.84%</td><td class="l">Prime大促后遗症</td></tr>
-    <tr><td>W42 (10/11-17)</td><td>4,042.78</td><td>35,155</td><td>11.5%</td><td>131</td><td>5.40</td><td>17.49%</td><td class="l">回调正常</td></tr>
-    <tr><td>W43 (10/18-24)</td><td>4,492.02</td><td>30,405</td><td class="bad">14.8%</td><td>123</td><td class="bad">6.32</td><td>17.3%</td><td class="l">CPC周环比+17%（$0.81→$0.94，主要恶化）</td></tr>
-    <tr><td>W44 (10/25-31)</td><td>3,585</td><td>22,690</td><td class="bad">15.8%</td><td>90</td><td class="good">6.14</td><td>15.4%</td><td class="l">花费-20.2%，CPC 首次回落（$0.94→$0.92）</td></tr>
-    <tr><td><b>10月合计</b></td><td><b>17,986</b></td><td><b>~116,000</b></td><td class="bad"><b>~15.5%</b></td><td>—</td><td>—</td><td>—</td><td class="l">费率4.41%（9月4.27%）</td></tr>
-  </table>
-  <h3>三个核心问题</h3>
-  <div class="warnbox">
-  <b>① 高效款被误砍（W43→W44 最大教训）。</b>为压花费整体-20.3%，但砍到了产出最好的三条链接：B0H4LPRF7R 销售$293.93→$75.98（-74%）、B0D8HZXHWS $215→$10（-95%）、B0H4LVC687 $114→$8（-93%）——三款合计销售 $569→$94（-84%），同期花费只省了约$18。<b>结果：W44 花费省了 $136，广告销售额却少了 $1,154，ACOS从14.78%升到15.79%。</b>
-  <br><br>
-  <b>② 0单活动结构僵硬。</b>W43 有83个活动0单、花费$206.44（占31%）；W44 优化到31个/$112（占17.9%）——<b>清理有成效，但仍有31条活动在烧钱，其中"SP-KW-BR…B0D8J234VF-车型词"连续多周0单（$26.84/26点击）</b>，属于明显该停的。
-  <br><br>
-  <b>③ 广告结构：新品是广告主力，老品广告效率下滑。</b>W44 广告单90 / 运营单356 = 25.3%，新品贡献主要广告量（新品ACOS 16.3%；老品17.7%）；但老品广告销售额（W43 $1,706）中有不少订单天然单贡献存疑——广告单占比25.3%属健康区间，自然单266（环比+18.2%），自然流量仍在修复。
-  </div>
-  <h3>广告 P0-P3 操作建议（待确认后执行）</h3>
-  <table>
-    <tr><th>优先级</th><th>动作</th><th>对象</th><th>依据</th></tr>
-    <tr><td class="bad">P0</td><td class="l">立即回补高效款竞价（恢复W42水平+10%）</td><td class="l">B0H4LPRF7R / B0D8HZXHWS / B0H4LVC687</td><td class="l">W43→W44销售-84%，ACOS 10.1%/7.4%/6.9%均为健康级</td></tr>
-    <tr><td class="bad">P0</td><td class="l">停投连续2周0单活动</td><td class="l">B0D8J234VF($26.84) / B0HJ1BWJYT($11.53) / B0H4LT43RX($11.00) 等31条</td><td class="l">W44 0单花费$112.31，占17.9%</td></tr>
-    <tr><td class="warn">P1</td><td class="l">降竞价30%控制ACOS</td><td class="l">B0CNGMXZJB(34.5%) / B0H6PQTB9Q(50.1%) / B0H4LSZP47(35.8%) / B0H4LYMVV7(19.7%)</td><td class="l">ACOS&gt;25%且CVR&lt;10%的亏损单</td></tr>
-    <tr><td>P2</td><td class="l">SD类目+SIM活动：季节性提预算10-20%（黑五前）</td><td class="l">SD-KAX-类目+SIM-VCPM</td><td class="l">ACOS 11.0%健康、CVR 3.8%低但CPC仅$0.18，量大</td></tr>
-    <tr><td>P3</td><td class="l">提竞价50%放量测试</td><td class="l">B0H4LYMVV7(CVR 42.9%) / B0H6PLLWZF(37.5%) / B0H6PMLNPR(CVR 100%)等9条潜力活动</td><td class="l">ACOS&lt;7.5%且CVR&gt;35%，明显竞价不足</td></tr>
-  </table>
-  <div class="tip">完整活动级明细见面板「8 · 无效/高花费广告」视图；操作记录将追加到 广告操作记录.md。</div>
+  <h2>4A · 专题一：广告效率深度（10月 · 14 个维度）</h2>
+<h3>A1 · 月度总览（W41–W44 四周合计 · 领星 SP+SD 全活动）</h3>
+<div class="kgrid">
+<div class="kcard"><div class="kk">广告花费</div><div class="kv">¥16,405</div><div class="ks">美元 $2,448.55</div></div>
+<div class="kcard"><div class="kk">广告销售额</div><div class="kv">¥117,501</div><div class="ks">美元 $17,537.40</div></div>
+<div class="kcard"><div class="kk">ACOS</div><div class="kv">13.96%</div><div class="ks">花费÷广告销售额</div></div>
+<div class="kcard"><div class="kk">ROAS</div><div class="kv">7.16</div><div class="ks">销售额÷花费</div></div>
+<div class="kcard"><div class="kk">CPC</div><div class="kv">$0.863</div><div class="ks">花费÷点击</div></div>
+<div class="kcard"><div class="kk">CVR</div><div class="kv">15.79%</div><div class="ks">订单÷点击</div></div>
+<div class="kcard"><div class="kk">CTR</div><div class="kv">1.135%</div><div class="ks">点击÷曝光</div></div>
+<div class="kcard"><div class="kk">广告订单</div><div class="kv">448 单</div><div class="ks">点击 2,838 · 曝光 249,988</div></div>
+</div>
+<h3>A2 · 四周趋势（逐周环比）</h3>
+<table>
+<tr><th>周</th><th>花费(¥)</th><th>广告销售额(¥)</th><th>ACOS</th><th>点击</th><th>订单</th><th>CVR</th><th>CPC(USD)</th><th>CTR</th><th>曝光</th><th>环比变化</th></tr>
+<tr><td><b>W41</b></td><td>4,294</td><td>28,228</td><td class="bad">15.21%</td><td>795</td><td>109</td><td>13.71%</td><td>0.806</td><td>1.18%</td><td>67,538</td><td class="l">—</td></tr>
+<tr><td><b>W42</b></td><td>4,034</td><td>35,234</td><td>11.45%</td><td>748</td><td>127</td><td>16.98%</td><td>0.805</td><td>1.20%</td><td>62,175</td><td class="l">花费-6.1% · ACOS-3.8pp · CVR+3.3pp · CPC-0.001</td></tr>
+<tr><td><b>W43</b></td><td>4,492</td><td>31,334</td><td>14.34%</td><td>711</td><td>122</td><td>17.16%</td><td>0.943</td><td>1.12%</td><td>63,223</td><td class="l">花费+11.4% · ACOS+2.9pp · CVR+0.2pp · CPC+0.138</td></tr>
+<tr><td><b>W44</b></td><td>3,585</td><td>22,704</td><td class="bad">15.79%</td><td>584</td><td>90</td><td>15.41%</td><td>0.916</td><td>1.02%</td><td>57,052</td><td class="l">花费-20.2% · ACOS+1.4pp · CVR-1.8pp · CPC-0.027</td></tr>
+</table>
+<h3>A3 · SP vs SD：钱在 SP，效率在 SD</h3>
+<table>
+<tr><th>类型</th><th>活动数</th><th>花费(¥)</th><th>花费占比</th><th>广告销售额(¥)</th><th>ACOS</th><th>订单</th><th>CVR</th><th>CPC(USD)</th></tr>
+<tr><td><b>SP</b></td><td>4124</td><td>15,634</td><td>95.3%</td><td>108,208</td><td>14.45%</td><td>422</td><td>18.24%</td><td>1.008</td></tr>
+<tr><td><b>SD</b></td><td>4</td><td>772</td><td>4.7%</td><td>9,293</td><td>8.30%</td><td>26</td><td>4.96%</td><td>0.220</td></tr>
+<tr style="background:#eef4fb;font-weight:700"><td>合计</td><td>4128</td><td>16,405</td><td>100%</td><td>117,501</td><td>13.96%</td><td>448</td><td>15.79%</td><td>0.863</td></tr>
+</table>
+<h3>A4 · 新品 vs 老品（组合口径：portfolio 含「2608-新品」= 新品）</h3>
+<table>
+<tr><th>分组</th><th>活动数</th><th>花费(¥)</th><th>花费占比</th><th>广告销售额(¥)</th><th>ACOS</th><th>订单</th><th>CVR</th><th>CPC(USD)</th><th>解读</th></tr>
+<tr><td><b>新品</b></td><td>1200</td><td>8,426</td><td>51.4%</td><td>55,890</td><td class="bad">15.08%</td><td>222</td><td>18.14%</td><td>1.027</td><td class="l">花钱多 6%、CVR 高 4.1pp，但 ACOS 差 2.1pp——新品流量贵、转化好，是「贵而有效」</td></tr>
+<tr><td><b>老品</b></td><td>2928</td><td>7,980</td><td>48.6%</td><td>61,611</td><td>12.95%</td><td>226</td><td>14.00%</td><td>0.738</td><td class="l">ACOS 更低但 CVR 更低——老品靠词精准度吃饭，但页面转化弱，属「省而低效」</td></tr>
+</table>
+<h3>A5 · CPC 分桶：越贵点击，转化越好、ACOS 越差</h3>
+<table>
+<tr><th>CPC 区间</th><th>活动数</th><th>花费(¥)</th><th>花费占比</th><th>ACOS</th><th>订单</th><th>CVR</th><th>点击</th><th>解读</th></tr>
+<tr><td><b><$0.50</b></td><td>62</td><td>1,007</td><td>6.1%</td><td>9.09%</td><td>33</td><td>5.36%</td><td>616</td><td class="l">极低价，CVR 仅 5.4%，量少且不准</td></tr>
+<tr><td><b>$0.50-0.80</b></td><td>223</td><td>1,802</td><td>11.0%</td><td>11.19%</td><td>60</td><td>14.15%</td><td>424</td><td class="l"></td></tr>
+<tr><td><b>$0.80-1.20</b></td><td>425</td><td>8,166</td><td>49.8%</td><td>14.44%</td><td>224</td><td>18.84%</td><td>1,189</td><td class="l"><b style="color:#1F4E79">主力桶</b>（占50%花费）</td></tr>
+<tr><td><b>$1.20-2.00</b></td><td>203</td><td>5,430</td><td>33.1%</td><td class="bad">16.09%</td><td>131</td><td>21.51%</td><td>609</td><td class="l">CVR最高但 ACOS 最差——贵点击买的是高意向流量，成本吃掉利润</td></tr>
+</table>
+<h3>A6 · ACOS 分层 + 零单黑洞</h3>
+<table>
+<tr><th>分层</th><th>活动数</th><th>花费(¥)</th><th>花费占比</th><th>广告销售额(¥)</th><th>订单</th><th>说明</th></tr>
+<tr><td><b>ACOS<10%</b></td><td>225</td><td>4,308</td><td>26.3%</td><td>85,767</td><td>322</td><td class="l">健康区：贡献 73% 的广告销售额</td></tr>
+<tr><td><b>ACOS 10-20%</b></td><td>62</td><td>3,803</td><td>23.2%</td><td>26,390</td><td>105</td><td class="l"></td></tr>
+<tr><td><b>ACOS 20-30%</b></td><td>12</td><td>1,034</td><td>6.3%</td><td>4,355</td><td>17</td><td class="l"></td></tr>
+<tr style="background:#fff5f5"><td><b>ACOS>30%</b></td><td>4</td><td>427</td><td>2.6%</td><td>988</td><td>4</td><td class="l">亏本区，直接砍</td></tr>
+<tr style="background:#fff5f5"><td><b>零单</b></td><td>610</td><td>6,834</td><td>41.7%</td><td>0</td><td>0</td><td class="l"><b style="color:#C00000">最大黑洞：42% 的钱花在 0 单活动上，1,090 次点击全废</b></td></tr>
+</table>
+<h3>A7 · 花费集中度：极度分散，没有主心骨</h3>
+<table>
+<tr><th>层级</th><th>花费(¥)</th><th>占月花费</th><th>广告销售额(¥)</th><th>订单</th><th>ACOS</th></tr>
+<tr><td><b>TOP5</b></td><td>1,018</td><td>6.2%</td><td>10,338</td><td>32</td><td>9.85%</td></tr>
+<tr><td><b>TOP10</b></td><td>1,778</td><td>10.8%</td><td>15,107</td><td>49</td><td>11.77%</td></tr>
+<tr><td><b>TOP20</b></td><td>2,983</td><td>18.2%</td><td>20,517</td><td>69</td><td>14.54%</td></tr>
+<tr><td><b>TOP50</b></td><td>5,261</td><td>32.1%</td><td>40,118</td><td>145</td><td>13.11%</td></tr>
+</table>
+<div class="tip">TOP20 只吃掉 <b>18.2%</b> 的花费、TOP50 才 32.1%——4,128 条活动行极度碎片化。碎片化本身不是错（长尾词覆盖），但它使「预算调配」失去抓手：想加量时找不到该加的那几条。本月最大的可操作点不是「加预算」，而是把 610 条零单活动（42%花费）的预算集中到 ACOS&lt;10% 的 225 条活动上。</div>
+<h3>A8 · 竞价策略对比</h3>
+<table>
+<tr><th>竞价策略</th><th>活动数</th><th>花费(¥)</th><th>花费占比</th><th>ACOS</th><th>订单</th><th>CVR</th><th>点评</th></tr>
+<tr><td><b>动态竞价-提高和降低</b></td><td>2272</td><td>4,030</td><td>24.6%</td><td>13.73%</td><td>115</td><td>16.57%</td><td class="l">ACOS 略优于只降低，但 CVR 偏低</td></tr>
+<tr><td><b>动态竞价-只降低</b></td><td>1472</td><td>11,432</td><td>69.7%</td><td>14.82%</td><td>300</td><td>18.92%</td><td class="l"><b>占 70% 花费的主力策略，却是 ACOS 最高的一档</b>——「只降低」在 CPC 上行期省不了钱</td></tr>
+<tr><td><b>固定竞价</b></td><td>380</td><td>172</td><td>1.0%</td><td>10.11%</td><td>7</td><td>20.59%</td><td class="l">体量小（1.0%花费），ACOS 最优但量做不起来</td></tr>
+<tr><td><b>--</b></td><td>4</td><td>772</td><td>4.7%</td><td>8.30%</td><td>26</td><td>4.96%</td><td class="l"></td></tr>
+</table>
+<h3>A9 · 广告位 TOP-of-Search 份额：份额越高、效率越好，但钱花反了</h3>
+<table>
+<tr><th>TOP 展示份额</th><th>活动数</th><th>花费(¥)</th><th>花费占比</th><th>ACOS</th><th>订单</th><th>CVR</th><th>点评</th></tr>
+<tr><td><b>TOP份额<10%</b></td><td>782</td><td>9,956</td><td>60.7%</td><td class="bad">16.07%</td><td>238</td><td>16.43%</td><td class="l"><b style="color:#C00000">61% 的钱花在这里，ACOS 最差（16.07%）</b>——大部分活动连首屏都挤不进去</td></tr>
+<tr><td><b>TOP份额10-30%</b></td><td>421</td><td>3,306</td><td>20.2%</td><td>12.32%</td><td>107</td><td>21.88%</td><td class="l">次优，ACOS 12.32%、CVR 21.88%</td></tr>
+<tr><td><b>TOP份额30-60%</b></td><td>214</td><td>1,430</td><td>8.7%</td><td>11.77%</td><td>49</td><td>24.38%</td><td class="l"><b style="color:#00A650">最优区间：ACOS 11.77%、CVR 24.38%</b>，但只有 9% 花费</td></tr>
+<tr><td><b>TOP份额>60%</b></td><td>43</td><td>190</td><td>1.2%</td><td>13.41%</td><td>6</td><td>22.22%</td><td class="l"></td></tr>
+</table>
+<h3>A10 · 高效活动（有单且 ACOS 最低 · 该加量）</h3>
+<table>
+<tr><th>#</th><th>活动名</th><th>类型</th><th>花费(¥)</th><th>订单</th><th>ACOS</th><th>CVR</th><th>CPC(USD)</th></tr>
+<tr><td>1</td><td class="l">SD-KAX-空调鼓风机-MIX-CA-李悦榕-VCPM</td><td>SD</td><td>192</td><td>9</td><td class="good">4.8%</td><td>6.3%</td><td>0.20</td></tr>
+<tr><td>2</td><td class="l">SP-KW-BR-朱鹏锃-暖通空调鼓风机-B0D8HZXHWS-车型词-批量:26072413</td><td>SP</td><td>67</td><td>5</td><td class="good">6.0%</td><td>45.5%</td><td>0.90</td></tr>
+<tr><td>3</td><td class="l">SP-KW-BR-朱鹏锃-暖通空调鼓风机-B0D8HZQ2RH-车型词-批量:26072413</td><td>SP</td><td>87</td><td>6</td><td class="good">6.1%</td><td>54.5%</td><td>1.18</td></tr>
+<tr><td>4</td><td class="l">SP-KW-BR-朱鹏锃-暖通空调鼓风机-B0D8HZXHWS-车型词-批量:26072413</td><td>SP</td><td>84</td><td>6</td><td class="good">6.3%</td><td>42.9%</td><td>0.90</td></tr>
+<tr><td>5</td><td class="l">SD-KAX-空调鼓风机-MIX-CA-李悦榕-VCPM</td><td>SD</td><td>213</td><td>8</td><td class="good">7.2%</td><td>4.8%</td><td>0.19</td></tr>
+<tr><td>6</td><td class="l">SP-KW-BR-朱鹏锃-暖通空调鼓风机-B0D8J3HXQ5-车型词-批量:26072413</td><td>SP</td><td>222</td><td>6</td><td class="good">14.9%</td><td>26.1%</td><td>1.44</td></tr>
+<tr><td>7</td><td class="l">SD-KAX-空调鼓风机-李悦榕-类目+SIM-VCPM</td><td>SD</td><td>203</td><td>6</td><td class="good">17.9%</td><td>5.8%</td><td>0.29</td></tr>
+</table>
+<h3>A11 · 零单活动黑洞（花费最高 10 条）</h3>
+<div class="warnbox"><b>共 610 条零单活动 / 花费 ¥6,834 / 占月花费 41.7% / 点击 1,090 次全部无效 / 消耗曝光 58,434</b></div>
+<table>
+<tr><th>活动名</th><th>花费(¥)</th><th>点击</th><th>曝光</th><th>CPC(USD)</th><th>诊断</th></tr>
+<tr><td class="l">SP-KW-BR-朱鹏锃-暖通空调鼓风机-B0D8J234VF-车型词-批量:26072413</td><td>123</td><td>20</td><td>840</td><td>0.92</td><td class="l">有点击无转化→词不精准或页面问题（该否词）</td></tr>
+<tr><td class="l">SP-KW-BR-朱鹏锃-暖通空调鼓风机-B0D8J234VF-车型词-批量:26072413</td><td>122</td><td>16</td><td>1,020</td><td>1.14</td><td class="l">有点击无转化→词不精准或页面问题（该否词）</td></tr>
+<tr><td class="l">SP-AUTO-LS-朱鹏锃-暖通空调鼓风机-B0H4LSZP47-批量:26081806</td><td>57</td><td>12</td><td>268</td><td>0.71</td><td class="l">曝光不足→竞价/相关性双低</td></tr>
+<tr><td class="l">SP-KW-BR-朱鹏锃-暖通空调鼓风机-B0D8HYP4ZZ-车型词-批量:26072413</td><td>52</td><td>5</td><td>101</td><td>1.55</td><td class="l">点击太少→竞价过低，进不了展示</td></tr>
+<tr><td class="l">SP-KW-BR-朱鹏锃-鼓风机-B0H6PTB11R- 降低 -年份大词-空调鼓风机-车型词-批量:2608181</td><td>52</td><td>7</td><td>717</td><td>1.11</td><td class="l">点击太少→竞价过低，进不了展示</td></tr>
+<tr><td class="l">SP-KW-BR-朱鹏锃-鼓风机-B0H4LNLXKS- 降低 -年份大词-空调鼓风机-车型词-批量:2608181</td><td>51</td><td>7</td><td>107</td><td>1.09</td><td class="l">点击太少→竞价过低，进不了展示</td></tr>
+<tr><td class="l">SP-KW-BR-朱鹏锃-暖通空调鼓风机-B0HJ1BWJYT-车型词-批量:26072413</td><td>51</td><td>7</td><td>369</td><td>1.08</td><td class="l">点击太少→竞价过低，进不了展示</td></tr>
+<tr><td class="l">SP-KW-BR-朱鹏锃-鼓风机-B0H6PNVQV7- 降低 -年份大词-空调鼓风机-车型词-批量:2608181</td><td>50</td><td>6</td><td>687</td><td>1.25</td><td class="l">点击太少→竞价过低，进不了展示</td></tr>
+<tr><td class="l">SP-KW-BR-朱鹏锃-鼓风机-B0H4LP668S- 降低 -年份大词-空调鼓风机-车型词-批量:2608181</td><td>49</td><td>6</td><td>153</td><td>1.21</td><td class="l">点击太少→竞价过低，进不了展示</td></tr>
+<tr><td class="l">SP-AUTO-CL-朱鹏锃-暖通空调鼓风机-B0CNGMXZJB</td><td>48</td><td>6</td><td>697</td><td>1.18</td><td class="l">点击太少→竞价过低，进不了展示</td></tr>
+</table>
+<h3>A12 · 高花费低效（花费≥$20 且 ACOS&gt;30% 或零单）</h3>
+<table>
+<tr><th>活动名</th><th>花费(¥)</th><th>订单</th><th>广告销售额(¥)</th><th>ACOS</th><th>CVR</th></tr>
+<tr><td class="l">SP-KW-BR-朱鹏锃-暖通空调鼓风机-B0CNGMXZJB-车型词-批量:26072413</td><td>135</td><td>1</td><td>255</td><td class="bad">53.2%</td><td>5.9%</td></tr>
+</table>
+<h3>A13 · 六个核心结论</h3>
+<div class="warnbox">
+<b>① CPC 是 10 月广告最硬的伤口。</b>四周 CPC $0.81→$0.81→$0.94→$0.92，W43 单周跳涨 16%（$0.81→$0.94），W44 虽回落 -2.8% 但仍在高位。同期点击 795→748→711→584 一路掉，<b>点击降幅（-26.5%）远超花费降幅（-16.5%）</b>，说明「同样的钱买到更少的流量」——这不是投放效率问题，是买流量单价变贵了。
+<br><br><b>② 零单活动是最大的可回收资金池。</b>610 条活动 0 单，吃掉 ¥6,834（<b>41.7%</b> 的月花费），烧掉 1,090 次点击、58,434 次曝光，一分钱没收回。其中花费 TOP10 已列在 A11，最贵的两条（B0D8J234VF 车型词）单条就烧了 ¥245。<b>这 ¥3,417 只要关掉一半，就能把 ACOS 从 13.96% 压到 12% 附近。</b>
+<br><br><b>③ 预算花在「进不了首屏」的活动上。</b>TOP 展示份额 &lt;10% 的活动吃掉 <b>61%</b> 的钱，ACOS 却是最差的 <b>16.07%</b>；而份额 30-60% 的最优区间（ACOS 11.77%、CVR 24.38%）只拿到 9% 花费。<b>这是本月最明确的「错配」：钱花在挤不进首屏的地方，而不是花在已经挤进去的地方。</b>
+<br><br><b>④ 新品「贵而有效」、老品「省而低效」。</b>新品花 ¥8,426（占 51%）、CVR 18.14%（比老品高 4.1pp），但 ACOS 15.08%（比老品差 2.1pp）——新品流量贵，转化好，值得继续投；老品 ACOS 低但 CVR 只有 14.00%，<b>问题不在竞价而在页面转化</b>，加预算救不了，得改 A+/主图/适配表。
+<br><br><b>⑤ 「动态竞价-只降低」占 70% 花费，却是 ACOS 最差的一档（14.82%）。</b>「只降低」的逻辑是省钱，但在 CPC 上行期它只会让你的活动在关键时刻失去展示——省下的钱被更贵的点击吃掉。建议把 ACOS 健康的活动改回「提高和降低」。
+<br><br><b>⑥ 花费极度碎片化，TOP20 只占 18.2%。</b>4,128 条活动行意味着想加量时找不到抓手。ACOS&lt;10% 的 225 条活动贡献 73% 广告销售额却只拿到 26% 花费——<b>这就是加量的方向：把这 225 条的花费占比从 26% 提到 50% 以上。</b>
+</div>
+<h3>A14 · 操作建议 P0–P3（待你确认后执行，执行后记入台账）</h3>
+<table>
+<tr><th style="width:7%">优先级</th><th style="width:26%">动作</th><th style="width:30%">对象</th><th>依据与预期</th></tr>
+<tr><td class="bad"><b>P0</b></td><td class="l">关停零单活动（花费 TOP20 先动）</td><td class="l">A11 表列出 10 条；完整 610 条见面板「8·无效/高花费广告」</td><td class="l">占月花费 41.7%，零产出；关掉 TOP20 约省 ¥655，ACOS 可降 0.8-1.2pp</td></tr>
+<tr><td class="bad"><b>P0</b></td><td class="l">高花费低效活动：先降 bid 40%% 观察一周，无改善则关</td><td class="l">B0CNGMXZJB（ACOS 53.2%%）、B0D8HYP4ZZ、B0H6PTB11R 等（见 A12）</td><td class="l">花费≥$20 且 ACOS&gt;30%%，每单亏本</td></tr>
+<tr><td class="warn"><b>P1</b></td><td class="l">ACOS&lt;10% 的 225 条活动逐个加预算 30-50%</td><td class="l">A10 高效活动表（TOP7）；完整清单见面板</td><td class="l">贡献 73% 广告销售额、只拿 26% 花费；加量是本月最划算的增量</td></tr>
+<tr><td class="warn"><b>P1</b></td><td class="l">TOP 份额 30-60% 的活动加广告位加价 10-20%</td><td class="l">该区间 214 条活动（ACOS 11.77%、CVR 24.38%）</td><td class="l">最优效率区间，加价抢更多首屏</td></tr>
+<tr><td><b>P2</b></td><td class="l">ACOS 健康的活动从「只降低」改回「提高和降低」</td><td class="l">ACOS&lt;15%% 且用「只降低」的活动</td><td class="l">只降低在 CPC 上行期让活动失去关键展示位</td></tr>
+<tr><td><b>P2</b></td><td class="l">老品广告不动预算，先改页面（A+/主图/适配表）</td><td class="l">老品 2,928 条中的高花费款</td><td class="l">老品 CVR 仅 14.00%，比新品低 4.1pp——是转化问题不是流量问题</td></tr>
+<tr><td><b>P3</b></td><td class="l">SD 加预算（ACOS 8.30%，效率碾压 SP 的 14.45%）</td><td class="l">SD-KAX-空调鼓风机-MIX-CA / 类目+SIM（4 条活动）</td><td class="l">SD 只占 4.7% 花费却做出 8.3% ACOS</td></tr>
+</table>
+<div class="tip">数据源：领星 MCP ad_campaign_report，W41–W44 四周 × 1,032 活动 = 4,128 活动行；汇率 1USD=6.7CNY。ACOS=花费÷广告销售额；CVR=订单÷点击；CTR=点击÷曝光。完整活动级明细见面板「8 · 无效/高花费广告」视图；操作确认后记入 广告操作记录.md。</div>
 </div>
 
 <!-- ========== 4B. 专题-销量下滑 ========== -->
@@ -283,8 +396,8 @@ ul{margin:4px 0 4px 20px;font-size:12.5px}li{margin:3px 0}
     <tr><th>指标</th><th>10月实际</th><th>11月目标</th><th>依据/路径</th></tr>
     <tr><td class="l">销售额</td><td>408,274</td><td class="good">≥450,000（+10.2%）</td><td class="l">季节系数0.79→0.88（+11%）× 黑五网一（11/27）拉动</td></tr>
     <tr><td class="l">销量</td><td>1,712</td><td>≥1,850</td><td class="l">同上；需高价款（04300/10800/12500等）恢复</td></tr>
-    <tr><td class="l">毛利率</td><td>15.99%</td><td class="good">≥17.0%</td><td class="l">头程已降至2.5%保平；广告费率压回≤4.0%；退款率降到≤11%</td></tr>
-    <tr><td class="l">广告费率</td><td>4.41%</td><td class="warn">≤4.2%</td><td class="l">回补高效款+清理0单活动（预计省¥300-500/月）</td></tr>
+    <tr><td class="l">毛利率</td><td>15.99%</td><td class="good">≥17.0%</td><td class="l">头程已降至2.5%保平；ACOS 压回≤12.5%；退款率降到≤11%</td></tr>
+    <tr><td class="l"><b>ACOS</b></td><td>13.9%</td><td class="warn">≤12.5%</td><td class="l">清理610条零单活动（占41.7%花费）+ 回补ACOS&lt;10%的225条高效活动（预计省¥600-800/月）</td></tr>
     <tr><td class="l">退款率</td><td>11.3%</td><td>≤11.0%</td><td class="l">4个高退款款治理（16700/11800/14300/12200）</td></tr>
     <tr><td class="l">负毛利SKU</td><td>43个</td><td>≤30个</td><td class="l">去留清单执行</td></tr>
   </table>
@@ -304,7 +417,7 @@ ul{margin:4px 0 4px 20px;font-size:12.5px}li{margin:3px 0}
     <tr><td>P2</td><td class="l">黑五网一（11/27）准备</td><td class="l">出专项方案：广告预算分配/价格底线（毛利率≥17%）/库存调拨/秒杀申报</td><td>朱鹏锃</td><td>11/15</td><td class="l">方案1份（含预算表+价格表）</td></tr>
   </table>
   <div class="foot">
-  口径：销售额/毛利/ASP=BI finance月度（美元按BI内部汇率，人民币）；退款率=损益明细退款数量÷出库销量；广告费率=SP+SD广告花费÷销售额；毛利率=毛利额÷销售额；单件=金额÷销量。<br>
+  口径：销售额/毛利/ASP=BI finance月度（美元按BI内部汇率，人民币）；退款率=损益明细退款数量÷出库销量；<b>ACOS=广告花费÷广告销售额</b>（月度口径，BI finance）；CVR=广告订单÷点击；CPC=广告花费(USD)÷点击；毛利率=毛利额÷销售额；ASP 人民币与美元按 1USD=6.7CNY 换算；单件=金额÷销量。<br>
   数据版本：BI 2026-11-04（2026.08销售额已回填为412,826、毛利77,627；9月复盘PDF的10/10版8月为371,958——历史对比时注意分母）。<br>
   关联：面板「5·退款专项」「8·无效/高花费广告」「13·竞对/市占分析」；明细见 鼓风机尾程费异常分析_1103.xlsx / 鼓风机客单价下降归因_8vs10月_1103.xlsx / 鼓风机广告分析_W42-W43_1027.xlsx。
   </div>
