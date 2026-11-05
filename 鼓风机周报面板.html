@@ -82,6 +82,7 @@ tr:nth-child(even) td{background:#f5f7fb;}
 <div class="cards" id="kpis"></div>
 
 <div id="wk4cmp" style="margin:0 0 16px"></div>
+<div style="text-align:right;font-size:11px;color:#999;margin:-4px 0 6px">面板版本 <b id="pane-ver">v34.1</b> · 构建 2026-11-05 · 若看到旧内容请 Ctrl+Shift+R 强刷</div>
 <div class="concl" id="concl"></div>
 <div class="panel"><h3>❓ 本周重点问题（W44）</h3><div id="qweek" class="diag" style="background:#fff7f0;border:1px solid #f0d0b0"></div></div>
 
@@ -1379,16 +1380,17 @@ const T2=(W2.trend_rows||[]).concat(_n37p?[{week:'W37(916)',vals:[+(_N9.dos/30).
 
  /* 表2：新品 VS 老品（ERP 快照） */
  H+='<div style="font-weight:700;color:#1F4E79;font-size:13px;margin:12px 0 6px">📦 新品 VS 老品 库存（ERP 快照 W44=11/4 · W43=10/21 · W42=10/16）</div>';
- H+='<div style="font-size:11px;color:#666;margin-bottom:6px">数据源：ERP 实时库存快照（US23 + 海外仓 + 本地仓，按定义表 103 新品 / 91 老品 拆分）· <b>W41（10/4-10/10）无 ERP 快照</b>，故从 W42 起</div>';
+ H+='<div style="font-size:11px;color:#666;margin-bottom:6px">数据源：ERP 实时库存快照（US23 + 海外仓 + 本地仓，按定义表 103 新品 / 91 老品 拆分；<b>另有 9 个 SKU 未在定义表</b>单列「未定义」，库存全为 0）· <b>W41（10/4-10/10）无 ERP 快照</b>，故从 W42 起</div>';
  H+='<table style="font-size:11.5px;line-height:1.5"><tr><th style="text-align:left">周</th><th style="padding:5px 8px">类别</th><th style="padding:5px 8px">SKU数</th><th style="padding:5px 8px">FBA可用</th><th style="padding:5px 8px">FBA在途</th><th style="padding:5px 8px">海外仓可用</th><th style="padding:5px 8px">海外仓在途</th><th style="padding:5px 8px">本地仓可用</th><th style="padding:5px 8px">本地在途</th></tr>';
  var EW=['202644','202643','202642'];
  EW.forEach(function(w){
   var d=ERW[w]||{};
-  ['新品','老品','合计'].forEach(function(c,ci){
+  ['新品','老品','未定义','合计'].forEach(function(c,ci){
    var v=d[c]; if(!v){ return; }
-   var bg = (ci===2)? ' style="background:#eef4fb;font-weight:700"' : '';
-   var cc = (c==='新品')? 'color:#2E75B6;font-weight:600' : (c==='老品'? 'color:#888':'');
-   H+='<tr'+bg+'>'+(ci===0?('<td rowspan="3" style="text-align:left;padding:5px 8px"><b>'+w.slice(4).replace(/^/,'W')+'</b><br><span style="font-size:10px;color:#888">'+(d._date||'')+'</span></td>'):'')
+   var isTot = (c==='合计');
+   var bg = isTot? ' style="background:#eef4fb;font-weight:700"' : '';
+   var cc = (c==='新品')? 'color:#2E75B6;font-weight:600' : (c==='老品'? 'color:#888':(c==='未定义'? 'color:#C00000':''));
+   H+='<tr'+bg+'>'+(ci===0?('<td rowspan="4" style="text-align:left;padding:5px 8px"><b>'+w.slice(4).replace(/^/,'W')+'</b><br><span style="font-size:10px;color:#888">'+(d._date||'')+'</span></td>'):'')
     +'<td style="text-align:left;padding:5px 8px"><span style="'+cc+'">'+c+'</span></td>'
     +'<td style="padding:5px 8px">'+(v.n_sku||'-')+'</td>'
     +'<td style="padding:5px 8px">'+f0(v.fba)+'</td>'
