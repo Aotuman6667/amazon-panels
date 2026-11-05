@@ -189,7 +189,7 @@ tr:nth-child(even) td{background:#f5f7fb;}
 
 <div class="header">
   <div><h1>🟣 PT（PHILTOP）· 暖通空调鼓风机 · 周报视图</h1>
-  <div class="sub">品牌：PHILTOP（US22待上架）｜板块一=<b>建议发货SKU</b>（竞对/KAX/新品 3子表）｜板块二=<b>已发货监控</b>（首批发货后接入）｜PT定价=KAX价×0.9</div></div>
+  <div class="sub">品牌：PHILTOP（US22待上架）｜板块一=<b>建议发货SKU</b>（竞对/KAX/新品 3子表）｜板块二=<b>已发货监控</b>（首批发货后接入）</div></div>
 </div>
 <div class="panel"><h3>📤 板块一：建议发货 SKU</h3>
   <div style="font-weight:700;color:var(--blue);margin:10px 0 6px;font-size:12.5px">（1）高销竞对建议（竞对月销100+ 且 有同款OE号）</div>
@@ -537,6 +537,28 @@ document.getElementById('brand-kax').style.display=(id==='kax')?'':'none';docume
  try{const pk=document.getElementById('pane-kax-sales');if(pk)pk.style.display=(id==='pt')?'none':'';}catch(e){}
  try{const bp=document.getElementById('brand-pt'),vs=document.getElementById('view-sel');if(bp){const v=vs?vs.value:'report';bp.style.display=(id==='pt'&&v==='report')?'':'none';}}catch(e){}
  try{const pp=document.getElementById('pane-pt-sales');if(pp)pp.style.display=(id==='pt')?'':'none';}catch(e){}
+ try{const pa=document.getElementById('pane-avg');if(pa)pa.style.display=(id==='pt')?'none':'';}catch(e){}
+ // PT 下禁用无 PT 数据的视图（保留：report 周报 / sales 销售 / inv 库存）
+ try{
+   var PT_OK={report:1,sales:1,inv:1};
+   var vsel=document.getElementById('view-sel');
+   if(vsel){
+     Array.prototype.forEach.call(vsel.options,function(op){
+       var v=op.value;
+       if(id==='pt'){
+         if(!PT_OK[v]){ op.disabled=true; op.text=op.text.replace(/\s*（PT无）$/,'')+'（PT无）'; }
+         else { op.disabled=false; op.text=op.text.replace(/\s*（PT无）$/,''); }
+       } else {
+         op.disabled=false; op.text=op.text.replace(/\s*（PT无）$/,'');
+       }
+     });
+     // 当前选中项在 PT 下不可用 → 自动切到 sales
+     if(id==='pt' && !PT_OK[vsel.value]){
+       vsel.value='sales';
+       if(typeof window.showView==='function') window.showView('sales');
+     }
+   }
+ }catch(e){}
  try{['inv','adq','kw'].forEach(function(v){var a=document.getElementById('kax-'+v),b=document.getElementById('pt-'+v);if(a)a.style.display=(id==='pt')?'none':'';if(b)b.style.display=(id==='pt')?'':'none';});}catch(e){}document.getElementById('bt-kax').classList.toggle('active',id==='kax');document.getElementById('bt-pt').classList.toggle('active',id==='pt');
  const vs=$('view-sel'); if(vs){const ro=vs.querySelector('option[value="report"]'); if(ro){ro.disabled=false;} const dro=vs.querySelector('option[value="dev"]'); if(dro){if(id==='pt'){dro.disabled=true; if(vs.value==='dev'){vs.value='sales';}}else{dro.disabled=false;}} const rro=vs.querySelector('option[value="replen"]'); if(rro){if(id==='pt'){rro.disabled=true; if(vs.value==='replen'){vs.value='sales';}}else{rro.disabled=false;}}}setTimeout(()=>{try{document.querySelectorAll('div[id^="ch"]').forEach(el=>{const c=echarts.getInstanceByDom(el);if(c)c.resize();});}catch(e){}},80);window.scrollTo(0,0);};
 const money = v=>{const n=Number(v);return isFinite(n)?'¥'+n.toLocaleString():'-';};
@@ -2048,13 +2070,32 @@ function ptShipTable(rows,batch){
   var I3=V.v3||{}, R3=I3.rows||[], M3=I3.meta||{};
   if(R3.length){
     var ce=document.getElementById('pti-cards');
+    // ---- 需求 vs 实际发货四指标（从 pt_ship 动态算）----
+    var PS=D.pt_ship||{}, PM=PS.meta||{}, PB2=PS.b2||[];
+    var _s=function(arr,k){var t=0;(arr||[]).forEach(function(r){var v=Number(r&&r[k]);if(isFinite(v))t+=v;});return t;};
+    var ptMonth=(Number(PM.pt30_1)||0)+(Number(PM.pt30_2)||0);
+    var needStock=(Number(PM.stock5_1)||0)+_s(PB2,'ref');
+    var actShip=(Number(PM.us22_ow_1)||0)+(Number(PM.us22_av_1)||0)+(Number(PM.us22_ow_2)||0)+(Number(PM.us22_av_2)||0);
+    var fillRate=needStock?(actShip/needStock*100):0;
+    var gap=Math.max(0,needStock-actShip);
+    var _refSum=_s(PB2,'ref');
+    var _owSum=(Number(PM.us22_ow_1)||0)+(Number(PM.us22_ow_2)||0);
+    var _avSum=(Number(PM.us22_av_1)||0)+(Number(PM.us22_av_2)||0);
     if(ce) ce.innerHTML=
-      q3card('可发合计',n1(M3.can_ship)+' 件','本地+海外(含在途)','#C00000')
+      q3card('PT 预估月销',n1(Math.round(ptMonth))+' 件/月','一批 '+n1(Math.round(PM.pt30_1||0))+' + 二批 '+n1(Math.round(PM.pt30_2||0)),'#1F4E79')
+     +q3card('需求总备货',n1(Math.round(needStock))+' 件','一批5个月 '+n1(Math.round(PM.stock5_1||0))+' + 二批建议 '+n1(Math.round(_refSum)),'#7030A0')
+     +q3card('实际发货(US22)',n1(Math.round(actShip))+' 件','在途 '+n1(Math.round(_owSum))+' · 可用 '+n1(Math.round(_avSum)),'#00A650')
+     +q3card('发货执行率',fillRate.toFixed(1)+'%','缺口 '+n1(Math.round(gap))+' 件','#C00000')
+     +q3card('可发合计',n1(M3.can_ship)+' 件','本地+海外(含在途)','#C00000')
      +q3card('本地仓',n1(M3.loc)+' 件','在途 '+n1(M3.loc_t),'#1F4E79')
      +q3card('海外仓',n1(M3.ovs)+' 件','在途 '+n1(M3.ovs_t),'#7030A0')
      +q3card('SKU数',R3.length+' 个','第一批78 / 第二批116');
     var de=document.getElementById('pti-d');
-    if(de) de.innerHTML='<b>计算逻辑</b>：库存=ERP实时（2026-11-04），本地仓=宁波/FLUX、海外仓=谷仓/运去哪/易达云等；<b>可发合计=本地可用+本地在途+海外可用+海外在途</b>；<b>可售天数=可发合计÷预估PT日销(DD)</b>。PT 首批 78 个 SKU 已建链接、78 个已备货，第二批 116 个待建链接。';
+    if(de) de.innerHTML='<b>计算逻辑</b>：库存=ERP实时（2026-11-04），本地仓=宁波/FLUX、海外仓=谷仓/运去哪/易达云等；<b>可发合计=本地可用+本地在途+海外可用+海外在途</b>；<b>可售天数=可发合计÷预估PT日销(DD)</b>。'
+       +'<br><b>需求 vs 实际发货口径</b>：<b>PT 预估月销</b>=一批 808 + 二批 97（源：PHILTOP上架_30天预估_1013.xlsx）；'
+       +'<b>需求总备货</b>=一批 5个月备货 3,784 + 二批建议发货（按最小起订10件/款）；'
+       +'<b>实际发货(US22)</b>=只统计已进入 <b>US22 店铺 FBA</b> 的在途+可用（本地仓/海外仓的货<b>还不算发出</b>）；'
+       +'<b>发货执行率=实际发货÷需求总备货</b>。<br>PT 首批 78 个 SKU 已建链接、78 个已备货，第二批 116 个待建链接。';
     var H=['SKU','ASIN(PT)','品线','批次','本地可用','本地在途','海外可用','海外在途','可发合计','预估PT30天','预估DD','可售天数'];
     var W=[11,8.6,4.4,3.6,5,5,5,5,5,5.6,4.4,5.4];
     var trs=R3.slice().sort(function(a,b){return (b.can_ship||0)-(a.can_ship||0);}).map(function(x){
