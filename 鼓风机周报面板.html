@@ -174,7 +174,7 @@ tr:nth-child(even) td{background:#f5f7fb;}
 <div id="view-replen" style="display:none">
 <div class="header">
   <div><h1>📦 KAX · AI 备货补货分析</h1>
-  <div class="sub">ERP库存(11/4) + BI 近13周周粒度(8/2-10/31) ｜ 补货目标=日销×135天(采购45+海运60+安全30)×季节0.989×退款系数 ｜ 移仓优先(海外仓7-10天 → 本地仓) ｜ 🤖 板块一为 AI 自动识别的库存异常</div></div>
+  <div class="sub">ERP库存(11/4) + BI 近13周周粒度(8/2-10/31) ｜ 补货目标=日销×135天(采购45+海运60+安全30)×季节系数(当月)×退款系数 ｜ 移仓优先(海外仓7-10天 → 本地仓) ｜ 🤖 板块一为 AI 自动识别的库存异常</div></div>
 </div>
 <div class="panel"><h3>板块一：库存异常（FBA 断货 + 本地仓有货 + 仍在卖 → 该发没发）🤖 AI 优先处理</h3>
 <div class="note" id="rp4n" style="margin:8px 0 10px;line-height:2;background:#fff7f0;border:1px solid #f0d0b0;border-radius:8px;padding:10px 14px"></div>
@@ -968,7 +968,7 @@ $('concl').innerHTML=conclHtml;
    +'<br><b>【现状】</b>近5周销量 '+lb.map((l,i)=>l.replace('26','')+':'+tq[i]).join(' → ')
    +'，<b>峰值在 '+lb[peakIdx]+'（'+peak+' 台）</b>，W44 已从峰值回落 '+Math.abs((tq[cur]||0)-peak)+' 台。'
    +'结构上 W44 老品 '+(o[cur]||0)+' 台、新品 '+(q[cur]||0)+' 台——<b>新品占了 '+((q[cur]||0)/(tq[cur]||1)*100).toFixed(0)+'%</b>，是现在的主要支撑。'
-   +'<br><b>【为什么淡季会掉】</b>鼓风机是HVAC件，需求跟气温走：4-8月是安装/维修旺季，<b>9月下旬起自然搜索量逐周下滑</b>，11-12月是全年低点（季节系数 11月约0.88、12月更低）。'
+   +'<br><b>【为什么淡季会掉】</b>鼓风机是HVAC件，需求跟气温走：4-8月是安装/维修旺季，<b>9月下旬起自然搜索量逐周下滑</b>，11-12月是全年低点（季节系数 11月<b>0.942</b>、12月<b>0.879</b>，为全年最低）。'
    +'这不是运营问题，是品类规律——所以目标不该是"逆势增长"，而是<b>份额不掉、毛利守住</b>。'
    +'<br><b>【建议·五个动作】</b>'
    +'<br>① <b>保A级库存不断货</b>：A级 '+((gw.A||{}).n||0)+' 个 SKU 贡献 '+totA+' 件（占 '
@@ -1751,7 +1751,7 @@ $('foot').innerHTML=`<b>本周 vs 上周：</b>销量${K.qty_d}｜销售额${K.a
  const W3=[7.5,8,4.6,4.8,4.2,3.8,3.8,4.4,4.6,4.6,34,4.6,4.4];
  $('rp3').innerHTML=STYLE+mkTable(H3,R.b3.map(x=>['<b>'+esc(x[0])+'</b>',x[1],tcol(x[2]),x[3],(x[4]?'$'+x[4]:'-'),x[5],x[6],(x[7]>=0?'<span class="up">+'+Number(x[7]).toFixed(0)+'%</span>':'<span class="dn">'+Number(x[7]).toFixed(0)+'%</span>'),x[8],x[9],'<span class="wrap" style="color:'+(x[7]>0?'#C00000':'#1F4E79')+';font-weight:600">'+esc(x[10])+'</span>',pf(x[11]),rf(x[12])]),W3);
  const M=R.meta;
- $('rp1n').innerHTML='<div style="font-weight:700;color:#1F4E79;margin-bottom:4px">📐 计算逻辑</div>① <b>触发条件</b>：FBA可用 &lt; 日销×30天（即不足1个月库存）且 海外仓可用 &gt; 0；<br>② <b>补货目标</b> = 日销×135天（采购45 + 海运在港60 + 安全库存30）× 季节系数0.989（9月）× 退款系数（退款率&gt;20%→×0.3 / 10-20%→×0.7 / ≤10%→×1.0）；<br>③ <b>建议移仓量</b> = min(海外仓可用, 补货目标 − FBA可用 − FBA在途)；<br>④ <b>为什么移仓</b>：海外仓→FBA 7-10天到仓，比采购（135天）快得多，断货应急首选。<br><div style="font-weight:700;color:#1F4E79;margin:6px 0 4px">📊 数值分析</div>触发 <b>'+M.n1+'个SKU</b>（新品'+M.n1_new+' / 老品'+M.n1_old+'），建议移仓合计 <b>'+M.q1+'件</b>；触发SKU的海外仓可用合计'+M.n1_ovs+'件（移仓占'+(M.n1_ovs?(M.q1/M.n1_ovs*100).toFixed(0):0)+'%）。';
+ $('rp1n').innerHTML='<div style="font-weight:700;color:#1F4E79;margin-bottom:4px">📐 计算逻辑</div>① <b>触发条件</b>：FBA可用 &lt; 日销×30天（即不足1个月库存）且 海外仓可用 &gt; 0；<br>② <b>补货目标</b> = 日销×135天（采购45 + 海运在港60 + 安全库存30）× 季节系数（11月0.942）× 退款系数（退款率&gt;20%→×0.3 / 10-20%→×0.7 / ≤10%→×1.0）；<br>③ <b>建议移仓量</b> = min(海外仓可用, 补货目标 − FBA可用 − FBA在途)；<br>④ <b>为什么移仓</b>：海外仓→FBA 7-10天到仓，比采购（135天）快得多，断货应急首选。<br><div style="font-weight:700;color:#1F4E79;margin:6px 0 4px">📊 数值分析</div>触发 <b>'+M.n1+'个SKU</b>（新品'+M.n1_new+' / 老品'+M.n1_old+'），建议移仓合计 <b>'+M.q1+'件</b>；触发SKU的海外仓可用合计'+M.n1_ovs+'件（移仓占'+(M.n1_ovs?(M.q1/M.n1_ovs*100).toFixed(0):0)+'%）。';
  $('rp2n').innerHTML='<div style="font-weight:700;color:#1F4E79;margin-bottom:4px">📐 计算逻辑</div>① <b>本地仓移仓</b>：FBA可用 &lt; 日销×30天 且 本地仓可用 &gt; 0 → 移仓量 = min(本地仓可用, 补货目标−FBA可用−FBA在途)；<br>② <b>采购建议</b>：无采购在途 且 (FBA可用+FBA在途) &lt; 日销×60天 → 采购量 = 补货目标 − FBA可用 − FBA在途 − 本地仓可用（海运唯一通道，采购45天+海运60天）；<br>③ <b>催到货</b>：有采购在途但到货后仍 &lt; 60天供货 → 催促在途到仓。<br><div style="font-weight:700;color:#1F4E79;margin:6px 0 4px">📊 数值分析</div>触发 <b>'+M.n2+'个SKU</b>：含本地仓移仓建议 <b>'+M.n2_mv+'个</b> / 采购建议 <b>'+M.n2_po+'个</b> / 催在途 <b>'+M.n2_ur+'个</b>（同一SKU可有多动作）。';
  $('rp3n').innerHTML='<div style="font-weight:700;color:#1F4E79;margin-bottom:4px">📐 计算逻辑</div>① <b>异常判定</b>：W44 vs W43 周环比 |Δ| ≥ 50% 且两周任一周销量 ≥ 5件；<br>② <b>大涨 → 补货备货</b>：缺口 = 补货目标 − FBA可用 − FBA在途（并提示海外仓/本地仓可移量）；<br>③ <b>大跌 → 分两类</b>：FBA可用=0 → <b>断货导致</b>（优先补货，不是需求问题）；FBA可用&gt;0 → <b>真实下滑</b>（建议停止发货/暂缓补货，避免积压）。<br><div style="font-weight:700;color:#1F4E79;margin:6px 0 4px">📊 数值分析</div>共 <b>'+M.n3+'个SKU</b>：<span class="up">大涨 '+M.n3_up+'个</span> / <span class="dn">大跌 '+M.n3_dn+'个</span>（大跌中：断货致跌 <b>'+M.n3_break+'个</b> / 真实下滑 <b>'+M.n3_real+'个</b>）。';
 })();
@@ -1952,7 +1952,7 @@ const ce=(k,ph)=>`<span contenteditable="true" data-k="${k}" onblur="(function(e
 const card=(t,v,sub,col)=>`<div style="flex:1;min-width:180px;background:#fff;border:1px solid #d9e2ee;border-left:4px solid ${col};border-radius:8px;padding:10px 14px"><div style="font-size:12px;color:#666">${t}</div><div style="font-size:21px;font-weight:800;color:${col};line-height:1.45">${v}</div><div style="font-size:11.5px;color:#777">${sub}</div></div>`;
 
 /* ---------- 板块一: Q4备货 ---------- */
-$('q4a-d').innerHTML='<b>📐 计算逻辑</b>：Q4需求 = 近4周日销 × 30天 × Σ季节系数（10月<b>'+SE[0][1]+'</b> + 11月<b>'+SE[1][1]+'</b> + 12月<b>'+SE[2][1]+'</b> = <b>'+(SE[0][1]+SE[1][1]+SE[2][1]).toFixed(3)+'</b>）；供应 = FBA可用 + FBA在途；缺口 = 需求 − 供应。<br><b>⏰ 发货窗口</b>：海运到仓 ≈ 发货后45天 + 上架10天 → <b>Q4到货须在10月上旬前发出</b>；紧急缺口走海外仓移仓(7-10天) / 本地仓发FBA。季节系数取自用户因子表（9月0.989起逐月走弱=Q4为淡季过渡）。';
+$('q4a-d').innerHTML='<b>📐 计算逻辑</b>：Q4需求 = 近4周日销 × 30天 × Σ季节系数（10月<b>'+SE[0][1]+'</b> + 11月<b>'+SE[1][1]+'</b> + 12月<b>'+SE[2][1]+'</b> = <b>'+(SE[0][1]+SE[1][1]+SE[2][1]).toFixed(3)+'</b>）；供应 = FBA可用 + FBA在途；缺口 = 需求 − 供应。<br><b>⏰ 发货窗口</b>：海运到仓 ≈ 发货后45天 + 上架10天 → <b>Q4到货须在10月上旬前发出</b>；紧急缺口走海外仓移仓(7-10天) / 本地仓发FBA。季节系数取自用户因子表（Q4：10月0.97 / 11月0.942 / 12月0.879，逐月走弱）。';
 $('q4a-cards').innerHTML='<div style="display:flex;gap:10px;flex-wrap:wrap;margin:12px 0">'
  +card('新品 · Q4需求',(S.new.need||0).toLocaleString()+' 件',(S.new.n||0)+'个在售SKU，'+(S.new.short||0)+'个有缺口','#2E75B6')
  +card('新品 · 缺口',(S.new.gap||0).toLocaleString()+' 件','占需求 '+((S.new.need?Math.round(S.new.gap/S.new.need*100):0))+'%','#C00000')
