@@ -139,6 +139,15 @@ B0HNSBB854	2463BLM032DUS	blower motor, ac blower motor	exact	0.6			0.6	8	Dynamic
 
     <div class="card">
       <h2><span class="n">3</span>核对清单（可直接在表格里改，灰显列会自动取默认值）</h2>
+      <div class="msg ok" style="margin-bottom:10px">
+        <b>自动组竞价怎么填（只有投放类型=auto 才生效）</b><br>
+        ① <b>4 组统一价</b>：直接填一个数字，如 <code>0.8</code> → 紧密/宽泛/同类/关联 4 组都用 0.8<br>
+        ② <b>分组单独定价</b>：用 <code>组名:价格</code>，多组用 <b>分号</b> 隔开，如
+        <code>close-match:0.8;loose-match:0.6;substitutes:0.5;complements:0.4</code><br>
+        ③ <b>不填</b> → 这些组用「广告组默认竞价」<br>
+        组名对照：<code>close-match</code>=紧密匹配 ｜ <code>loose-match</code>=宽泛匹配 ｜
+        <code>substitutes</code>=同类商品 ｜ <code>complements</code>=关联商品
+      </div>
       <div class="scroll"><table id="tblIn"><thead></thead><tbody></tbody></table></div>
       <div class="row" style="margin-top:12px">
         <button id="btnGen">校验并生成上传文件</button>
@@ -279,9 +288,11 @@ B0HNSBB854	2463BLM032DUS	blower motor, ac blower motor	exact	0.6			0.6	8	Dynamic
             <td><b>仅自动广告有效</b>，下拉选 启用 / 暂停 / 不建（留空）。对应亚马逊自动广告的 4 个目标组：
             close-match（紧密）/ loose-match（宽泛）/ substitutes（同类商品）/ complements（关联商品）。
             全部留空时由亚马逊按广告组默认出价自动建 4 组。</td></tr>
-        <tr><td>自动目标竞价USD</td><td>仅自动广告。单个数字 = 4 组统一出价；也可分组写：
-            <code>close-match:0.8;loose-match:0.6;substitutes:0.5</code>；留空 = 用广告组默认出价。
-            选「暂停」的组不填出价也行。</td></tr>
+        <tr><td>自动目标竞价USD</td><td>仅自动广告。<br>
+            • 填 <code>0.8</code> → 4 组统一 0.8<br>
+            • 填 <code>close-match:0.8;loose-match:0.6</code> → 分组定价（组名:价格，分号隔开）<br>
+            • 组名：close-match 紧密 / loose-match 宽泛 / substitutes 同类 / complements 关联<br>
+            • 留空 = 用广告组默认竞价；选「暂停」的组不填价也行</td></tr>
         <tr><td>开始日期</td><td>建议勾选「留空」，= 上传当天开始</td></tr>
       </table>
       <div class="msg warn" style="margin-top:12px">
@@ -628,7 +639,14 @@ const COL_LABEL = {"关键词竞价USD":"关键词竞价USD","广告组默认竞
 
 function renderInputTable(){
   const thead=$("#tblIn thead"), tbody=$("#tblIn tbody");
-  thead.innerHTML = "<tr>"+TBL_COLS.map(c=>`<th>${esc(COL_LABEL[c]||c)}</th>`).join("")+"<th>操作</th></tr>";
+  const TIPS = {
+    "自动-紧密匹配": "close-match 紧密匹配：下拉 启用/暂停/不建（不建=留空）",
+    "自动-宽泛匹配": "loose-match 宽泛匹配：下拉 启用/暂停/不建",
+    "自动-同类商品": "substitutes 同类商品：下拉 启用/暂停/不建",
+    "自动-关联商品": "complements 关联商品：下拉 启用/暂停/不建",
+    "自动目标竞价USD": "4组统一：填 0.8 ／ 分组：close-match:0.8;loose-match:0.6 ／ 不填=用广告组默认竞价"
+  };
+  thead.innerHTML = "<tr>"+TBL_COLS.map(c=>`<th title="${esc(TIPS[c]||"")}">${esc(COL_LABEL[c]||c)}${TIPS[c]?' ❓':''}</th>`).join("")+"<th>操作</th></tr>";
   tbody.innerHTML = inputRows.map((r,i)=>`<tr data-i="${i}">`+
     TBL_COLS.map(c=>{
       const v = r[c]==null? "" : r[c];
@@ -639,6 +657,8 @@ function renderInputTable(){
       if(AUTO_GROUPS.some(([f])=>f===c))
         return `<td><select data-c="${c}"><option value="">不建</option>`+
           ["启用","暂停"].map(o=>`<option ${o===v?"selected":""}>${o}</option>`).join("")+`</select></td>`;
+      if(c==="自动目标竞价USD")
+        return `<td><input data-c="${c}" value="${esc(v)}" placeholder="0.8 或 close-match:0.8;loose-match:0.6" style="min-width:230px"></td>`;
       return `<td><input data-c="${c}" value="${esc(v)}"></td>`;
     }).join("")+
     `<td><button class="ghost sm" data-del="${i}">删</button></td></tr>`).join("");
