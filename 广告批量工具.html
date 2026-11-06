@@ -110,6 +110,10 @@
         VC 版上传入口：广告控制台 advertising.amazon.com → Sponsored ads → Bulk operations；
         SC 版：卖家后台 → 广告 → 全部广告活动 → 批量操作。
       </div>
+      <div class="msg ok" style="margin-top:8px">
+        投放类型选 <b>auto</b> 时，多出 4 列「自动:紧密 / 自动:宽泛 / 自动:同类 / 自动:关联」——
+        下拉选 <b>启用 / 暂停 / 不建</b>，还能在「自动组竞价」里给这 4 组分别设价（如 <code>close-match:0.8;loose-match:0.6</code>）。
+      </div>
     </div>
 
     <div class="card">
@@ -271,6 +275,13 @@ B0HNSBB854	2463BLM032DUS	blower motor, ac blower motor	exact	0.6			0.6	8	Dynamic
         <tr><td>竞价策略</td><td>Fixed bid / Dynamic bids - down only / Dynamic bids - up and down</td></tr>
         <tr><td>顶部加价% / 商品页面加价% / 其余加价%</td><td><b>只填数字：+20% 就填 20</b>（填 0.2 = 0.2%）。0–900，留空=不加价</td></tr>
         <tr><td>竞价下限USD / 竞价上限USD</td><td>出价保护，把出价夹在区间内</td></tr>
+        <tr><td>自动-紧密匹配 / 自动-宽泛匹配 / 自动-同类商品 / 自动-关联商品</td>
+            <td><b>仅自动广告有效</b>，下拉选 启用 / 暂停 / 不建（留空）。对应亚马逊自动广告的 4 个目标组：
+            close-match（紧密）/ loose-match（宽泛）/ substitutes（同类商品）/ complements（关联商品）。
+            全部留空时由亚马逊按广告组默认出价自动建 4 组。</td></tr>
+        <tr><td>自动目标竞价USD</td><td>仅自动广告。单个数字 = 4 组统一出价；也可分组写：
+            <code>close-match:0.8;loose-match:0.6;substitutes:0.5</code>；留空 = 用广告组默认出价。
+            选「暂停」的组不填出价也行。</td></tr>
         <tr><td>开始日期</td><td>建议勾选「留空」，= 上传当天开始</td></tr>
       </table>
       <div class="msg warn" style="margin-top:12px">
@@ -337,7 +348,13 @@ const PLACEMENTS = [["顶部加价%","placementTop"],["商品页面加价%","pla
 
 const IN_COLS = ["ASIN","SKU","投放关键词","匹配方式","关键词竞价USD","否定关键词","投放类型","活动名称","广告组名称",
   "广告组默认竞价USD","每日预算USD","竞价策略","顶部加价%","商品页面加价%","其余加价%","竞价下限USD","竞价上限USD",
+  "自动-紧密匹配","自动-宽泛匹配","自动-同类商品","自动-关联商品","自动目标竞价USD",
   "开始日期","状态","广告组合ID"];
+
+// 自动广告 4 个目标组（官方取值）
+const AUTO_GROUPS = [["自动-紧密匹配","close-match"],["自动-宽泛匹配","loose-match"],
+                     ["自动-同类商品","substitutes"],["自动-关联商品","complements"]];
+const AUTO_STATES = {"启用":"enabled","enabled":"enabled","暂停":"paused","paused":"paused"};
 
 const DEFAULTS = {匹配方式:"exact", 投放类型:"manual", 广告组默认竞价USD:0.75, 每日预算USD:20,
   竞价策略:"Dynamic bids - down only", 状态:"enabled"};
@@ -439,6 +456,40 @@ function normalize(rec, idx, account){
     }
   });
 
+  // 自动广告目标组（启用/暂停/留空=不建）+ 可选单独出价
+  r._autoGroups = [];
+  if(r["投放类型"]==="auto"){
+    const bidMap = {};
+    const rawMap = String(r["自动目标竞价USD"]||"").trim();
+    if(rawMap){
+      if(/^[0-9.]+$/.test(rawMap)){
+        const b = Math.round(parseFloat(rawMap)*100)/100;
+        AUTO_GROUPS.forEach(([,e])=>{ bidMap[e]=b; });
+      }else{
+        rawMap.split(/[;；,，\s]+/).forEach(part=>{
+          const ix = part.indexOf(":");
+          if(ix<=0) return;
+          const k = part.slice(0,ix).trim().toLowerCase();
+          const v = parseFloat(part.slice(ix+1));
+          if(["close-match","loose-match","substitutes","complements"].includes(k) && !isNaN(v)) bidMap[k]=Math.round(v*100)/100;
+          else warns.push(`第${idx}行 自动目标竞价里的 '${k}' 不是合法目标组，已忽略`);
+        });
+      }
+    }
+    AUTO_GROUPS.forEach(([f,e])=>{
+      const raw = String(r[f]==null?"":r[f]).trim();
+      if(!raw) return;
+      const st = AUTO_STATES[raw] || AUTO_STATES[raw.toLowerCase()];
+      if(!st){ errs.push(`${f} 只能填 启用 / 暂停（留空=不建）`); return; }
+      let b = bidMap[e];
+      if(b!==undefined) b = clamp(b, `第${idx}行 自动组(${e})竞价`);
+      r._autoGroups.push({expr:e, state:st, bid: b===undefined? null : b});
+    });
+  }else{
+    if(AUTO_GROUPS.some(([f])=>String(r[f]==null?"":r[f]).trim()) || String(r["自动目标竞价USD"]||"").trim())
+      warns.push(`第${idx}行 填了自动目标组，但投放类型不是 auto，已忽略`);
+  }
+
   let sd = String(r["开始日期"]==null?"":r["开始日期"]).trim();
   if(sd && !/^\d{8}$/.test(sd)){
     const mm = sd.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})$/);
@@ -510,6 +561,15 @@ function buildBulkRows(records, account, blankStart){
           if(account==="vc") pa.ASIN = r.ASIN; else pa.SKU = r.SKU;
           rows.push(pa);
         }
+        if(r["投放类型"]==="auto"){
+          (r._autoGroups||[]).forEach(g=>{
+            const pt={"Product":"Sponsored Products","Entity":"Product targeting","Operation":"Create",
+              "Campaign Id":cname,"Ad Group Id":aname,"State":g.state,
+              "Product Targeting Expression":g.expr};
+            if(g.bid!==null && g.bid!==undefined) pt["Bid"]=g.bid;
+            rows.push(pt);
+          });
+        }
         if(r["投放类型"]==="manual"){
           r._keywords.forEach(kw=>{
             const k = [aname, kw.toLowerCase(), r["匹配方式"]].join("|");
@@ -559,9 +619,12 @@ function csvCell(v){
 /* ============================== 输入表格 UI ============================== */
 let inputRows = [];   // [{列:值}]
 const TBL_COLS = ["ASIN","SKU","投放关键词","匹配方式","关键词竞价USD","否定关键词","投放类型","活动名称","广告组名称",
-  "广告组默认竞价USD","每日预算USD","竞价策略","顶部加价%","商品页面加价%","其余加价%","竞价下限USD","竞价上限USD","状态"];
+  "广告组默认竞价USD","每日预算USD","竞价策略","顶部加价%","商品页面加价%","其余加价%","竞价下限USD","竞价上限USD",
+  "自动-紧密匹配","自动-宽泛匹配","自动-同类商品","自动-关联商品","自动目标竞价USD","状态"];
 const COL_LABEL = {"关键词竞价USD":"关键词竞价USD","广告组默认竞价USD":"组默认竞价","每日预算USD":"日预算",
-  "顶部加价%":"顶部加价%","商品页面加价%":"商品页加价%","其余加价%":"其余加价%","竞价下限USD":"下限","竞价上限USD":"上限"};
+  "顶部加价%":"顶部加价%","商品页面加价%":"商品页加价%","其余加价%":"其余加价%","竞价下限USD":"下限","竞价上限USD":"上限",
+  "自动-紧密匹配":"自动:紧密","自动-宽泛匹配":"自动:宽泛","自动-同类商品":"自动:同类","自动-关联商品":"自动:关联",
+  "自动目标竞价USD":"自动组竞价"};
 
 function renderInputTable(){
   const thead=$("#tblIn thead"), tbody=$("#tblIn tbody");
@@ -573,6 +636,9 @@ function renderInputTable(){
       if(c==="投放类型") return `<td><select data-c="${c}">${TARGETING.map(o=>`<option ${o===v?"selected":""}>${o}</option>`).join("")}</select></td>`;
       if(c==="竞价策略") return `<td><select data-c="${c}">${STRATEGIES.map(o=>`<option ${o===v?"selected":""}>${o}</option>`).join("")}</select></td>`;
       if(c==="状态") return `<td><select data-c="${c}">${STATES.map(o=>`<option ${o===v?"selected":""}>${o}</option>`).join("")}</select></td>`;
+      if(AUTO_GROUPS.some(([f])=>f===c))
+        return `<td><select data-c="${c}"><option value="">不建</option>`+
+          ["启用","暂停"].map(o=>`<option ${o===v?"selected":""}>${o}</option>`).join("")+`</select></td>`;
       return `<td><input data-c="${c}" value="${esc(v)}"></td>`;
     }).join("")+
     `<td><button class="ghost sm" data-del="${i}">删</button></td></tr>`).join("");
@@ -747,6 +813,7 @@ function doGenerate(){
   const cnt = {};
   rows.forEach(r=>cnt[r.Entity]=(cnt[r.Entity]||0)+1);
   const nAdj = cnt[ENT.adj]||0;
+  const nPT = cnt["Product targeting"]||0;
 
   lastGen = rows;
   lastGenName = `SP广告批量创建_${account.toUpperCase()}_${todayStr()}`;
@@ -760,7 +827,7 @@ function doGenerate(){
 
   kpi.innerHTML = [
     ["广告活动", cnt[ENT.camp]||0], ["广告组", cnt[ENT.ag]||0], ["商品广告", cnt[ENT.pa]||0],
-    ["关键词", cnt[ENT.kw]||0], ["否定词", cnt[ENT.neg]||0], ["广告位加价", nAdj]
+    ["关键词", cnt[ENT.kw]||0], ["否定词", cnt[ENT.neg]||0], ["广告位加价", nAdj], ["自动目标组", nPT]
   ].map(([k,v])=>`<div class="kpi"><div class="v">${v}</div><div class="k">${k}</div></div>`).join("");
 
   // 预览
@@ -1205,7 +1272,9 @@ $("#btnSample").addEventListener("click",()=>{
     {ASIN:"B0H6KAX002",SKU:"3405BLM274NUS","投放关键词":"","匹配方式":"exact",
      "关键词竞价USD":"","否定关键词":"","投放类型":"auto","活动名称":"","广告组名称":"",
      "广告组默认竞价USD":"0.55","每日预算USD":"10","竞价策略":"Fixed bid",
-     "顶部加价%":"","商品页面加价%":"","其余加价%":"","竞价下限USD":"0.3","竞价上限USD":"3","状态":"enabled"}
+     "顶部加价%":"","商品页面加价%":"","其余加价%":"","竞价下限USD":"0.3","竞价上限USD":"3",
+     "自动-紧密匹配":"启用","自动-宽泛匹配":"启用","自动-同类商品":"暂停","自动-关联商品":"",
+     "自动目标竞价USD":"close-match:0.7;loose-match:0.5","状态":"enabled"}
   ];
   renderInputTable(); $("#parseInfo").textContent="已填入 2 行示例";
 });
