@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>亚马逊 SP 广告批量工具 · KAX</title>
+<script src="xlsx.full.min.js"></script>
+<style>
+  :root{
+    --blue:#1f4e79; --blue2:#2d6ca3; --line:#d8e0e8; --bg:#f4f7fa; --card:#fff;
+    --txt:#1b2733; --muted:#6b7c8f; --ok:#1f8a4c; --warn:#b8720a; --err:#c0392b;
+    --green-bg:#eaf7ef; --warn-bg:#fff7e6; --err-bg:#fdecea;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);
+       font-family:"Microsoft YaHei","微软雅黑",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:14px}
+  header{background:linear-gradient(135deg,#1f4e79,#2d6ca3);color:#fff;padding:16px 22px;display:flex;
+         align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  header h1{margin:0;font-size:17px;font-weight:600;letter-spacing:.3px}
+  header .tag{font-size:12px;opacity:.85}
+  .wrap{max-width:1500px;margin:0 auto;padding:16px 18px 60px}
+  .tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+  .tab{padding:9px 18px;background:#fff;border:1px solid var(--line);border-radius:8px 8px 0 0;cursor:pointer;
+       font-size:14px;color:var(--muted)}
+  .tab.active{background:var(--blue);color:#fff;border-color:var(--blue);font-weight:600}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:14px;
+        box-shadow:0 1px 3px rgba(31,78,121,.05)}
+  .card h2{margin:0 0 12px;font-size:14px;color:var(--blue);display:flex;align-items:center;gap:8px}
+  .card h2 .n{display:inline-flex;width:20px;height:20px;border-radius:50%;background:var(--blue);color:#fff;
+              font-size:12px;align-items:center;justify-content:center}
+  .row{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end}
+  .field{display:flex;flex-direction:column;gap:4px}
+  .field label{font-size:12px;color:var(--muted)}
+  input[type=text],input[type=number],select,textarea{
+    border:1px solid var(--line);border-radius:6px;padding:7px 9px;font-size:13px;font-family:inherit;
+    background:#fff;color:var(--txt);min-width:120px}
+  textarea{width:100%;min-height:110px;font-family:Consolas,Menlo,monospace;font-size:12px;resize:vertical}
+  button{background:var(--blue);color:#fff;border:none;border-radius:7px;padding:9px 18px;font-size:13px;
+         cursor:pointer;font-family:inherit;font-weight:600}
+  button:hover{background:var(--blue2)}
+  button.ghost{background:#fff;color:var(--blue);border:1px solid var(--blue)}
+  button.ghost:hover{background:#eef4fa}
+  button.sm{padding:5px 10px;font-size:12px}
+  button:disabled{opacity:.45;cursor:not-allowed}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden}
+  .seg label{padding:7px 14px;cursor:pointer;font-size:13px;background:#fff;color:var(--muted)}
+  .seg input{display:none}
+  .seg input:checked + span{background:var(--blue);color:#fff;display:block;margin:-7px -14px;padding:7px 14px}
+  .seg span{display:block}
+  .hint{font-size:12px;color:var(--muted);line-height:1.7}
+  .hint code{background:#eef2f6;padding:1px 5px;border-radius:4px;font-family:Consolas,monospace}
+  table{border-collapse:collapse;width:100%;font-size:12.5px}
+  th,td{border:1px solid var(--line);padding:5px 7px;text-align:left;vertical-align:middle}
+  th{background:#e8eff6;color:var(--blue);font-weight:600;position:sticky;top:0;z-index:2;white-space:nowrap}
+  tr:nth-child(even) td{background:#fafcfe}
+  .scroll{max-height:430px;overflow:auto;border:1px solid var(--line);border-radius:8px}
+  .scroll table{margin:0}
+  td input,td select{width:100%;min-width:70px;border:1px solid transparent;padding:3px 5px;font-size:12.5px}
+  td input:focus,td select:focus{border-color:var(--blue2);outline:none;background:#fff}
+  .res{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+  .kpi{background:#f1f6fa;border:1px solid var(--line);border-radius:8px;padding:8px 14px;min-width:110px}
+  .kpi .v{font-size:18px;font-weight:700;color:var(--blue)}
+  .kpi .k{font-size:11px;color:var(--muted)}
+  .msg{border-radius:8px;padding:9px 12px;margin:8px 0;font-size:12.5px;line-height:1.7}
+  .msg.ok{background:var(--green-bg);color:var(--ok);border:1px solid #bfe4cd}
+  .msg.warn{background:var(--warn-bg);color:var(--warn);border:1px solid #f2ddb4}
+  .msg.err{background:var(--err-bg);color:var(--err);border:1px solid #f5c6c0}
+  .msg ul{margin:4px 0 0 18px;padding:0}
+  .file{display:inline-flex;align-items:center;gap:8px;border:1px dashed var(--blue2);border-radius:8px;
+        padding:8px 14px;cursor:pointer;color:var(--blue);font-size:13px;background:#f7fbff}
+  .file input{display:none}
+  .hidden{display:none!important}
+  .small{font-size:12px;color:var(--muted)}
+  .badge{display:inline-block;background:#e8eff6;color:var(--blue);border-radius:5px;padding:1px 7px;font-size:11px;margin-left:6px}
+</style>
+</head>
+<body>
+<header>
+  <h1>亚马逊 SP 广告批量工具</h1>
+  <div class="tag">批量创建 · 批量修改 ｜ 纯浏览器运行，文件不上传服务器</div>
+</header>
+
+<div class="wrap">
+  <div class="tabs">
+    <div class="tab active" data-tab="create">① 批量创建广告</div>
+    <div class="tab" data-tab="update">② 批量修改（改名/改出价/调竞价/改预算）</div>
+    <div class="tab" data-tab="help">使用说明</div>
+  </div>
+
+  <!-- ============================ 批量创建 ============================ -->
+  <section id="tab-create">
+    <div class="card">
+      <h2><span class="n">1</span>账号类型</h2>
+      <div class="row">
+        <div class="seg">
+          <label><input type="radio" name="acct" value="sc" checked><span>SC 卖家（商品广告填 SKU）</span></label>
+          <label><input type="radio" name="acct" value="vc"><span>VC 供应商（商品广告填 ASIN）</span></label>
+        </div>
+        <div class="field">
+          <label>开始日期</label>
+          <label class="small"><input type="checkbox" id="blankStart" checked> 留空（= 上传当天开始，最安全）</label>
+        </div>
+        <div class="field">
+          <label>输出格式</label>
+          <select id="outFmt"><option value="xlsx">Excel (.xlsx)</option><option value="csv">CSV (.csv)</option></select>
+        </div>
+      </div>
+      <div class="msg warn" style="margin-top:10px">
+        VC 版上传入口：广告控制台 advertising.amazon.com → Sponsored ads → Bulk operations；
+        SC 版：卖家后台 → 广告 → 全部广告活动 → 批量操作。
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="n">2</span>导入投放清单</h2>
+      <div class="row" style="margin-bottom:10px">
+        <label class="file">📂 上传 Excel / CSV<input type="file" id="fileIn" accept=".xlsx,.xls,.csv,.txt"></label>
+        <button class="ghost sm" id="btnSample">填入示例行</button>
+        <button class="ghost sm" id="btnClear">清空表格</button>
+        <button class="ghost sm" id="btnAddRow">+ 加一行</button>
+      </div>
+      <div class="hint">
+        也可以把 Excel 里的一段（含表头）直接粘到下面，然后点「解析粘贴内容」：
+      </div>
+      <textarea id="pasteBox" placeholder="ASIN	SKU	投放关键词	匹配方式	关键词竞价USD	否定关键词	投放类型	活动名称	广告组名称	广告组默认竞价USD	每日预算USD	竞价策略	顶部加价%	商品页面加价%	其余加价%	竞价下限USD	竞价上限USD	开始日期	状态	广告组合ID
+B0HNSBB854	2463BLM032DUS	blower motor, ac blower motor	exact	0.6			0.6	8	Dynamic bids - down only	20	10	(可空)	(可空)			enabled	"></textarea>
+      <div class="row" style="margin-top:8px">
+        <button id="btnParse">解析粘贴内容</button>
+        <span class="small" id="parseInfo"></span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="n">3</span>核对清单（可直接在表格里改，灰显列会自动取默认值）</h2>
+      <div class="scroll"><table id="tblIn"><thead></thead><tbody></tbody></table></div>
+      <div class="row" style="margin-top:12px">
+        <button id="btnGen">校验并生成上传文件</button>
+        <button class="ghost" id="btnDlX" disabled>⬇ 下载 xlsx</button>
+        <button class="ghost" id="btnDlC" disabled>⬇ 下载 csv</button>
+      </div>
+      <div id="genMsg"></div>
+      <div class="res" id="genKpi"></div>
+      <div class="scroll hidden" id="prevWrap" style="margin-top:12px;max-height:320px">
+        <table id="tblPrev"><thead></thead><tbody></tbody></table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ 批量修改 ============================ -->
+  <section id="tab-update" class="hidden">
+    <div class="card">
+      <h2><span class="n">1</span>上传后台导出的批量表 <span class="badge">含真实ID</span></h2>
+      <div class="hint" style="margin-bottom:10px">
+        广告后台 → 批量操作 → 选日期范围 → <b>Create spreadsheet for download</b> → 下载后传这里。
+        改已有广告必须用批量表里的 ID（不是控制台显示的 ID）。
+      </div>
+      <div class="row">
+        <label class="file">📂 上传批量表<input type="file" id="fileBulk" accept=".xlsx,.xls,.csv,.txt"></label>
+        <span class="small" id="bulkInfo">未加载</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="n">2</span>操作规则（一行一条，自上而下执行）</h2>
+      <div class="scroll" style="max-height:none"><table id="tblRules"><thead></thead><tbody></tbody></table></div>
+      <div class="row" style="margin-top:10px">
+        <button class="ghost sm" id="btnAddRule">+ 加一条规则</button>
+        <button class="ghost sm" id="btnDemoRule">填入示例规则</button>
+        <button id="btnRunRules">执行并生成文件</button>
+      </div>
+      <div id="ruleMsg"></div>
+      <div class="res" id="ruleKpi"></div>
+      <div class="row" style="margin-top:10px">
+        <button class="ghost" id="btnDlUp" disabled>⬇ 下载上传文件</button>
+        <button class="ghost" id="btnDlLog" disabled>⬇ 下载变更对照</button>
+      </div>
+      <div class="scroll hidden" id="logWrap" style="margin-top:12px;max-height:320px">
+        <table id="tblLog"><thead></thead><tbody></tbody></table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ 说明 ============================ -->
+  <section id="tab-help" class="hidden">
+    <div class="card">
+      <h2>批量创建：清单列说明</h2>
+      <table>
+        <tr><th>列</th><th>说明</th></tr>
+        <tr><td>ASIN / SKU</td><td>SC 卖家填 <b>SKU</b>（ASIN 可留空）；VC 供应商填 <b>ASIN</b>（SKU 留空也行，会忽略）</td></tr>
+        <tr><td>投放关键词</td><td>多个用 逗号/分号 分隔，自动拆成多个关键词行；自动广告留空</td></tr>
+        <tr><td>匹配方式</td><td>exact / phrase / broad，默认 exact</td></tr>
+        <tr><td>关键词竞价USD</td><td>留空=继承广告组默认出价（默认 0.75）</td></tr>
+        <tr><td>投放类型</td><td>manual（默认）/ auto（不填关键词，亚马逊自动建 4 个目标组）</td></tr>
+        <tr><td>活动名称</td><td>留空自动命名 SP-{ASIN}-{日期}；同名多行合并成一个活动</td></tr>
+        <tr><td>广告组名称</td><td>留空=ASIN；同活动+同组名共用广告组</td></tr>
+        <tr><td>每日预算USD</td><td>默认 20</td></tr>
+        <tr><td>竞价策略</td><td>Fixed bid / Dynamic bids - down only / Dynamic bids - up and down</td></tr>
+        <tr><td>顶部加价% / 商品页面加价% / 其余加价%</td><td><b>只填数字：+20% 就填 20</b>（填 0.2 = 0.2%）。0–900，留空=不加价</td></tr>
+        <tr><td>竞价下限USD / 竞价上限USD</td><td>出价保护，把出价夹在区间内</td></tr>
+        <tr><td>开始日期</td><td>建议勾选「留空」，= 上传当天开始</td></tr>
+      </table>
+      <div class="msg warn" style="margin-top:12px">
+        加价是乘在关键词出价上的百分比：<code>最终出价 ≈ 关键词出价 × (1 + 加价%)</code>，再按竞价策略浮动（固定=不动；仅降低 0~-100%；提高和降低 ±100%）。
+      </div>
+    </div>
+    <div class="card">
+      <h2>批量修改：规则表说明</h2>
+      <table>
+        <tr><th>列</th><th>可选值</th></tr>
+        <tr><td>操作</td><td>改活动名 / 改广告组名 / 改关键词出价 / 改广告组默认出价 / 改活动预算</td></tr>
+        <tr><td>目标筛选</td><td>全部 / 活动名包含 / 活动名等于 / 活动ID / SKU / ASIN / 关键词匹配方式</td></tr>
+        <tr><td>调整方式</td><td>名称类：加前缀 / 加后缀 / 文本替换(旧=&gt;新) / 设为；数值类：百分比(负=降) / 加金额 / 减金额 / 设为</td></tr>
+        <tr><td>上限 / 下限</td><td>仅数值类生效，调完夹在区间内</td></tr>
+        <tr><td>只处理启用中的</td><td>是 / 否</td></tr>
+      </table>
+      <div class="msg ok" style="margin-top:12px">
+        安全设计：只输出被改动的行；活动在广告组合里时 Portfolio Id 原样带出；State 按原值带出（不会误启用暂停的活动）；同一实体命中多条规则合并成一行。
+      </div>
+    </div>
+    <div class="card">
+      <h2>生成的文件怎么用</h2>
+      <div class="hint">
+        1. 下载得到 <code>.xlsx</code>（或 .csv）<br>
+        2. SC：卖家后台 → 广告 → 全部广告活动 → 批量操作 → 上传文件<br>
+        3. VC：广告控制台 advertising.amazon.com → Sponsored ads → Bulk operations<br>
+        4. 处理是异步的，结果和报错明细在批量操作页查看 / 下载 ErrorReport<br>
+        5. <b>首次先小批量验证</b>（1–2 个活动），通过后再放大
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+/* ============================== 常量 ============================== */
+const SP_COLUMNS = ["Product","Entity","Operation","Campaign Id","Ad Group Id","Portfolio Id","Ad Id","Keyword Id",
+  "Product Targeting Id","Campaign Name","Ad Group Name","Start Date","End Date","Targeting Type","State","Daily Budget",
+  "SKU","ASIN","Ad Group Default Bid","Bid","Keyword Text","Match Type","Bidding Strategy","Placement","Percentage",
+  "Product Targeting Expression","Audience ID","Shopper Cohort Percentage","Shopper Cohort Type","Sites","Off-Amazon ad serving"];
+
+const ENT = {camp:"Campaign", ag:"Ad group", pa:"Product ad", kw:"Keyword", neg:"Negative keyword", adj:"Bidding adjustment"};
+const PLACEMENTS = [["顶部加价%","placementTop"],["商品页面加价%","placementProductPage"],["其余加价%","placementRestOfSearch"]];
+
+const IN_COLS = ["ASIN","SKU","投放关键词","匹配方式","关键词竞价USD","否定关键词","投放类型","活动名称","广告组名称",
+  "广告组默认竞价USD","每日预算USD","竞价策略","顶部加价%","商品页面加价%","其余加价%","竞价下限USD","竞价上限USD",
+  "开始日期","状态","广告组合ID"];
+
+const DEFAULTS = {匹配方式:"exact", 投放类型:"manual", 广告组默认竞价USD:0.75, 每日预算USD:20,
+  竞价策略:"Dynamic bids - down only", 状态:"enabled"};
+
+const MATCH_TYPES=["exact","phrase","broad"], TARGETING=["manual","auto"], STATES=["enabled","paused"];
+const STRATEGIES=["Fixed bid","Dynamic bids - down only","Dynamic bids - up and down"];
+
+const todayStr = () => { const d=new Date(); const p=n=>String(n).padStart(2,"0");
+  return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}`; };
+
+/* ============================== 小工具 ============================== */
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const esc = s => String(s==null?"":s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const numOrNull = v => { if(v===null||v===undefined||String(v).trim()==="") return null;
+  const n=parseFloat(String(v).replace(/[$,]/g,"")); return isNaN(n)?null:n; };
+const fmtNum = n => (n===null||n===undefined||n==="")?"":(Math.abs(n-Math.round(n))<1e-9?String(Math.round(n)):String(Math.round(n*100)/100));
+const pctOut = n => fmtNum(n);
+
+function splitKeywords(text){
+  if(text==null) return [];
+  const out=[], seen=new Set();
+  String(text).split(/[,，;；、\n\r\t]+/).forEach(p=>{
+    const t=p.trim(); if(t && !seen.has(t)){ seen.add(t); out.push(t); }
+  });
+  return out;
+}
+
+/* ============================== 校验 + 标准化 ============================== */
+function normalize(rec, idx, account){
+  const errs=[], warns=[];
+  const r = Object.assign({}, DEFAULTS, rec);
+
+  if(account==="vc"){
+    if(!r.ASIN) errs.push("VC(供应商)账号：必须填 ASIN");
+    if(r.SKU) warns.push(`VC 账号商品广告用 ASIN，已忽略 SKU『${r.SKU}』`);
+    r.SKU="";
+  }else{
+    if(!r.SKU) errs.push("SC(卖家)账号：商品广告必须填 SKU（VC 账号请切到 VC 模式）");
+  }
+
+  r["投放类型"] = String(r["投放类型"]||"").trim().toLowerCase();
+  if(!TARGETING.includes(r["投放类型"])) errs.push(`投放类型 '${r["投放类型"]}' 必须是 manual 或 auto`);
+
+  const kws = splitKeywords(r["投放关键词"]);
+  r._keywords = kws;
+  if(r["投放类型"]==="manual" && !kws.length) errs.push("手动广告至少要填一个投放关键词");
+  if(r["投放类型"]==="auto" && kws.length) warns.push("自动广告不投放关键词，关键词列已忽略");
+
+  let m = String(r["匹配方式"]||"").trim().toLowerCase();
+  if(kws.length && !MATCH_TYPES.includes(m)) errs.push(`匹配方式 '${r["匹配方式"]}' 必须是 exact/phrase/broad`);
+  if(!m) m="exact";
+  r["匹配方式"]=m;
+
+  r._negatives = splitKeywords(r["否定关键词"]);
+
+  let bid = numOrNull(r["关键词竞价USD"]);
+  let defBid = numOrNull(r["广告组默认竞价USD"]);
+  if(defBid===null) defBid = (bid!==null? bid : DEFAULTS["广告组默认竞价USD"]);
+  const lo = numOrNull(r["竞价下限USD"]), hi = numOrNull(r["竞价上限USD"]);
+  if(lo!==null && hi!==null && lo>hi) errs.push(`竞价下限 ${lo} 不能大于 竞价上限 ${hi}`);
+  const clamp=(x,label)=>{ if(x===null) return null; let y=x;
+    if(lo!==null && y<lo){ warns.push(`${label} ${y} 低于下限，已调整为 ${lo}`); y=lo; }
+    if(hi!==null && y>hi){ warns.push(`${label} ${y} 高于上限，已调整为 ${hi}`); y=hi; }
+    return Math.round(y*100)/100; };
+  bid = clamp(bid, `第${idx}行 关键词出价`);
+  defBid = clamp(defBid, `第${idx}行 广告组默认出价`);
+  r["关键词竞价USD"] = bid===null? "" : bid;
+  r["广告组默认竞价USD"] = Math.round(defBid*100)/100;
+
+  let budget = numOrNull(r["每日预算USD"]);
+  if(budget===null || budget<1) errs.push(`每日预算USD '${r["每日预算USD"]}' 必须 ≥ 1`);
+  r["每日预算USD"] = budget===null? "" : Math.round(budget*100)/100;
+
+  const st = String(r["竞价策略"]||"").trim();
+  if(!STRATEGIES.includes(st)) errs.push(`竞价策略 '${r["竞价策略"]}' 必须是 Fixed bid / Dynamic bids - down only / Dynamic bids - up and down`);
+  r["竞价策略"]=st;
+
+  const state=String(r["状态"]||"").trim().toLowerCase();
+  if(!STATES.includes(state)) errs.push(`状态 '${r["状态"]}' 必须是 enabled 或 paused`);
+  r["状态"]=state;
+
+  // 广告位加价：0-900，只填数字
+  PLACEMENTS.forEach(([f])=>{
+    const raw = r[f];
+    if(raw===null||raw===undefined||String(raw).trim()===""){ r[f]=null; return; }
+    const n = numOrNull(String(raw).replace(/[%％]/g,""));
+    if(n===null) errs.push(`${f} 的值 '${raw}' 不是数字（填 20 = +20%）`);
+    else if(n<0||n>900) errs.push(`${f} 的值 ${n} 超出 0-900（填 20 = +20%）`);
+    else{
+      if(n>0&&n<1) warns.push(`${f} 填的是 ${n}，等于 ${n}%；如果要 ${Math.round(n*100)}% 请填 ${Math.round(n*100)}`);
+      r[f]=n;
+    }
+  });
+
+  let sd = String(r["开始日期"]==null?"":r["开始日期"]).trim();
+  if(sd && !/^\d{8}$/.test(sd)){
+    const mm = sd.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})$/);
+    sd = mm? `${mm[1]}${String(mm[2]).padStart(2,"0")}${String(mm[3]).padStart(2,"0")}` : sd;
+    if(!/^\d{8}$/.test(sd)) errs.push(`开始日期 '${r["开始日期"]}' 格式不对，用 yyyyMMdd`);
+  }
+  r["开始日期"]=sd;
+  if(sd && sd<=todayStr()) warns.push(`开始日期 ${sd} 是今天或更早：隔天再上传会报“过去日期”错误，建议留空`);
+
+  if(r["广告组合ID"] && !/^\d{1,20}$/.test(String(r["广告组合ID"]).trim()))
+    errs.push("广告组合ID 应是数字，留空=默认组合");
+
+  return {r, errs, warns};
+}
+
+/* ============================== 组装批量表行 ============================== */
+function buildBulkRows(records, account, blankStart){
+  const rows=[], warns=[], errs=[];
+  const groups = new Map();
+
+  records.forEach((rec,i)=>{
+    const {r, errs:e, warns:w} = normalize(rec, i+1, account);
+    errs.push(...e); warns.push(...w);
+    if(e.length) return;
+    if(blankStart) r["开始日期"]="";
+    const cname = String(r["活动名称"]||"").trim() || `SP-${r.ASIN||r.SKU}-${todayStr()}`;
+    const aname = String(r["广告组名称"]||"").trim() || (r.ASIN||r.SKU);
+    if(!groups.has(cname)) groups.set(cname, []);
+    groups.get(cname).push({aname, r});
+  });
+
+  for(const [cname, list] of groups){
+    const first = list[0].r;
+    rows.push({
+      "Product":"Sponsored Products","Entity":ENT.camp,"Operation":"Create",
+      "Campaign Id":cname,"Campaign Name":cname,
+      "Start Date":first["开始日期"]||"","Targeting Type":first["投放类型"],
+      "State":first["状态"],"Daily Budget":first["每日预算USD"],
+      "Bidding Strategy":first["竞价策略"],"Portfolio Id":first["广告组合ID"]||""
+    });
+    PLACEMENTS.forEach(([f,placement])=>{
+      const v = first[f];
+      if(v!==null && v!==undefined && v!=="" && v>0){
+        rows.push({"Product":"Sponsored Products","Entity":ENT.adj,"Operation":"Create",
+          "Campaign Id":cname,"Bidding Strategy":first["竞价策略"],
+          "Placement":placement,"Percentage":pctOut(v)});
+      }
+    });
+
+    const adgroups = new Map();
+    list.forEach(({aname,r})=>{ if(!adgroups.has(aname)) adgroups.set(aname,[]); adgroups.get(aname).push(r); });
+
+    const seenKw = new Set();
+    for(const [aname, rs] of adgroups){
+      const r0 = rs[0];
+      rows.push({"Product":"Sponsored Products","Entity":ENT.ag,"Operation":"Create",
+        "Campaign Id":cname,"Ad Group Id":aname,"Ad Group Name":aname,
+        "State":"enabled","Ad Group Default Bid":r0["广告组默认竞价USD"]});
+
+      const seenPa = new Set();
+      rs.forEach(r=>{
+        const adKey = aname + "|" + (account==="vc" ? r.ASIN : r.SKU);
+        if(seenPa.has(adKey)){
+          warns.push(`活动[${cname}] 广告组[${aname}] 商品广告重复（同一 ${account==="vc"?"ASIN":"SKU"} 多行），已合并`);
+        }else{
+          seenPa.add(adKey);
+          const pa={"Product":"Sponsored Products","Entity":ENT.pa,"Operation":"Create",
+            "Campaign Id":cname,"Ad Group Id":aname,"State":"enabled"};
+          if(account==="vc") pa.ASIN = r.ASIN; else pa.SKU = r.SKU;
+          rows.push(pa);
+        }
+        if(r["投放类型"]==="manual"){
+          r._keywords.forEach(kw=>{
+            const k = [aname, kw.toLowerCase(), r["匹配方式"]].join("|");
+            if(seenKw.has(k)){ warns.push(`活动[${cname}] 广告组[${aname}] 关键词 '${kw}'（${r["匹配方式"]}）重复，已去重`); return; }
+            seenKw.add(k);
+            rows.push({"Product":"Sponsored Products","Entity":ENT.kw,"Operation":"Create",
+              "Campaign Id":cname,"Ad Group Id":aname,"State":"enabled",
+              "Bid": r["关键词竞价USD"]===""? "" : r["关键词竞价USD"],
+              "Keyword Text":kw,"Match Type":r["匹配方式"]});
+          });
+        }
+        r._negatives.forEach(ng=>{
+          rows.push({"Product":"Sponsored Products","Entity":ENT.neg,"Operation":"Create",
+            "Campaign Id":cname,"Ad Group Id":aname,"State":"enabled",
+            "Keyword Text":ng,"Match Type":"exact"});
+        });
+      });
+    }
+  }
+  return {rows, warns, errs};
+}
+
+/* ============================== 下载 ============================== */
+function sheetFromRows(rows){
+  const aoa = [SP_COLUMNS].concat(rows.map(r=>SP_COLUMNS.map(c=> (r[c]===undefined||r[c]===null)? "" : r[c])));
+  return XLSX.utils.aoa_to_sheet(aoa);
+}
+function downloadXlsx(rows, filename, extraSheets){
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, sheetFromRows(rows), "Sponsored Products");
+  (extraSheets||[]).forEach(([name, aoa])=> XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(aoa), name));
+  XLSX.writeFile(wb, filename);
+}
+function downloadCsv(rows, filename){
+  const lines=[SP_COLUMNS.map(csvCell).join(",")];
+  rows.forEach(r=>lines.push(SP_COLUMNS.map(c=>csvCell(r[c])).join(",")));
+  const blob = new Blob(["\ufeff"+lines.join("\r\n")], {type:"text/csv;charset=utf-8"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=filename; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 3000);
+}
+function csvCell(v){
+  if(v===undefined||v===null) return "";
+  const s=String(v);
+  return /[",\r\n]/.test(s)? '"'+s.replace(/"/g,'""')+'"' : s;
+}
+
+/* ============================== 输入表格 UI ============================== */
+let inputRows = [];   // [{列:值}]
+const TBL_COLS = ["ASIN","SKU","投放关键词","匹配方式","关键词竞价USD","否定关键词","投放类型","活动名称","广告组名称",
+  "广告组默认竞价USD","每日预算USD","竞价策略","顶部加价%","商品页面加价%","其余加价%","竞价下限USD","竞价上限USD","状态"];
+const COL_LABEL = {"关键词竞价USD":"关键词竞价USD","广告组默认竞价USD":"组默认竞价","每日预算USD":"日预算",
+  "顶部加价%":"顶部加价%","商品页面加价%":"商品页加价%","其余加价%":"其余加价%","竞价下限USD":"下限","竞价上限USD":"上限"};
+
+function renderInputTable(){
+  const thead=$("#tblIn thead"), tbody=$("#tblIn tbody");
+  thead.innerHTML = "<tr>"+TBL_COLS.map(c=>`<th>${esc(COL_LABEL[c]||c)}</th>`).join("")+"<th>操作</th></tr>";
+  tbody.innerHTML = inputRows.map((r,i)=>`<tr data-i="${i}">`+
+    TBL_COLS.map(c=>{
+      const v = r[c]==null? "" : r[c];
+      if(c==="匹配方式") return `<td><select data-c="${c}">${MATCH_TYPES.map(o=>`<option ${o===v?"selected":""}>${o}</option>`).join("")}</select></td>`;
+      if(c==="投放类型") return `<td><select data-c="${c}">${TARGETING.map(o=>`<option ${o===v?"selected":""}>${o}</option>`).join("")}</select></td>`;
+      if(c==="竞价策略") return `<td><select data-c="${c}">${STRATEGIES.map(o=>`<option ${o===v?"selected":""}>${o}</option>`).join("")}</select></td>`;
+      if(c==="状态") return `<td><select data-c="${c}">${STATES.map(o=>`<option ${o===v?"selected":""}>${o}</option>`).join("")}</select></td>`;
+      return `<td><input data-c="${c}" value="${esc(v)}"></td>`;
+    }).join("")+
+    `<td><button class="ghost sm" data-del="${i}">删</button></td></tr>`).join("");
+
+  tbody.querySelectorAll("input,select").forEach(el=>{
+    el.addEventListener("change", e=>{
+      const tr=e.target.closest("tr"); const i=+tr.dataset.i;
+      inputRows[i][e.target.dataset.c] = e.target.value;
+    });
+  });
+  tbody.querySelectorAll("[data-del]").forEach(b=>{
+    b.addEventListener("click", e=>{
+      inputRows.splice(+e.target.dataset.del,1); renderInputTable();
+    });
+  });
+}
+
+function rowsFromAoa(aoa){
+  if(!aoa.length) return [];
+  let hi = aoa.findIndex(r=> (r||[]).map(x=>String(x==null?"":x).trim()).includes("ASIN"));
+  if(hi<0) hi=0;
+  const headers=(aoa[hi]||[]).map(x=>String(x==null?"":x).trim());
+  const out=[];
+  for(let i=hi+1;i<aoa.length;i++){
+    const row=aoa[i]||[];
+    if(row.every(v=>v===null||String(v).trim()==="")) continue;
+    const rec={};
+    headers.forEach((h,j)=>{ if(h) rec[h]= row[j]===undefined||row[j]===null? "" : String(row[j]).trim(); });
+    if(!rec.ASIN && !rec.SKU && !rec["投放关键词"]) continue;
+    out.push(rec);
+  }
+  return out;
+}
+
+async function readFileToAoa(file){
+  const isText = /\.(csv|txt|tsv)$/i.test(file.name);
+  let wb;
+  if(isText){
+    const txt = (await file.text()).replace(/^\ufeff/, "");   // 文本文件按 UTF-8 读，避免中文乱码
+    wb = XLSX.read(txt, {type:"string", codepage:65001});
+  }else{
+    const buf = await file.arrayBuffer();
+    wb = XLSX.read(buf, {type:"array"});
+  }
+  for(const name of wb.SheetNames){
+    const aoa = XLSX.utils.sheet_to_json(wb.Sheets[name], {header:1, raw:false, defval:""});
+    if(aoa.some(r=>(r||[]).map(x=>String(x==null?"":x).trim()).includes("ASIN"))) return aoa;
+  }
+  return XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], {header:1, raw:false, defval:""});
+}
+
+/* ============================== 生成流程 ============================== */
+let lastGen = null, lastGenName = "";
+
+function doGenerate(){
+  const account = document.querySelector('input[name=acct]:checked').value;
+  const blankStart = $("#blankStart").checked;
+  const msg=$("#genMsg"), kpi=$("#genKpi");
+  msg.innerHTML=""; kpi.innerHTML="";
+
+  if(!inputRows.length){ msg.innerHTML='<div class="msg err">清单是空的：先上传文件或粘贴内容。</div>'; return; }
+
+  const {rows, warns, errs} = buildBulkRows(inputRows, account, blankStart);
+  if(errs.length){
+    msg.innerHTML = '<div class="msg err"><b>校验没通过（'+errs.length+' 个问题）：</b><ul>'+
+      errs.slice(0,30).map(e=>`<li>${esc(e)}</li>`).join("")+'</ul></div>';
+    return;
+  }
+  const cnt = {};
+  rows.forEach(r=>cnt[r.Entity]=(cnt[r.Entity]||0)+1);
+  const nAdj = cnt[ENT.adj]||0;
+
+  lastGen = rows;
+  lastGenName = `SP广告批量创建_${account.toUpperCase()}_${todayStr()}`;
+
+  const uniqWarns = Array.from(new Set(warns));
+  msg.innerHTML =
+    (warns.length? '<div class="msg warn"><b>提示（'+uniqWarns.length+' 条）：</b><ul>'+
+      uniqWarns.slice(0,12).map(w=>`<li>${esc(w)}</li>`).join("")+
+      (uniqWarns.length>12?`<li>… 还有 ${uniqWarns.length-12} 条</li>`:"")+'</ul></div>' : '')+
+    '<div class="msg ok">生成成功：共 '+rows.length+' 行，可直接下载上传。</div>';
+
+  kpi.innerHTML = [
+    ["广告活动", cnt[ENT.camp]||0], ["广告组", cnt[ENT.ag]||0], ["商品广告", cnt[ENT.pa]||0],
+    ["关键词", cnt[ENT.kw]||0], ["否定词", cnt[ENT.neg]||0], ["广告位加价", nAdj]
+  ].map(([k,v])=>`<div class="kpi"><div class="v">${v}</div><div class="k">${k}</div></div>`).join("");
+
+  // 预览
+  const pv=$("#tblPrev");
+  const pcols=["Entity","Campaign Id","Ad Group Id","Campaign Name","Ad Group Name","Bidding Strategy","Placement","Percentage","Daily Budget","SKU","ASIN","Ad Group Default Bid","Bid","Keyword Text","Match Type","State"];
+  pv.querySelector("thead").innerHTML="<tr>"+pcols.map(c=>`<th>${c}</th>`).join("")+"</tr>";
+  pv.querySelector("tbody").innerHTML=rows.slice(0,40).map(r=>
+    "<tr>"+pcols.map(c=>`<td>${esc(r[c]||"")}</td>`).join("")+"</tr>").join("");
+  $("#prevWrap").classList.remove("hidden");
+  $("#btnDlX").disabled=false; $("#btnDlC").disabled=false;
+}
+
+/* ============================== 批量修改 ============================== */
+let bulkHeaders=null, bulkData=[], ruleRows=[], lastUpd=null, lastLog=null;
+
+const RULE_COLS=["操作","目标筛选","筛选值","调整方式","数值","下限","上限","只处理启用中的"];
+const OPS=["改活动名","改广告组名","改关键词出价","改广告组默认出价","改活动预算"];
+const FILTERS=["全部","活动名包含","活动名等于","活动ID","SKU","ASIN","关键词匹配方式"];
+const MODES=["加前缀","加后缀","文本替换","设为","百分比","加金额","减金额"];
+
+function renderRules(){
+  const thead=$("#tblRules thead"), tbody=$("#tblRules tbody");
+  thead.innerHTML="<tr>"+RULE_COLS.map(c=>`<th>${c}</th>`).join("")+"<th>操作</th></tr>";
+  tbody.innerHTML=ruleRows.map((r,i)=>`<tr data-i="${i}">`+
+    RULE_COLS.map(c=>{
+      let opts=null;
+      if(c==="操作") opts=OPS; else if(c==="目标筛选") opts=FILTERS;
+      else if(c==="调整方式") opts=MODES; else if(c==="只处理启用中的") opts=["是","否"];
+      const v=r[c]==null?"":r[c];
+      if(opts) return `<td><select data-c="${c}">${opts.map(o=>`<option ${o===v?"selected":""}>${o}</option>`).join("")}</select></td>`;
+      return `<td><input data-c="${c}" value="${esc(v)}"></td>`;
+    }).join("")+`<td><button class="ghost sm" data-delr="${i}">删</button></td></tr>`).join("");
+  tbody.querySelectorAll("input,select").forEach(el=>el.addEventListener("change",e=>{
+    const i=+e.target.closest("tr").dataset.i; ruleRows[i][e.target.dataset.c]=e.target.value;
+  }));
+  tbody.querySelectorAll("[data-delr]").forEach(b=>b.addEventListener("click",e=>{
+    ruleRows.splice(+e.target.dataset.delr,1); renderRules();
+  }));
+}
+
+function hnorm(s){ return String(s==null?"":s).replace(/[\s_]+/g,"").toLowerCase(); }
+function findKey(headersOrObj, ...names){
+  // 支持传表头数组（批量表）或行对象
+  if(Array.isArray(headersOrObj)){
+    const arr = headersOrObj.filter(h=>h!==undefined && h!==null && String(h).trim()!=="");
+    for(const n of names){ const hit = arr.find(h=>hnorm(h)===hnorm(n)); if(hit!==undefined) return hit; }
+    return null;
+  }
+  const map={}; Object.keys(headersOrObj||{}).forEach(k=>map[hnorm(k)]=k);
+  for(const n of names){ const k=map[hnorm(n)]; if(k!==undefined) return k; }
+  return null;
+}
+
+function runRules(){
+  const msg=$("#ruleMsg"), kpi=$("#ruleKpi"); msg.innerHTML=""; kpi.innerHTML="";
+  if(!bulkData.length){ msg.innerHTML='<div class="msg err">先上传后台导出的批量表。</div>'; return; }
+  if(!ruleRows.length){ msg.innerHTML='<div class="msg err">先填至少一条规则。</div>'; return; }
+
+  const H = bulkHeaders;
+  const cEnt=findKey(H,"Entity"), cOp=findKey(H,"Operation"), cCid=findKey(H,"Campaign Id"),
+        cAg=findKey(H,"Ad Group Id"), cKw=findKey(H,"Keyword Id"), cCname=findKey(H,"Campaign Name"),
+        cAgname=findKey(H,"Ad Group Name"), cBid=findKey(H,"Bid"), cAgBid=findKey(H,"Ad Group Default Bid"),
+        cBudget=findKey(H,"Daily Budget"), cSku=findKey(H,"SKU"), cAsin=findKey(H,"ASIN"),
+        cMatch=findKey(H,"Match Type"), cState=findKey(H,"State");
+
+  // 映射
+  const campName=new Map(), agInfo=new Map(), agSkus=new Map();
+  bulkData.forEach(r=>{
+    const e=String(r[cEnt]||"").toLowerCase();
+    if(e==="campaign" && cCname && r[cCname]) campName.set(String(r[cCid]), String(r[cCname]));
+    else if(e==="ad group") agInfo.set(String(r[cAg]), {camp:String(r[cCid]||""), name:String(r[cAgname]||"")});
+    else if(e==="product ad"){
+      const k=String(r[cAg]); const vs=[r[cSku],r[cAsin]].filter(Boolean).map(String);
+      if(vs.length){ if(!agSkus.has(k)) agSkus.set(k,new Set()); vs.forEach(v=>agSkus.get(k).add(v)); }
+    }
+  });
+  const campOf = r => String(r[cEnt]||"").toLowerCase()==="campaign"
+      ? String(r[cCname]||"") : (campName.get(String(r[cCid]))||"");
+
+  const matches=(r,rule)=>{
+    const f=rule["目标筛选"]||"全部", v=String(rule["筛选值"]||"").trim();
+    const camp=campOf(r);
+    let ok=true;
+    if(f==="活动名包含") ok = camp.toLowerCase().includes(v.toLowerCase());
+    else if(f==="活动名等于") ok = camp.trim()===v;
+    else if(f==="活动ID") ok = String(r[cCid]||"").trim()===v;
+    else if(f==="SKU"){ const set=new Set(); if(cSku&&r[cSku]) set.add(String(r[cSku]));
+      (agSkus.get(String(r[cAg]))||new Set()).forEach(x=>set.add(x)); ok=set.has(v); }
+    else if(f==="ASIN"){ const set=new Set(); if(cAsin&&r[cAsin]) set.add(String(r[cAsin]));
+      (agSkus.get(String(r[cAg]))||new Set()).forEach(x=>set.add(x)); ok=set.has(v); }
+    else if(f==="关键词匹配方式") ok = String(r[cMatch]||"").toLowerCase()===v.toLowerCase();
+    if(ok && String(rule["只处理启用中的"]||"")==="是"){
+      const st=String(r[cState]||"").toLowerCase(); if(st && st!=="enabled") ok=false;
+    }
+    return ok;
+  };
+
+  const changes=new Map(); const skipped=[];
+  const num=v=>{ const n=parseFloat(String(v==null?"":v).replace(/[$,]/g,"")); return isNaN(n)?null:n; };
+  const calcNum=(old,rule)=>{
+    const mode=rule["调整方式"], v=num(rule["数值"]);
+    let n;
+    if(mode==="百分比") n=old*(1+v/100);
+    else if(mode==="加金额") n=old+v;
+    else if(mode==="减金额") n=old-v;
+    else n=v;
+    const lo=num(rule["下限"]), hi=num(rule["上限"]);
+    if(lo!==null) n=Math.max(n,lo);
+    if(hi!==null) n=Math.min(n,hi);
+    return Math.round(Math.max(n,0.02)*100)/100;
+  };
+  const calcName=(old,rule)=>{
+    const mode=rule["调整方式"], v=String(rule["数值"]||"");
+    if(mode==="加前缀") return v+old;
+    if(mode==="加后缀") return old+v;
+    if(mode==="文本替换"){ const [a,b]=v.split("=>"); return a===undefined? old : old.split(a).join(b===undefined?"":b); }
+    return v;
+  };
+
+  ruleRows.forEach((rule,ri)=>{
+    const op=rule["操作"], mode=rule["调整方式"];
+    bulkData.forEach((r,idx)=>{
+      const e=String(r[cEnt]||"").toLowerCase();
+      let col=null, kind=null;
+      if(op==="改活动名"||op==="改活动预算"){ if(e!=="campaign") return; col=(op==="改活动名"?cCname:cBudget); kind=(op==="改活动名"?"name":"num"); }
+      else if(op==="改广告组名"||op==="改广告组默认出价"){ if(e!=="ad group") return; col=(op==="改广告组名"?cAgname:cAgBid); kind=(op==="改广告组名"?"name":"num"); }
+      else if(op==="改关键词出价"){ if(e!=="keyword") return; col=cBid; kind="num"; }
+      else return;
+      if(!col) return;
+      if(!matches(r,rule)) return;
+      const old=r[col];
+      if(kind==="name"){
+        const o=String(old==null?"":old); const n=calcName(o,rule).trim();
+        if(!n||n===o) return;
+        if(!changes.has(idx)) changes.set(idx,new Map());
+        changes.get(idx).set(col,{old:o,newv:n,rule:`第${ri+2}行 ${op}/${mode}`});
+      }else{
+        const o=num(old);
+        if(o===null){ skipped.push(`行${idx+2} ${op}：原值为空/非数字`); return; }
+        const n=calcNum(o,rule);
+        if(Math.abs(n-o)<1e-9) return;
+        if(!changes.has(idx)) changes.set(idx,new Map());
+        changes.get(idx).set(col,{old:fmtNum(o),newv:fmtNum(n),rule:`第${ri+2}行 ${op}/${mode}`});
+      }
+    });
+  });
+
+  if(!changes.size){ msg.innerHTML='<div class="msg warn">按这些规则没有任何实体需要改动（检查筛选值，或调整后数值没变）。</div>'; return; }
+
+  const upRows=[], logAoa=[["实体","活动ID","广告组ID","关键词ID","活动名(现)","改动字段","原值","新值","规则"]];
+  const sortedIdx=Array.from(changes.keys()).sort((a,b)=>a-b);
+  sortedIdx.forEach(i=>{
+    const src=bulkData[i]; const out=Object.assign({}, src);
+    out[cOp]="Update";
+    changes.get(i).forEach((ch,col)=>{
+      out[col]=ch.newv;
+      logAoa.push([src[cEnt]||"", src[cCid]||"", src[cAg]||"", src[cKw]||"", campOf(src),
+                   col, ch.old, ch.newv, ch.rule]);
+    });
+    upRows.push(out);
+  });
+
+  lastUpd={rows:upRows, headers:H};
+  lastLog=logAoa;
+
+  msg.innerHTML='<div class="msg ok">生成成功：改动 '+(logAoa.length-1)+' 条字段 / 上传文件 '+upRows.length+' 行（全部 Operation=Update）。'+
+    (skipped.length? '<br>跳过 '+skipped.length+' 条：'+esc(skipped.slice(0,5).join("；")) : '')+'</div>';
+  kpi.innerHTML=[["改动行数",upRows.length],["改动字段",logAoa.length-1],[ "跳过",skipped.length]]
+    .map(([k,v])=>`<div class="kpi"><div class="v">${v}</div><div class="k">${k}</div></div>`).join("");
+
+  const lg=$("#tblLog");
+  lg.querySelector("thead").innerHTML="<tr>"+logAoa[0].map(h=>`<th>${esc(h)}</th>`).join("")+"</tr>";
+  lg.querySelector("tbody").innerHTML=logAoa.slice(1,60).map(row=>"<tr>"+row.map(v=>`<td>${esc(v==null?"":v)}</td>`).join("")+"</tr>").join("");
+  $("#logWrap").classList.remove("hidden");
+  $("#btnDlUp").disabled=false; $("#btnDlLog").disabled=false;
+}
+
+function downloadUpdate(){
+  if(!lastUpd) return;
+  const H=lastUpd.headers;
+  const aoa=[H].concat(lastUpd.rows.map(r=>H.map(h=> (r[h]===undefined||r[h]===null)?"":r[h])));
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(aoa), "Sponsored Products");
+  XLSX.writeFile(wb, `批量修改上传_${todayStr()}.xlsx`);
+}
+function downloadLog(){
+  if(!lastLog) return;
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(lastLog), "变更明细");
+  XLSX.writeFile(wb, `批量修改变更对照_${todayStr()}.xlsx`);
+}
+
+/* ============================== 事件绑定 ============================== */
+$$(".tab").forEach(t=>t.addEventListener("click",()=>{
+  $$(".tab").forEach(x=>x.classList.remove("active")); t.classList.add("active");
+  ["create","update","help"].forEach(k=>$("#tab-"+k).classList.toggle("hidden", t.dataset.tab!==k));
+}));
+
+$("#btnParse").addEventListener("click",()=>{
+  const text=$("#pasteBox").value.trim();
+  if(!text){ $("#parseInfo").textContent="粘贴框是空的"; return; }
+  const lines=text.split(/\r?\n/).filter(l=>l.trim()!=="");
+  const delim = lines[0].includes("\t")? "\t" : ",";
+  const aoa=lines.map(l=>l.split(delim).map(c=>c.replace(/^"|"$/g,"").trim()));
+  inputRows=rowsFromAoa(aoa);
+  renderInputTable();
+  $("#parseInfo").textContent=`已解析 ${inputRows.length} 行`;
+});
+
+$("#fileIn").addEventListener("change", async e=>{
+  const f=e.target.files[0]; if(!f) return;
+  try{
+    const aoa=await readFileToAoa(f);
+    inputRows=rowsFromAoa(aoa);
+    renderInputTable();
+    $("#parseInfo").textContent=`已从 ${f.name} 读取 ${inputRows.length} 行`;
+  }catch(err){ $("#parseInfo").textContent="读取失败："+err.message; }
+});
+
+$("#btnSample").addEventListener("click",()=>{
+  inputRows=[
+    {ASIN:"B0HNSBB854",SKU:"2463BLM032DUS","投放关键词":"blower motor, ac blower motor","匹配方式":"exact",
+     "关键词竞价USD":"0.6","否定关键词":"","投放类型":"manual","活动名称":"","广告组名称":"大词",
+     "广告组默认竞价USD":"0.6","每日预算USD":"8","竞价策略":"Dynamic bids - down only",
+     "顶部加价%":"20","商品页面加价%":"10","其余加价%":"","竞价下限USD":"","竞价上限USD":"","状态":"enabled"},
+    {ASIN:"B0H6KAX002",SKU:"3405BLM274NUS","投放关键词":"","匹配方式":"exact",
+     "关键词竞价USD":"","否定关键词":"","投放类型":"auto","活动名称":"","广告组名称":"",
+     "广告组默认竞价USD":"0.55","每日预算USD":"10","竞价策略":"Fixed bid",
+     "顶部加价%":"","商品页面加价%":"","其余加价%":"","竞价下限USD":"0.3","竞价上限USD":"3","状态":"enabled"}
+  ];
+  renderInputTable(); $("#parseInfo").textContent="已填入 2 行示例";
+});
+$("#btnClear").addEventListener("click",()=>{ inputRows=[]; renderInputTable(); $("#parseInfo").textContent=""; $("#genMsg").innerHTML=""; $("#genKpi").innerHTML=""; $("#prevWrap").classList.add("hidden"); $("#btnDlX").disabled=true; $("#btnDlC").disabled=true; lastGen=null; });
+$("#btnAddRow").addEventListener("click",()=>{ inputRows.push({}); renderInputTable(); });
+$("#btnGen").addEventListener("click", doGenerate);
+$("#btnDlX").addEventListener("click",()=>{ if(lastGen) downloadXlsx(lastGen, lastGenName+".xlsx"); });
+$("#btnDlC").addEventListener("click",()=>{ if(lastGen) downloadCsv(lastGen, lastGenName+".csv"); });
+
+$("#fileBulk").addEventListener("change", async e=>{
+  const f=e.target.files[0]; if(!f) return;
+  try{
+    const isText = /\.(csv|txt|tsv)$/i.test(f.name);
+    let wb;
+    if(isText){
+      const txt = (await f.text()).replace(/^\ufeff/, "");
+      wb = XLSX.read(txt, {type:"string", codepage:65001});
+    }else{
+      const buf = await f.arrayBuffer();
+      wb = XLSX.read(buf, {type:"array"});
+    }
+    let found=null;
+    for(const name of wb.SheetNames){
+      const aoa=XLSX.utils.sheet_to_json(wb.Sheets[name],{header:1,raw:false,defval:""});
+      const hi=aoa.findIndex(r=>(r||[]).map(x=>String(x==null?"":x).trim()).includes("Entity"));
+      if(hi>=0){ found={name,aoa,hi}; break; }
+    }
+    if(!found) throw new Error("没找到含 Entity/Operation 表头的批量表");
+    const headers=(found.aoa[found.hi]||[]).map(x=>String(x==null?"":x).trim());
+    const data=[];
+    for(let i=found.hi+1;i<found.aoa.length;i++){
+      const row=found.aoa[i]||[];
+      if(row.every(v=>v==null||String(v).trim()==="")) continue;
+      const rec={}; headers.forEach((h,j)=>{ if(h) rec[h]= row[j]==null? "" : row[j]; });
+      data.push(rec);
+    }
+    bulkHeaders=headers; bulkData=data;
+    $("#bulkInfo").textContent=`已加载：${f.name} ｜ ${data.length} 行实体数据 ｜ ${headers.length} 列`;
+    $("#ruleMsg").innerHTML='<div class="msg ok">批量表已就绪，可以填规则了。</div>';
+  }catch(err){ $("#bulkInfo").textContent="读取失败："+err.message; }
+});
+
+$("#btnAddRule").addEventListener("click",()=>{ ruleRows.push({}); renderRules(); });
+$("#btnDemoRule").addEventListener("click",()=>{
+  ruleRows=[
+    {"操作":"改活动名","目标筛选":"活动名包含","筛选值":"鼓OE号","调整方式":"加前缀","数值":"KAX-","下限":"","上限":"","只处理启用中的":""},
+    {"操作":"改关键词出价","目标筛选":"活动名包含","筛选值":"鼓OE号","调整方式":"百分比","数值":"-15","下限":"0.3","上限":"5","只处理启用中的":"是"},
+    {"操作":"改广告组默认出价","目标筛选":"全部","筛选值":"","调整方式":"设为","数值":"0.75","下限":"","上限":"","只处理启用中的":""}
+  ];
+  renderRules(); $("#ruleMsg").innerHTML='<div class="msg warn">已填入 3 条示例规则，按你的实际情况改。</div>';
+});
+$("#btnRunRules").addEventListener("click", runRules);
+$("#btnDlUp").addEventListener("click", downloadUpdate);
+$("#btnDlLog").addEventListener("click", downloadLog);
+
+// 初始
+renderInputTable(); renderRules();
+
+/* 测试钩子（页面内即可验证，不需要下载文件） */
+window.hermesTest = {
+  dumpBulk(){ return JSON.stringify({headers: bulkHeaders, n: (bulkData||[]).length, sample: (bulkData||[]).slice(0,4), rules: ruleRows}); },
+  setRows(rows){ inputRows = rows; },
+  generate(account, blankStart){ return buildBulkRows(inputRows, account||"sc", blankStart!==false); },
+  toBase64(rows){ const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, sheetFromRows(rows), "Sponsored Products");
+    return XLSX.write(wb,{type:"base64",bookType:"xlsx"}); },
+  parseAoa(aoa){ return rowsFromAoa(aoa); }
+};
+</script>
+</body>
+</html>
