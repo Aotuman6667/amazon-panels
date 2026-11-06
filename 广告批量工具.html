@@ -202,8 +202,10 @@ B0HNSBB854	2463BLM032DUS	blower motor, ac blower motor	exact	0.6			0.6	8	Dynamic
     <div class="card">
       <h2><span class="n">1</span>上传适配表（含保有量 VIO）</h2>
       <div class="hint" style="margin-bottom:10px">
-        需要一张适配数据表，列里带：<code>商品编码/SKU</code>、<code>品牌 make</code>、<code>车型 model</code>、
-        <code>年份 year</code>、<code>保有量 vio</code>（如「适配图文案」那种表；品牌/SKU 合并只写首行也能自动补齐）。
+        需要一张适配数据表，列里带：<code>PDM商品编码</code>、<code>品牌 make</code>、<code>车型 model</code>、
+        <code>年份 year</code>、<code>保有量 vio</code>（如「适配图文案」那种表；品牌/SKU 合并只写首行也能自动补齐）。<br>
+        <b>SKU 取的是「PDM商品编码」（真正的卖家 SKU，如 OO8BLM05200）；「产品编码」（如 8BLM0520）只是内部短码，不会当 SKU 用。</b>
+        适配表里只有产品编码时，会自动从同一文件里含「产品编码 + PDM商品编码」的对照表补全。
       </div>
       <div class="row">
         <label class="file">📂 上传适配表<input type="file" id="fileFit" accept=".xlsx,.xls,.csv,.txt"></label>
@@ -320,7 +322,9 @@ B0HNSBB854	2463BLM032DUS	blower motor, ac blower motor	exact	0.6			0.6	8	Dynamic
       </div>
       <table>
         <tr><th>步骤</th><th>说明</th></tr>
-        <tr><td>1. 上传适配表</td><td>列的识别：<code>productCode/PDM商品编码/商品编码/SKU</code>、<code>makeName/品牌/make</code>、<code>modelName/车型/model</code>、<code>yearName/年份/year</code>、<code>vio/保有量</code>。SKU 和品牌是合并单元格（只在首行写）也能自动向下补齐。</td></tr>
+        <tr><td>1. 上传适配表</td><td>列的识别：<code>PDM商品编码/商品编码</code>（=真正的卖家SKU）、<code>产品编码/productCode</code>（内部短码，仅做对照）、<code>makeName/品牌</code>、<code>modelName/车型</code>、<code>yearName/年份</code>、<code>vio/保有量</code>。<br>
+          <b>SKU 只认 PDM商品编码</b>；若适配表里只有产品编码，会自动去同一文件里找「产品编码 + PDM商品编码」的对照表补全，补不到会红字提示。
+          品牌/SKU 合并单元格（只在首行写）也能自动向下补齐。</td></tr>
         <tr><td>2. 填大词</td><td>如 <code>blower motor</code> / <code>ac blower motor</code> / <code>hvac blower motor</code></td></tr>
         <tr><td>3. 选词型</td><td>
           ☑ 年份+品牌+车型 → <code>2019 chevrolet silverado 1500 blower motor</code><br>
@@ -1045,7 +1049,9 @@ let fitRows = [];        // [{sku, make, model, yearRaw, vio}]
 let kwList = [];         // 生成结果 [{kw, sku, make, model, year, vio}]
 
 const FIT_ALIAS = {
-  sku:   ["productcode","pdm商品编码","商品编码","产品编码","sku","seller sku","msku","平台sku"],
+  pdm:   ["pdm商品编码","pdm编码","pdmcode","pdm sku","商品编码"],     // 真正的卖家 SKU
+  short: ["产品编码","productcode","货号","款号"],                    // 内部短码，不是 SKU
+  sku:   ["sku","seller sku","msku","平台sku"],
   make:  ["makename","品牌","make","brand","厂牌"],
   model: ["modelname","车型","model","car model"],
   year:  ["yearname","年份","年款","year","model year"],
@@ -1067,31 +1073,72 @@ function pickFitHeader(headers){
   return out;
 }
 
-function parseFitmentAoa(aoa){
-  if(!aoa || !aoa.length) return {rows:[], cmap:null, headerRow:-1};
+function buildSkuMap(sheets){
+  // 从所有 sheet 里收集 产品短码 → PDM商品编码（真正的SKU）
+  const map = {}, from = {};
+  sheets.forEach(({name, aoa})=>{
+    let hi = -1, cm = null;
+    for(let i=0;i<Math.min(aoa.length,30);i++){
+      const m = pickFitHeader(aoa[i]||[]);
+      if(m.pdm!==undefined && m.short!==undefined){ hi=i; cm=m; break; }
+    }
+    if(hi<0) return;
+    for(let i=hi+1;i<aoa.length;i++){
+      const r = aoa[i]||[];
+      const sCode = String(r[cm.short]==null?"":r[cm.short]).trim();
+      const pdm   = String(r[cm.pdm]==null?"":r[cm.pdm]).trim();
+      if(sCode && pdm && !map[sCode]){ map[sCode] = pdm; from[sCode] = name; }
+    }
+  });
+  return {map, from};
+}
+
+function parseFitmentSheet(aoa, skuMap){
   let hi = -1, cmap = null;
   for(let i=0;i<Math.min(aoa.length,25);i++){
     const m = pickFitHeader(aoa[i]||[]);
-    // 至少认出 model 与 (vio 或 year)
     if(m.model!==undefined && (m.vio!==undefined || m.year!==undefined)){ hi=i; cmap=m; break; }
   }
-  if(hi<0) return {rows:[], cmap:null, headerRow:-1};
+  if(hi<0) return {rows:[], headerRow:-1, skuKey:null, unmapped:[]};
 
-  const out = [];
-  let lastSku = "", lastMake = "";
+  // SKU 列优先级：PDM商品编码 > 通用SKU列 > 产品编码（需映射）
+  const skuKey = cmap.pdm!==undefined ? "pdm" : (cmap.sku!==undefined ? "sku" : (cmap.short!==undefined ? "short" : null));
+
+  const out = [], unmapped = [];
+  let lastRawSku = "", lastMake = "";
   for(let i=hi+1;i<aoa.length;i++){
     const r = aoa[i]||[];
     if(r.every(v=>v==null||String(v).trim()==="")) continue;
     const g = k => (cmap[k]===undefined? "" : String(r[cmap[k]]==null? "" : r[cmap[k]]).trim());
-    let sku = g("sku"), make = g("make");
-    const model = g("model"), yearRaw = g("year"), vioRaw = g("vio");
-    if(sku) lastSku = sku; else sku = lastSku;      // 合并单元格向下补
-    if(make) lastMake = make; else make = lastMake;
+    let rawSku = skuKey? g(skuKey) : "";
+    const make = g("make"), model = g("model"), yearRaw = g("year"), vioRaw = g("vio");
+    if(rawSku) lastRawSku = rawSku; else rawSku = lastRawSku;   // 合并单元格向下补
+    let makeF = make;
+    if(makeF) lastMake = makeF; else makeF = lastMake;
     if(!model) continue;
+
+    let sku = "", short = "";
+    if(skuKey === "pdm"){ sku = rawSku; }
+    else if(skuKey === "sku"){ sku = rawSku; }
+    else if(skuKey === "short"){
+      short = rawSku;
+      sku = skuMap[rawSku] || "";
+      if(!sku && rawSku) unmapped.push(rawSku);
+    }
     const vio = parseFloat(String(vioRaw).replace(/[,\s]/g,""));
-    out.push({sku, make, model, yearRaw, vio: isNaN(vio)? 0 : vio});
+    out.push({sku, skuShort: short, model, make: makeF, yearRaw, vio: isNaN(vio)? 0 : vio});
   }
-  return {rows: out, cmap, headerRow: hi};
+  return {rows: out, headerRow: hi, skuKey, unmapped: Array.from(new Set(unmapped))};
+}
+
+function parseWorkbookFitment(sheets){
+  const {map: skuMap} = buildSkuMap(sheets);
+  let best = null;
+  sheets.forEach(({name, aoa})=>{
+    const r = parseFitmentSheet(aoa, skuMap);
+    if(r.rows.length && (!best || r.rows.length > best.rows.length)){ best = r; best.sheet = name; }
+  });
+  return {best: best || {rows:[], unmapped:[], skuKey:null}, skuMapSize: Object.keys(skuMap).length};
 }
 
 function expandYears(v){
@@ -1126,7 +1173,7 @@ function buildKeywordsJs(rows, baseWord, patterns, limit){
     const push = (kw, year)=>{
       const key = (r.sku||"")+"|"+kw;
       const cur = best.get(key);
-      if(!cur || r.vio > cur.vio) best.set(key, {kw, sku:r.sku||"", make:mk, model:md, year: year||"", vio:r.vio||0});
+      if(!cur || r.vio > cur.vio) best.set(key, {kw, sku:r.sku||"", skuShort:r.skuShort||"", make:mk, model:md, year: year||"", vio:r.vio||0});
     };
     if(patterns.includes("p1") && mk && years.length) years.forEach(y=>push(word(y,true), y));
     if(patterns.includes("p1") && !mk && years.length) years.forEach(y=>push(word(y,false), y));
@@ -1142,20 +1189,20 @@ function buildKeywordsJs(rows, baseWord, patterns, limit){
 
 function renderFitPreview(){
   const t = $("#tblFit");
-  const cols = ["SKU","品牌","车型","年份","VIO"];
+  const cols = ["SKU(PDM商品编码)","产品编码","品牌","车型","年份","VIO"];
   t.querySelector("thead").innerHTML = "<tr>"+cols.map(c=>`<th>${c}</th>`).join("")+"</tr>";
   t.querySelector("tbody").innerHTML = fitRows.slice(0,200).map(r=>
-    `<tr><td>${esc(r.sku)}</td><td>${esc(r.make)}</td><td>${esc(r.model)}</td><td>${esc(r.yearRaw)}</td><td>${r.vio? r.vio.toLocaleString():""}</td></tr>`
+    `<tr><td>${esc(r.sku)}</td><td>${esc(r.skuShort||"")}</td><td>${esc(r.make)}</td><td>${esc(r.model)}</td><td>${esc(r.yearRaw)}</td><td>${r.vio? r.vio.toLocaleString():""}</td></tr>`
   ).join("");
   $("#fitWrap").classList.remove("hidden");
 }
 
 function renderKwPreview(){
   const t = $("#tblKw");
-  const cols = ["关键词","SKU","品牌","车型","年份","VIO"];
+  const cols = ["关键词","SKU(PDM)","产品编码","品牌","车型","年份","VIO"];
   t.querySelector("thead").innerHTML = "<tr>"+cols.map(c=>`<th>${c}</th>`).join("")+"</tr>";
   t.querySelector("tbody").innerHTML = kwList.slice(0,300).map(r=>
-    `<tr><td>${esc(r.kw)}</td><td>${esc(r.sku)}</td><td>${esc(r.make)}</td><td>${esc(r.model)}</td><td>${esc(r.year)}</td><td>${r.vio? r.vio.toLocaleString():""}</td></tr>`
+    `<tr><td>${esc(r.kw)}</td><td>${esc(r.sku)}</td><td>${esc(r.skuShort||"")}</td><td>${esc(r.make)}</td><td>${esc(r.model)}</td><td>${esc(r.year)}</td><td>${r.vio? r.vio.toLocaleString():""}</td></tr>`
   ).join("");
   $("#kwWrap").classList.remove("hidden");
 }
@@ -1184,8 +1231,8 @@ function doGenKeywords(){
 }
 
 function kwAoa(){
-  const aoa=[["关键词","SKU","品牌","车型","年份","VIO"]];
-  kwList.forEach(r=>aoa.push([r.kw, r.sku, r.make, r.model, r.year, r.vio]));
+  const aoa=[["关键词","SKU(PDM商品编码)","产品编码","品牌","车型","年份","VIO"]];
+  kwList.forEach(r=>aoa.push([r.kw, r.sku, r.skuShort||"", r.make, r.model, r.year, r.vio]));
   return aoa;
 }
 function downloadKwXlsx(){
@@ -1212,6 +1259,7 @@ function kwToCreate(){
   const agroupMode = $("#genAgroup").value;
 
   const groups = new Map();   // sku|agroup → {sku, agroup, words[]}
+  const missingSku = kwList.filter(r=>!r.sku);
   kwList.forEach(r=>{
     const ag = agroupMode==="model" ? (r.model || "ALL") : "ALL";
     const key = (r.sku||"")+"|"+ag;
@@ -1244,7 +1292,8 @@ function kwToCreate(){
   // 切到批量创建页签
   $$(".tab").forEach(t=>t.classList.toggle("active", t.dataset.tab==="create"));
   ["create","update","gen","help"].forEach(k=>$("#tab-"+k).classList.toggle("hidden", k!=="create"));
-  $("#parseInfo").textContent = `已从投放词生成填入 ${rows.length} 行（${kwList.length} 个关键词）`;
+  $("#parseInfo").textContent = `已从投放词生成填入 ${rows.length} 行（${kwList.length} 个关键词）`
+    + (missingSku.length ? ` ⚠ 其中 ${missingSku.length} 个词没有 PDM SKU，请先修数据` : "");
   $("#genMsg").innerHTML = "";
   $("#btnDlX").disabled=true; $("#btnDlC").disabled=true; lastGen=null;
   window.scrollTo({top:0, behavior:"smooth"});
@@ -1311,19 +1360,26 @@ $("#fileFit").addEventListener("change", async e=>{
     let wb;
     if(isText){ const txt=(await f.text()).replace(/^\ufeff/,""); wb = XLSX.read(txt,{type:"string",codepage:65001}); }
     else { const buf = await f.arrayBuffer(); wb = XLSX.read(buf,{type:"array"}); }
-    // 在所有 sheet 里找"像适配表"的那张
-    let best = null;
-    for(const name of wb.SheetNames){
-      const aoa = XLSX.utils.sheet_to_json(wb.Sheets[name], {header:1, raw:false, defval:""});
-      const r = parseFitmentAoa(aoa);
-      if(r.rows.length && (!best || r.rows.length > best.rows.length)) best = r;
-    }
+    // 读所有 sheet：先建 产品编码→PDM商品编码 对照，再找最像适配表的那张
+    const sheets = wb.SheetNames.map(name=>({
+      name, aoa: XLSX.utils.sheet_to_json(wb.Sheets[name], {header:1, raw:false, defval:""})
+    }));
+    const {best, skuMapSize} = parseWorkbookFitment(sheets);
     if(!best || !best.rows.length) throw new Error("没找到适配数据（需要 品牌/车型/年份/保有量 这类列）");
     fitRows = best.rows;
+
     const skus = new Set(fitRows.map(r=>r.sku).filter(Boolean));
-    $("#fitInfo").textContent = `已加载：${f.name} ｜ ${fitRows.length} 行适配 ｜ ${skus.size} 个SKU ｜ ${new Set(fitRows.map(r=>r.make+"|"+r.model)).size} 个车型`;
+    const noSku = fitRows.filter(r=>!r.sku).length;
+    $("#fitInfo").innerHTML = `已加载：${f.name} ｜ 数据表「${best.sheet}」 ｜ ${fitRows.length} 行适配 ｜ `
+      + `<b>${skus.size} 个SKU(PDM商品编码)</b> ｜ ${new Set(fitRows.map(r=>r.make+"|"+r.model)).size} 个车型`
+      + (skuMapSize? ` ｜ 已从表中补全 ${skuMapSize} 组 产品编码→PDM编码 对照` : "");
     renderFitPreview();
-    $("#kwMsg").innerHTML='<div class="msg ok">适配表已就绪，填大词后点「生成投放词」。</div>';
+    if(noSku){
+      $("#kwMsg").innerHTML = '<div class="msg warn">注意：有 '+noSku+' 行的 SKU 无法确定——表里既没有 PDM商品编码，也找不到「产品编码→PDM商品编码」对照。'
+        + '请确认表里有 PDM商品编码 列，或另有一张同时含 产品编码 与 PDM商品编码 的对照表。</div>';
+    }else{
+      $("#kwMsg").innerHTML='<div class="msg ok">适配表已就绪（SKU 取的是 PDM商品编码），填大词后点「生成投放词」。</div>';
+    }
     $("#btnKwToCreate").disabled=true; $("#btnKwXlsx").disabled=true; $("#btnKwCsv").disabled=true;
   }catch(err){ $("#fitInfo").textContent="读取失败："+err.message; }
 });
@@ -1394,7 +1450,8 @@ window.hermesTest = {
   exportB64(){ return XLSX.write((()=>{const wb=XLSX.utils.book_new();
       const aoa=[IN_COLS].concat(inputRows.map(r=>IN_COLS.map(c=>r[c]===undefined||r[c]===null?"":r[c])));
       XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(aoa), "投放清单"); return wb;})(),{type:"base64",bookType:"xlsx"}); },
-  fitParse(aoa){ const r = parseFitmentAoa(aoa); return JSON.stringify({headerRow:r.headerRow, n:r.rows.length, sample:r.rows.slice(0,5)}); },
+  fitParse(aoa){ const r = parseFitmentSheet(aoa, {}); return JSON.stringify({headerRow:r.headerRow, n:r.rows.length, skuKey:r.skuKey, sample:r.rows.slice(0,5)}); },
+  fitParseWorkbook(sheets){ const r = parseWorkbookFitment(sheets); return JSON.stringify({sheet:r.best.sheet, n:r.best.rows.length, skuKey:r.best.skuKey, skuMapSize:r.skuMapSize, unmapped:r.best.unmapped, sample:r.best.rows.slice(0,3)}); },
   fitSet(rows){ fitRows = rows; },
   fitBuild(word, pats, limit){ kwList = buildKeywordsJs(fitRows, word, pats, limit); return JSON.stringify({n:kwList.length, top:kwList.slice(0,5), tail:kwList.slice(-3)}); },
   fitToCreate(){ kwToCreate(); return JSON.stringify({rows: inputRows.length}); },
