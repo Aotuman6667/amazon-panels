@@ -84,6 +84,7 @@
   <div class="tabs">
     <div class="tab active" data-tab="create">① 批量创建广告</div>
     <div class="tab" data-tab="update">② 批量修改（改名/改出价/调竞价/改预算）</div>
+    <div class="tab" data-tab="gen">③ 投放词生成（适配表 + 大词 → 关键词）</div>
     <div class="tab" data-tab="help">使用说明</div>
   </div>
 
@@ -183,6 +184,76 @@ B0HNSBB854	2463BLM032DUS	blower motor, ac blower motor	exact	0.6			0.6	8	Dynamic
     </div>
   </section>
 
+  <!-- ============================ 投放词生成 ============================ -->
+  <section id="tab-gen" class="hidden">
+    <div class="card">
+      <h2><span class="n">1</span>上传适配表（含保有量 VIO）</h2>
+      <div class="hint" style="margin-bottom:10px">
+        需要一张适配数据表，列里带：<code>商品编码/SKU</code>、<code>品牌 make</code>、<code>车型 model</code>、
+        <code>年份 year</code>、<code>保有量 vio</code>（如「适配图文案」那种表；品牌/SKU 合并只写首行也能自动补齐）。
+      </div>
+      <div class="row">
+        <label class="file">📂 上传适配表<input type="file" id="fileFit" accept=".xlsx,.xls,.csv,.txt"></label>
+        <span class="small" id="fitInfo">未加载</span>
+      </div>
+      <div class="scroll hidden" id="fitWrap" style="margin-top:10px;max-height:260px">
+        <table id="tblFit"><thead></thead><tbody></tbody></table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="n">2</span>填大词 + 选词型</h2>
+      <div class="row">
+        <div class="field" style="min-width:260px">
+          <label>大词（核心词）</label>
+          <input type="text" id="genWord" placeholder="如 blower motor / ac blower motor / hvac blower motor">
+        </div>
+        <div class="field" style="min-width:220px">
+          <label>词型（可多选）</label>
+          <div style="display:flex;flex-direction:column;gap:4px;font-size:13px">
+            <label><input type="checkbox" id="p1" checked> 年份 + 品牌 + 车型 + 大词 <span class="small">（2019 honda civic blower motor）</span></label>
+            <label><input type="checkbox" id="p2" checked> 品牌 + 车型 + 大词 <span class="small">（honda civic blower motor）</span></label>
+            <label><input type="checkbox" id="p3"> 年份 + 车型 + 大词 <span class="small">（2019 civic blower motor）</span></label>
+          </div>
+        </div>
+        <div class="field">
+          <label>匹配方式</label>
+          <select id="genMatch"><option>exact</option><option>phrase</option><option>broad</option></select>
+        </div>
+        <div class="field">
+          <label>关键词竞价USD（可空）</label>
+          <input type="text" id="genBid" style="width:130px" placeholder="留空=0.75">
+        </div>
+        <div class="field">
+          <label>每日预算USD（可空）</label>
+          <input type="text" id="genBudget" style="width:130px" placeholder="留空=20">
+        </div>
+        <div class="field">
+          <label>最多生成（可空）</label>
+          <input type="text" id="genLimit" style="width:120px" placeholder="留空=全部">
+        </div>
+        <div class="field">
+          <label>广告组划分</label>
+          <select id="genAgroup"><option value="model">每个车型一个广告组</option><option value="single">全部合并一个广告组</option></select>
+        </div>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <button id="btnGenKw">生成投放词</button>
+        <button class="ghost" id="btnKwToCreate" disabled>➡ 填入「批量创建广告」清单</button>
+        <button class="ghost" id="btnKwXlsx" disabled>⬇ 下载关键词清单 xlsx</button>
+        <button class="ghost" id="btnKwCsv" disabled>⬇ 下载 csv</button>
+      </div>
+      <div id="kwMsg"></div>
+      <div class="res" id="kwKpi"></div>
+      <div class="scroll hidden" id="kwWrap" style="margin-top:12px;max-height:420px">
+        <table id="tblKw"><thead></thead><tbody></tbody></table>
+      </div>
+      <div class="hint" style="margin-top:10px">
+        排序：<b>VIO 由高到低</b>（同 VIO 时年份新的靠前）。年份区间（如 2015-2020）会自动展开成逐年关键词，每个年份继承该行的 VIO。
+      </div>
+    </div>
+  </section>
+
   <!-- ============================ 说明 ============================ -->
   <section id="tab-help" class="hidden">
     <div class="card">
@@ -218,6 +289,27 @@ B0HNSBB854	2463BLM032DUS	blower motor, ac blower motor	exact	0.6			0.6	8	Dynamic
       </table>
       <div class="msg ok" style="margin-top:12px">
         安全设计：只输出被改动的行；活动在广告组合里时 Portfolio Id 原样带出；State 按原值带出（不会误启用暂停的活动）；同一实体命中多条规则合并成一行。
+      </div>
+    </div>
+    <div class="card">
+      <h2>③ 投放词生成：适配表 + 大词 → 关键词</h2>
+      <div class="hint" style="margin-bottom:8px">
+        用途：一个 SKU 适配几十个车型时，按「年份/品牌/车型 + 大词」批量拼出搜索词广告关键词，并按<b>保有量 VIO 从高到低</b>排序。
+      </div>
+      <table>
+        <tr><th>步骤</th><th>说明</th></tr>
+        <tr><td>1. 上传适配表</td><td>列的识别：<code>productCode/PDM商品编码/商品编码/SKU</code>、<code>makeName/品牌/make</code>、<code>modelName/车型/model</code>、<code>yearName/年份/year</code>、<code>vio/保有量</code>。SKU 和品牌是合并单元格（只在首行写）也能自动向下补齐。</td></tr>
+        <tr><td>2. 填大词</td><td>如 <code>blower motor</code> / <code>ac blower motor</code> / <code>hvac blower motor</code></td></tr>
+        <tr><td>3. 选词型</td><td>
+          ☑ 年份+品牌+车型 → <code>2019 chevrolet silverado 1500 blower motor</code><br>
+          ☑ 品牌+车型 → <code>chevrolet silverado 1500 blower motor</code><br>
+          ☑ 年份+车型 → <code>2019 silverado 1500 blower motor</code>（默认不勾）</td></tr>
+        <tr><td>4. 可选参数</td><td>匹配方式（默认 exact）、关键词竞价（留空=继承广告组默认出价）、每日预算（留空=20）、最多生成几个词（留空=全部）、广告组划分（每车型一组 / 全部合并）</td></tr>
+        <tr><td>5. 输出</td><td>预览（按 VIO 降序）→ 下载关键词清单 xlsx/csv → 或点「➡ 填入批量创建广告清单」直接进页签①出上传文件</td></tr>
+      </table>
+      <div class="msg warn" style="margin-top:10px">
+        年份写成区间（如 <code>2015-2020</code>）会自动展开成逐年关键词，每个年份继承该行的 VIO；
+        同一个词只保留 VIO 最高的那条。填入清单时：一个 SKU 一个活动，广告组按车型划分，广告组默认出价=你填的竞价（没填则 0.75）。
       </div>
     </div>
     <div class="card">
@@ -277,7 +369,13 @@ function splitKeywords(text){
 /* ============================== 校验 + 标准化 ============================== */
 function normalize(rec, idx, account){
   const errs=[], warns=[];
-  const r = Object.assign({}, DEFAULTS, rec);
+  // 空字符串视为"没填"，让默认值生效（否则空串会覆盖默认值）
+  const clean = {};
+  Object.keys(rec||{}).forEach(k=>{
+    const v = rec[k];
+    if(v!==null && v!==undefined && String(v).trim()!=="") clean[k]=v;
+  });
+  const r = Object.assign({}, DEFAULTS, clean);
 
   if(account==="vc"){
     if(!r.ASIN) errs.push("VC(供应商)账号：必须填 ASIN");
@@ -855,10 +953,220 @@ function downloadLog(){
   XLSX.writeFile(wb, `批量修改变更对照_${todayStr()}.xlsx`);
 }
 
+/* ============================== ③ 投放词生成 ============================== */
+let fitRows = [];        // [{sku, make, model, yearRaw, vio}]
+let kwList = [];         // 生成结果 [{kw, sku, make, model, year, vio}]
+
+const FIT_ALIAS = {
+  sku:   ["productcode","pdm商品编码","商品编码","产品编码","sku","seller sku","msku","平台sku"],
+  make:  ["makename","品牌","make","brand","厂牌"],
+  model: ["modelname","车型","model","car model"],
+  year:  ["yearname","年份","年款","year","model year"],
+  vio:   ["vio","保有量","保有量数","保有量(辆)","保有量辆","存量"]
+};
+
+function hnorm2(x){ return String(x==null?"":x).replace(/[\s_\-]/g,"").toLowerCase(); }
+
+function pickFitHeader(headers){
+  const map = {};
+  headers.forEach((h,i)=>{ if(h!=null && String(h).trim()!=="") map[hnorm2(h)] = i; });
+  const out = {};
+  for(const k in FIT_ALIAS){
+    for(const a of FIT_ALIAS[k]){
+      const idx = map[hnorm2(a)];
+      if(idx !== undefined){ out[k] = idx; break; }
+    }
+  }
+  return out;
+}
+
+function parseFitmentAoa(aoa){
+  if(!aoa || !aoa.length) return {rows:[], cmap:null, headerRow:-1};
+  let hi = -1, cmap = null;
+  for(let i=0;i<Math.min(aoa.length,25);i++){
+    const m = pickFitHeader(aoa[i]||[]);
+    // 至少认出 model 与 (vio 或 year)
+    if(m.model!==undefined && (m.vio!==undefined || m.year!==undefined)){ hi=i; cmap=m; break; }
+  }
+  if(hi<0) return {rows:[], cmap:null, headerRow:-1};
+
+  const out = [];
+  let lastSku = "", lastMake = "";
+  for(let i=hi+1;i<aoa.length;i++){
+    const r = aoa[i]||[];
+    if(r.every(v=>v==null||String(v).trim()==="")) continue;
+    const g = k => (cmap[k]===undefined? "" : String(r[cmap[k]]==null? "" : r[cmap[k]]).trim());
+    let sku = g("sku"), make = g("make");
+    const model = g("model"), yearRaw = g("year"), vioRaw = g("vio");
+    if(sku) lastSku = sku; else sku = lastSku;      // 合并单元格向下补
+    if(make) lastMake = make; else make = lastMake;
+    if(!model) continue;
+    const vio = parseFloat(String(vioRaw).replace(/[,\s]/g,""));
+    out.push({sku, make, model, yearRaw, vio: isNaN(vio)? 0 : vio});
+  }
+  return {rows: out, cmap, headerRow: hi};
+}
+
+function expandYears(v){
+  if(!v) return [];
+  const s = String(v).replace(/[–—~～]/g,"-");
+  const res = [], seen = new Set();
+  s.split(/[,，;；/]+/).forEach(part=>{
+    part = part.trim();
+    const m = part.match(/^(\d{4})\s*-\s*(\d{4})$/);
+    if(m){
+      let a = +m[1], b = +m[2]; if(a>b){ const t=a; a=b; b=t; }
+      for(let y=a;y<=b;y++){ const k=String(y); if(!seen.has(k)){ seen.add(k); res.push(k);} }
+    }else{
+      const ys = part.match(/\d{4}/g)||[];
+      ys.forEach(y=>{ if(!seen.has(y)){ seen.add(y); res.push(y);} });
+    }
+  });
+  return res;
+}
+
+function buildKeywordsJs(rows, baseWord, patterns, limit){
+  const base = String(baseWord||"").trim().toLowerCase().replace(/\s+/g," ");
+  if(!base) throw new Error("请先填大词（如 blower motor）");
+  const best = new Map();   // key = sku|kw  → 记录（取最大 vio）
+  rows.forEach(r=>{
+    const mk = String(r.make||"").trim().toLowerCase(), md = String(r.model||"").trim().toLowerCase();
+    const years = expandYears(r.yearRaw);
+    const word = (y, withMake)=>{
+      if(withMake && mk) return `${y} ${mk} ${md} ${base}`.replace(/\s+/g," ").trim();
+      return `${y} ${md} ${base}`.replace(/\s+/g," ").trim();
+    };
+    const push = (kw, year)=>{
+      const key = (r.sku||"")+"|"+kw;
+      const cur = best.get(key);
+      if(!cur || r.vio > cur.vio) best.set(key, {kw, sku:r.sku||"", make:mk, model:md, year: year||"", vio:r.vio||0});
+    };
+    if(patterns.includes("p1") && mk && years.length) years.forEach(y=>push(word(y,true), y));
+    if(patterns.includes("p1") && !mk && years.length) years.forEach(y=>push(word(y,false), y));
+    if(patterns.includes("p3") && years.length) years.forEach(y=>push(word(y,false), y));
+    if(patterns.includes("p2")) push(`${mk? mk+" ":""}${md} ${base}`.replace(/\s+/g," ").trim(), "");
+  });
+  let list = Array.from(best.values());
+  list.sort((a,b)=> (b.vio - a.vio) || (String(b.year).localeCompare(String(a.year))) || a.kw.localeCompare(b.kw));
+  const n = parseInt(limit,10);
+  if(!isNaN(n) && n>0) list = list.slice(0, n);
+  return list;
+}
+
+function renderFitPreview(){
+  const t = $("#tblFit");
+  const cols = ["SKU","品牌","车型","年份","VIO"];
+  t.querySelector("thead").innerHTML = "<tr>"+cols.map(c=>`<th>${c}</th>`).join("")+"</tr>";
+  t.querySelector("tbody").innerHTML = fitRows.slice(0,200).map(r=>
+    `<tr><td>${esc(r.sku)}</td><td>${esc(r.make)}</td><td>${esc(r.model)}</td><td>${esc(r.yearRaw)}</td><td>${r.vio? r.vio.toLocaleString():""}</td></tr>`
+  ).join("");
+  $("#fitWrap").classList.remove("hidden");
+}
+
+function renderKwPreview(){
+  const t = $("#tblKw");
+  const cols = ["关键词","SKU","品牌","车型","年份","VIO"];
+  t.querySelector("thead").innerHTML = "<tr>"+cols.map(c=>`<th>${c}</th>`).join("")+"</tr>";
+  t.querySelector("tbody").innerHTML = kwList.slice(0,300).map(r=>
+    `<tr><td>${esc(r.kw)}</td><td>${esc(r.sku)}</td><td>${esc(r.make)}</td><td>${esc(r.model)}</td><td>${esc(r.year)}</td><td>${r.vio? r.vio.toLocaleString():""}</td></tr>`
+  ).join("");
+  $("#kwWrap").classList.remove("hidden");
+}
+
+function doGenKeywords(){
+  const msg=$("#kwMsg"), kpi=$("#kwKpi");
+  msg.innerHTML=""; kpi.innerHTML=""; $("#kwWrap").classList.add("hidden");
+  if(!fitRows.length){ msg.innerHTML='<div class="msg err">先上传适配表。</div>'; return; }
+  const patterns = [];
+  if($("#p1").checked) patterns.push("p1");
+  if($("#p2").checked) patterns.push("p2");
+  if($("#p3").checked) patterns.push("p3");
+  if(!patterns.length){ msg.innerHTML='<div class="msg err">至少选一种词型。</div>'; return; }
+  try{
+    kwList = buildKeywordsJs(fitRows, $("#genWord").value, patterns, $("#genLimit").value);
+  }catch(e){ msg.innerHTML='<div class="msg err">'+esc(e.message)+'</div>'; return; }
+  if(!kwList.length){ msg.innerHTML='<div class="msg err">没生成任何词：检查大词、年份列是否为空。</div>'; return; }
+
+  const skus = new Set(kwList.map(r=>r.sku));
+  const maxVio = kwList[0].vio;
+  msg.innerHTML='<div class="msg ok">生成完成：'+kwList.length+' 个关键词（按 VIO 从高到低排序，最高 VIO = '+maxVio.toLocaleString()+'）</div>';
+  kpi.innerHTML = [["关键词", kwList.length], ["SKU", skus.size], ["车型数", new Set(kwList.map(r=>r.make+"|"+r.model)).size]]
+    .map(([k,v])=>`<div class="kpi"><div class="v">${v}</div><div class="k">${k}</div></div>`).join("");
+  renderKwPreview();
+  $("#btnKwToCreate").disabled=false; $("#btnKwXlsx").disabled=false; $("#btnKwCsv").disabled=false;
+}
+
+function kwAoa(){
+  const aoa=[["关键词","SKU","品牌","车型","年份","VIO"]];
+  kwList.forEach(r=>aoa.push([r.kw, r.sku, r.make, r.model, r.year, r.vio]));
+  return aoa;
+}
+function downloadKwXlsx(){
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.aoa_to_sheet(kwAoa());
+  ws["!cols"] = [{wch:42},{wch:18},{wch:14},{wch:18},{wch:8},{wch:10}];
+  XLSX.utils.book_append_sheet(wb, ws, "关键词清单");
+  XLSX.writeFile(wb, "投放词_"+todayStr()+".xlsx");
+}
+function downloadKwCsv(){
+  const lines = kwAoa().map(row=>row.map(csvCell).join(","));
+  const blob = new Blob(["\ufeff"+lines.join("\r\n")], {type:"text/csv;charset=utf-8"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="投放词_"+todayStr()+".csv"; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 3000);
+}
+
+function kwToCreate(){
+  if(!kwList.length) return;
+  const baseWord = String($("#genWord").value||"").trim();
+  const campBase = baseWord.replace(/\s+/g,"-") || "KW";
+  const match = $("#genMatch").value;
+  const bid = $("#genBid").value.trim();
+  const budget = $("#genBudget").value.trim();
+  const agroupMode = $("#genAgroup").value;
+
+  const groups = new Map();   // sku|agroup → {sku, agroup, words[]}
+  kwList.forEach(r=>{
+    const ag = agroupMode==="model" ? (r.model || "ALL") : "ALL";
+    const key = (r.sku||"")+"|"+ag;
+    if(!groups.has(key)) groups.set(key, {sku:r.sku||"", ag, words:[], make:r.make, model:r.model});
+    const g = groups.get(key);
+    if(!g.words.includes(r.kw)) g.words.push(r.kw);
+  });
+
+  const rows = [];
+  for(const g of groups.values()){
+    rows.push({
+      "SKU": g.sku, "ASIN": "",
+      "投放关键词": g.words.join(", "),
+      "匹配方式": match,
+      "关键词竞价USD": bid,
+      "否定关键词": "",
+      "投放类型": "manual",
+      "活动名称": `SP-${campBase}-${g.sku}`,
+      "广告组名称": g.ag,
+      "广告组默认竞价USD": bid,
+      "每日预算USD": budget,
+      "竞价策略": DEFAULTS["竞价策略"],
+      "顶部加价%": "", "商品页面加价%": "", "其余加价%": "",
+      "竞价下限USD": "", "竞价上限USD": "",
+      "开始日期": "", "状态": "enabled", "广告组合ID": ""
+    });
+  }
+  inputRows = rows;
+  renderInputTable();
+  // 切到批量创建页签
+  $$(".tab").forEach(t=>t.classList.toggle("active", t.dataset.tab==="create"));
+  ["create","update","gen","help"].forEach(k=>$("#tab-"+k).classList.toggle("hidden", k!=="create"));
+  $("#parseInfo").textContent = `已从投放词生成填入 ${rows.length} 行（${kwList.length} 个关键词）`;
+  $("#genMsg").innerHTML = "";
+  $("#btnDlX").disabled=true; $("#btnDlC").disabled=true; lastGen=null;
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
 /* ============================== 事件绑定 ============================== */
 $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   $$(".tab").forEach(x=>x.classList.remove("active")); t.classList.add("active");
-  ["create","update","help"].forEach(k=>$("#tab-"+k).classList.toggle("hidden", t.dataset.tab!==k));
+  ["create","update","gen","help"].forEach(k=>$("#tab-"+k).classList.toggle("hidden", t.dataset.tab!==k));
 }));
 
 $("#btnParse").addEventListener("click",()=>{
@@ -906,6 +1214,35 @@ $("#btnAddRow").addEventListener("click",()=>{ inputRows.push({}); renderInputTa
 $("#btnGen").addEventListener("click", doGenerate);
 $("#btnDlX").addEventListener("click",()=>{ if(lastGen) downloadXlsx(lastGen, lastGenName+".xlsx"); });
 $("#btnDlC").addEventListener("click",()=>{ if(lastGen) downloadCsv(lastGen, lastGenName+".csv"); });
+
+$("#fileFit").addEventListener("change", async e=>{
+  const f=e.target.files[0]; if(!f) return;
+  try{
+    const isText = /\.(csv|txt|tsv)$/i.test(f.name);
+    let wb;
+    if(isText){ const txt=(await f.text()).replace(/^\ufeff/,""); wb = XLSX.read(txt,{type:"string",codepage:65001}); }
+    else { const buf = await f.arrayBuffer(); wb = XLSX.read(buf,{type:"array"}); }
+    // 在所有 sheet 里找"像适配表"的那张
+    let best = null;
+    for(const name of wb.SheetNames){
+      const aoa = XLSX.utils.sheet_to_json(wb.Sheets[name], {header:1, raw:false, defval:""});
+      const r = parseFitmentAoa(aoa);
+      if(r.rows.length && (!best || r.rows.length > best.rows.length)) best = r;
+    }
+    if(!best || !best.rows.length) throw new Error("没找到适配数据（需要 品牌/车型/年份/保有量 这类列）");
+    fitRows = best.rows;
+    const skus = new Set(fitRows.map(r=>r.sku).filter(Boolean));
+    $("#fitInfo").textContent = `已加载：${f.name} ｜ ${fitRows.length} 行适配 ｜ ${skus.size} 个SKU ｜ ${new Set(fitRows.map(r=>r.make+"|"+r.model)).size} 个车型`;
+    renderFitPreview();
+    $("#kwMsg").innerHTML='<div class="msg ok">适配表已就绪，填大词后点「生成投放词」。</div>';
+    $("#btnKwToCreate").disabled=true; $("#btnKwXlsx").disabled=true; $("#btnKwCsv").disabled=true;
+  }catch(err){ $("#fitInfo").textContent="读取失败："+err.message; }
+});
+
+$("#btnGenKw").addEventListener("click", doGenKeywords);
+$("#btnKwXlsx").addEventListener("click", downloadKwXlsx);
+$("#btnKwCsv").addEventListener("click", downloadKwCsv);
+$("#btnKwToCreate").addEventListener("click", kwToCreate);
 
 $("#fileBulk").addEventListener("change", async e=>{
   const f=e.target.files[0]; if(!f) return;
@@ -968,6 +1305,10 @@ window.hermesTest = {
   exportB64(){ return XLSX.write((()=>{const wb=XLSX.utils.book_new();
       const aoa=[IN_COLS].concat(inputRows.map(r=>IN_COLS.map(c=>r[c]===undefined||r[c]===null?"":r[c])));
       XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(aoa), "投放清单"); return wb;})(),{type:"base64",bookType:"xlsx"}); },
+  fitParse(aoa){ const r = parseFitmentAoa(aoa); return JSON.stringify({headerRow:r.headerRow, n:r.rows.length, sample:r.rows.slice(0,5)}); },
+  fitSet(rows){ fitRows = rows; },
+  fitBuild(word, pats, limit){ kwList = buildKeywordsJs(fitRows, word, pats, limit); return JSON.stringify({n:kwList.length, top:kwList.slice(0,5), tail:kwList.slice(-3)}); },
+  fitToCreate(){ kwToCreate(); return JSON.stringify({rows: inputRows.length}); },
   ruleTplB64(){ return XLSX.write((()=>{const wb=XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet([RULE_COLS]), "批量操作");
       XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(RULE_HELP), "填写说明"); return wb;})(),{type:"base64",bookType:"xlsx"}); }
