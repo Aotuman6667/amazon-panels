@@ -205,7 +205,9 @@ B0HNSBB854	2463BLM032DUS	blower motor, ac blower motor	exact	0.6			0.6	8	Dynamic
         需要一张适配数据表，列里带：<code>PDM商品编码</code>、<code>品牌 make</code>、<code>车型 model</code>、
         <code>年份 year</code>、<code>保有量 vio</code>（如「适配图文案」那种表；品牌/SKU 合并只写首行也能自动补齐）。<br>
         <b>SKU 取的是「PDM商品编码」（真正的卖家 SKU，如 OO8BLM05200）；「产品编码」（如 8BLM0520）只是内部短码，不会当 SKU 用。</b>
-        适配表里只有产品编码时，会自动从同一文件里含「产品编码 + PDM商品编码」的对照表补全。
+        适配表里只有产品编码时，会自动从同一文件里含「产品编码 + PDM商品编码」的对照表补全。<br>
+        <b>站点：只做美国站</b> —— 适配数据只读 <code>detail_us</code>（或结构化适配列）；
+        <code>detail_canada</code> / <code>detail_mexico</code> 等 CA/MX 数据一律不读，也不会参与组词。
       </div>
       <div class="row">
         <label class="file">📂 上传适配表<input type="file" id="fileFit" accept=".xlsx,.xls,.csv,.txt"></label>
@@ -322,7 +324,7 @@ B0HNSBB854	2463BLM032DUS	blower motor, ac blower motor	exact	0.6			0.6	8	Dynamic
       </div>
       <table>
         <tr><th>步骤</th><th>说明</th></tr>
-        <tr><td>1. 上传适配表</td><td>列的识别：<code>PDM商品编码/商品编码</code>（=真正的卖家SKU）、<code>产品编码/productCode</code>（内部短码，仅做对照）、<code>makeName/品牌</code>、<code>modelName/车型</code>、<code>yearName/年份</code>、<code>vio/保有量</code>。<br>
+        <tr><td>1. 上传适配表</td><td>列的识别：<code>PDM商品编码/商品编码</code>（=真正的卖家SKU）、<code>产品编码/productCode</code>（内部短码，仅做对照）、<code>makeName/品牌</code>、<code>modelName/车型</code>、<code>yearName/年份</code>、<code>vio/保有量</code>；没有结构化列时读 <code>detail_us</code> 文本（<b>只读美国站，detail_canada/detail_mexico 一律忽略</b>）。<br>
           <b>SKU 只认 PDM商品编码</b>；若适配表里只有产品编码，会自动去同一文件里找「产品编码 + PDM商品编码」的对照表补全，补不到会红字提示。
           品牌/SKU 合并单元格（只在首行写）也能自动向下补齐。</td></tr>
         <tr><td>2. 填大词</td><td>如 <code>blower motor</code> / <code>ac blower motor</code> / <code>hvac blower motor</code></td></tr>
@@ -1055,8 +1057,17 @@ const FIT_ALIAS = {
   make:  ["makename","品牌","make","brand","厂牌"],
   model: ["modelname","车型","model","car model"],
   year:  ["yearname","年份","年款","year","model year"],
-  vio:   ["vio","保有量","保有量数","保有量(辆)","保有量辆","存量"]
+  vio:   ["vio","保有量","保有量数","保有量(辆)","保有量辆","存量"],
+  detailUs: ["detail_us","detailus","detail us","detail-us","us_detail","us适配","美国适配"]
 };
+// 用户口径：只做美国站，CA/MX 站点数据一律不读
+const SITE_IGNORE = ["detail_canada","detail_ca","canada","detail_mexico","detail_mx","mexico","墨西哥","加拿大"];
+const CAR_MAKES = ["Mercedes-Benz","Land Rover","Alfa Romeo","Aston Martin","Freightliner","International",
+  "Volkswagen","Mitsubishi","Oldsmobile","Plymouth","Peterbilt","Chevrolet","Cadillac","Chrysler","Maserati",
+  "Pontiac","Sterling","Hyundai","Infiniti","Mercury","Nissan","Subaru","Suzuki","Toyota","Genesis","Hummer",
+  "Isuzu","Jaguar","Dodge","Eagle","Fisker","Honda","Lexus","Mazda","Scion","Tesla","Volvo","Buick","Acura",
+  "Audi","BMW","Ford","Jeep","Kia","Mini","Mini Cooper","Ram","Saab","Saturn","Smart","GMC","Geo","AMC","UD",
+  "Chevy","VW","Mack","Hino","Saab"].sort((a,b)=>b.length-a.length);
 
 function hnorm2(x){ return String(x==null?"":x).replace(/[\s_\-]/g,"").toLowerCase(); }
 
@@ -1069,6 +1080,53 @@ function pickFitHeader(headers){
       const idx = map[hnorm2(a)];
       if(idx !== undefined){ out[k] = idx; break; }
     }
+  }
+  return out;
+}
+
+function parseDetailUsText(text){
+  // detail_us 长这样：
+  //   Front For：
+  //   2014-2018 Chevrolet Silverado 1500
+  //   2019 GMC Sierra 1500 Limited
+  //   (PWM Aftermarket Design; w/ Wheel)
+  const out = [];
+  String(text==null?"":text).split(/[\r\n]+/).forEach(line=>{
+    let t = String(line).trim();
+    if(!t) return;
+    if(t.startsWith("(")) return;                      // 备注行
+    if(/for\s*[:：]?$/i.test(t)) return;               // "Front For：" 这种标题行
+    const m = t.match(/^((?:(?:19|20)\d{2})(?:\s*[-–~～]\s*(?:19|20)\d{2})?(?:\s*[,，/]\s*(?:19|20)\d{2}(?:\s*[-–~～]\s*(?:19|20)\d{2})?)*)\s+(.+)$/);
+    if(!m) return;
+    const years = m[1].replace(/\s+/g,"");
+    let rest = m[2].replace(/\([^)]*\)/g,"").replace(/\s+/g," ").trim();
+    const low = rest.toLowerCase();
+    const mk = CAR_MAKES.find(x=>low.startsWith(x.toLowerCase()+ " ")) || "";
+    const model = (mk ? rest.slice(mk.length) : rest).trim();
+    if(!model) return;
+    out.push({make: mk, model, yearRaw: years});
+  });
+  return out;
+}
+
+function parseDetailSheet(aoa, skuMap, cmap, hi){
+  // 只吃 detail_us 一列；detail_canada / detail_mexico 直接不读
+  const out = [];
+  const skuKey = cmap.pdm!==undefined ? "pdm" : (cmap.sku!==undefined ? "sku" : (cmap.short!==undefined ? "short" : null));
+  let lastRaw = "";
+  for(let i=hi+1;i<aoa.length;i++){
+    const r = aoa[i]||[];
+    if(r.every(v=>v==null||String(v).trim()==="")) continue;
+    let raw = String(r[cmap.detailUs]==null? "" : r[cmap.detailUs]).trim();
+    if(raw) lastRaw = raw; else raw = lastRaw;
+    if(!raw) continue;
+    let rawSku = skuKey? String(r[cmap[skuKey]]==null? "" : r[cmap[skuKey]]).trim() : "";
+    let sku = "", short = cmap.short!==undefined ? String(r[cmap.short]==null? "" : r[cmap.short]).trim() : "";
+    if(skuKey === "short"){ short = rawSku || short; sku = skuMap[short] || ""; }
+    else sku = rawSku;
+    parseDetailUsText(raw).forEach((d, k)=>{
+      out.push({sku, skuShort: short, make: d.make, model: d.model, yearRaw: d.yearRaw, vio: 0, ord: out.length});
+    });
   }
   return out;
 }
@@ -1094,12 +1152,18 @@ function buildSkuMap(sheets){
 }
 
 function parseFitmentSheet(aoa, skuMap){
-  let hi = -1, cmap = null;
+  let hi = -1, cmap = null, hiDetail = -1, cmapDetail = null;
   for(let i=0;i<Math.min(aoa.length,25);i++){
     const m = pickFitHeader(aoa[i]||[]);
-    if(m.model!==undefined && (m.vio!==undefined || m.year!==undefined)){ hi=i; cmap=m; break; }
+    if(m.model!==undefined && (m.vio!==undefined || m.year!==undefined) && hi<0){ hi=i; cmap=m; }
+    if(m.detailUs!==undefined && (m.pdm!==undefined || m.short!==undefined || m.sku!==undefined) && hiDetail<0){ hiDetail=i; cmapDetail=m; }
   }
-  if(hi<0) return {rows:[], headerRow:-1, skuKey:null, unmapped:[]};
+  // 结构化适配数据优先（有 VIO 才能真正排序）；没有就用 detail_us 文本（只读美国站）
+  if(hi<0){
+    if(hiDetail<0) return {rows:[], headerRow:-1, skuKey:null, unmapped:[], kind:null, hasVio:false};
+    const rows = parseDetailSheet(aoa, skuMap, cmapDetail, hiDetail);
+    return {rows, headerRow:hiDetail, skuKey:"detail_us", unmapped:[], kind:"detail_us", hasVio:false};
+  }
 
   // SKU 列优先级：PDM商品编码 > 通用SKU列 > 产品编码（需映射）
   const skuKey = cmap.pdm!==undefined ? "pdm" : (cmap.sku!==undefined ? "sku" : (cmap.short!==undefined ? "short" : null));
@@ -1126,19 +1190,24 @@ function parseFitmentSheet(aoa, skuMap){
       if(!sku && rawSku) unmapped.push(rawSku);
     }
     const vio = parseFloat(String(vioRaw).replace(/[,\s]/g,""));
-    out.push({sku, skuShort: short, model, make: makeF, yearRaw, vio: isNaN(vio)? 0 : vio});
+    out.push({sku, skuShort: short, model, make: makeF, yearRaw, vio: isNaN(vio)? 0 : vio, ord: out.length});
   }
-  return {rows: out, headerRow: hi, skuKey, unmapped: Array.from(new Set(unmapped))};
+  return {rows: out, headerRow: hi, skuKey, unmapped: Array.from(new Set(unmapped)),
+          kind:"structured", hasVio: out.some(r=>r.vio>0)};
 }
 
 function parseWorkbookFitment(sheets){
   const {map: skuMap} = buildSkuMap(sheets);
-  let best = null;
+  const score = r => (r.hasVio? 1e7 : 0) + (r.kind==="structured"? 1e6 : 0) + r.rows.length;
+  let best = null, candidates = [];
   sheets.forEach(({name, aoa})=>{
     const r = parseFitmentSheet(aoa, skuMap);
-    if(r.rows.length && (!best || r.rows.length > best.rows.length)){ best = r; best.sheet = name; }
+    if(!r.rows.length) return;
+    candidates.push(name+"("+(r.kind||"?")+")");
+    if(!best || score(r) > score(best)){ best = r; best.sheet = name; }
   });
-  return {best: best || {rows:[], unmapped:[], skuKey:null}, skuMapSize: Object.keys(skuMap).length};
+  return {best: best || {rows:[], unmapped:[], skuKey:null, kind:null, hasVio:false},
+          skuMapSize: Object.keys(skuMap).length, candidates};
 }
 
 function expandYears(v){
@@ -1173,7 +1242,7 @@ function buildKeywordsJs(rows, baseWord, patterns, limit){
     const push = (kw, year)=>{
       const key = (r.sku||"")+"|"+kw;
       const cur = best.get(key);
-      if(!cur || r.vio > cur.vio) best.set(key, {kw, sku:r.sku||"", skuShort:r.skuShort||"", make:mk, model:md, year: year||"", vio:r.vio||0});
+      if(!cur || r.vio > cur.vio) best.set(key, {kw, sku:r.sku||"", skuShort:r.skuShort||"", make:mk, model:md, year: year||"", vio:r.vio||0, ord:r.ord||0});
     };
     if(patterns.includes("p1") && mk && years.length) years.forEach(y=>push(word(y,true), y));
     if(patterns.includes("p1") && !mk && years.length) years.forEach(y=>push(word(y,false), y));
@@ -1181,7 +1250,11 @@ function buildKeywordsJs(rows, baseWord, patterns, limit){
     if(patterns.includes("p2")) push(`${mk? mk+" ":""}${md} ${base}`.replace(/\s+/g," ").trim(), "");
   });
   let list = Array.from(best.values());
-  list.sort((a,b)=> (b.vio - a.vio) || (String(b.year).localeCompare(String(a.year))) || a.kw.localeCompare(b.kw));
+  list.sort((a,b)=>{
+    if(b.vio !== a.vio) return b.vio - a.vio;
+    if(!a.vio && !b.vio && a.ord !== b.ord) return (a.ord||0) - (b.ord||0);   // detail_us 自带VIO倒序，保持原文顺
+    return (String(b.year).localeCompare(String(a.year))) || a.kw.localeCompare(b.kw);
+  });
   const n = parseInt(limit,10);
   if(!isNaN(n) && n>0) list = list.slice(0, n);
   return list;
@@ -1370,9 +1443,12 @@ $("#fileFit").addEventListener("change", async e=>{
 
     const skus = new Set(fitRows.map(r=>r.sku).filter(Boolean));
     const noSku = fitRows.filter(r=>!r.sku).length;
-    $("#fitInfo").innerHTML = `已加载：${f.name} ｜ 数据表「${best.sheet}」 ｜ ${fitRows.length} 行适配 ｜ `
-      + `<b>${skus.size} 个SKU(PDM商品编码)</b> ｜ ${new Set(fitRows.map(r=>r.make+"|"+r.model)).size} 个车型`
-      + (skuMapSize? ` ｜ 已从表中补全 ${skuMapSize} 组 产品编码→PDM编码 对照` : "");
+    const srcLabel = best.kind==="detail_us" ? "detail_us 文本" : "结构化适配列";
+    $("#fitInfo").innerHTML = `已加载：${f.name} ｜ 数据表「${best.sheet}」(${srcLabel}) ｜ <b>站点：仅 US</b>`
+      + ` ｜ ${fitRows.length} 行适配 ｜ <b>${skus.size} 个SKU(PDM商品编码)</b>`
+      + ` ｜ ${new Set(fitRows.map(r=>r.make+"|"+r.model)).size} 个车型`
+      + (skuMapSize? ` ｜ 已补全 ${skuMapSize} 组 产品编码→PDM编码 对照` : "")
+      + (best.hasVio? ` ｜ 含 VIO 保有量` : ` ｜ <span style="color:#b45309">无 VIO（按 detail_us 原文顺序 = 已按VIO倒序）</span>`);
     renderFitPreview();
     if(noSku){
       $("#kwMsg").innerHTML = '<div class="msg warn">注意：有 '+noSku+' 行的 SKU 无法确定——表里既没有 PDM商品编码，也找不到「产品编码→PDM商品编码」对照。'
