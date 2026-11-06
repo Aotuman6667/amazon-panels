@@ -559,7 +559,23 @@ function buildTemplateWorkbook(){
   XLSX.utils.book_append_sheet(wb, ws2, "填写说明");
   return wb;
 }
-function downloadTemplate(){ XLSX.writeFile(buildTemplateWorkbook(), "投放清单_模板.xlsx"); }
+async function downloadHosted(name, statusEl){
+  const a = document.createElement("a");
+  a.href = name; a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  if(statusEl) statusEl.textContent = "已开始下载：" + name + "（含下拉）";
+  return true;
+}
+async function downloadTemplate(){
+  const name = "投放清单_模板.xlsx";
+  if(location.protocol === "file:"){ downloadHosted(name); return; }
+  try{
+    const r = await fetch(name, {method:"HEAD", cache:"no-store"});
+    if(r.ok){ downloadHosted(name, $("#parseInfo")); return; }
+  }catch(e){}
+  XLSX.writeFile(buildTemplateWorkbook(), name);
+  $("#parseInfo").textContent = "没找到带下拉的模板文件，已用浏览器生成简易版（无下拉）";
+}
 
 function exportCurrentTable(){
   const wb = XLSX.utils.book_new();
@@ -591,7 +607,17 @@ const RULE_HELP = [
   ["",""],
   ["怎么用","规则在网页「批量修改」页签里直接填即可；这张模板只是方便你先把规则写好、之后照着录"]
 ];
-function downloadRuleTemplate(){
+async function downloadRuleTemplate(){
+  const name = "批量修改_操作清单模板.xlsx";
+  if(location.protocol === "file:"){ downloadHosted(name); return; }
+  try{
+    const r = await fetch(name, {method:"HEAD", cache:"no-store"});
+    if(r.ok){
+      downloadHosted(name);
+      $("#ruleMsg").innerHTML = '<div class="msg ok">已开始下载：'+name+'（含下拉）</div>';
+      return;
+    }
+  }catch(e){}
   const wb = XLSX.utils.book_new();
   const ws1 = XLSX.utils.aoa_to_sheet([RULE_COLS]);
   ws1["!cols"] = RULE_COLS.map(h=>({wch: Math.max(12, String(h).length*2.6)}));
@@ -599,7 +625,8 @@ function downloadRuleTemplate(){
   const ws2 = XLSX.utils.aoa_to_sheet(RULE_HELP);
   ws2["!cols"] = [{wch:20},{wch:92}];
   XLSX.utils.book_append_sheet(wb, ws2, "填写说明");
-  XLSX.writeFile(wb, "批量修改_操作清单模板.xlsx");
+  XLSX.writeFile(wb, name);
+  $("#ruleMsg").innerHTML = '<div class="msg warn">没找到带下拉的模板文件，已用浏览器生成简易版（无下拉）</div>';
 }
 
 /* ============================== 生成流程 ============================== */
