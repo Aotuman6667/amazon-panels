@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>鼓风机周分析 W45（2026-11-11 库存实查修订版）</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Microsoft YaHei","微软雅黑",sans-serif;background:#f5f7fa;color:#2c3e50;line-height:1.7}
+.header{background:linear-gradient(135deg,#15395e 0%,#2E75B6 100%);color:#fff;padding:36px 28px 30px}
+.header h1{font-size:26px;margin-bottom:8px}
+.header .sub{opacity:.85;font-size:14px}
+.header .concl{margin-top:16px;background:rgba(255,255,255,.12);border-radius:10px;padding:14px 18px;font-size:15px}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 18px 60px}
+.section{background:#fff;border-radius:12px;padding:22px 24px;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.section h2{font-size:19px;color:#15395e;border-left:5px solid #2E75B6;padding-left:10px;margin-bottom:14px}
+.section h3{font-size:15px;color:#1F4E79;margin:14px 0 8px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:6px}
+.card{background:#f8fafc;border:1px solid #e3e9f0;border-radius:10px;padding:14px 16px}
+.card .lbl{font-size:13px;color:#6b7c93}
+.card .val{font-size:22px;font-weight:700;color:#15395e;margin:4px 0}
+.card .chg{font-size:13px}
+.card .chg.down{color:#c0392b} .card .chg.up{color:#27ae60}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:8px 0}
+th{background:#15395e;color:#fff;padding:9px 8px;text-align:center;font-weight:600}
+td{padding:8px;text-align:center;border-bottom:1px solid #e8edf3}
+tr:nth-child(even) td{background:#fafbfd}
+tr.bad td{background:#fdecea} tr.good td{background:#eafaf1} tr.warn td{background:#fff8e1}
+.note{background:#eef4fb;border-left:4px solid #2E75B6;padding:12px 16px;border-radius:0 8px 8px 0;margin:10px 0;font-size:14px}
+.note.red{background:#fdecea;border-left-color:#c0392b}
+.note.green{background:#eafaf1;border-left-color:#27ae60}
+ol,ul{padding-left:22px} li{margin:6px 0}
+.tag{display:inline-block;padding:1px 8px;border-radius:10px;font-size:12px;margin-right:4px}
+.tag.p0{background:#fdecea;color:#c0392b} .tag.p1{background:#fff8e1;color:#b7791f} .tag.p2{background:#eafaf1;color:#27ae60}
+.footer{text-align:center;color:#8a99ab;font-size:12px;padding:20px}
+</style></head><body>
+<div class="header">
+  <h1>鼓风机周分析 W45（2026-11-01 ～ 11-07）· 库存实查修订版</h1>
+  <div class="sub">对比上周 W44（10-25 ～ 10-31）｜数据源：BI损益明细 + 领星广告 + ERP US23 FBA库存实查（2026-11-11）</div>
+  <div class="concl">一句话结论：<b>这一周毛利从 16,310 元掉到 3,117 元（-80.9%），主因不是卖得少，而是仓储费从 1,758 元涨到 9,682 元（+451%）</b>。广告是唯一亮点——花得更少、卖得更多、ACOS 从 15.57% 降到 11.23%。<br><b>33个归零款经US23 FBA库存实查：只有3个真断货（18900/16300/16800），其余30个都有货——不是断货，是流量/广告问题。</b></div>
+</div>
+<div class="wrap">
+
+<div class="section">
+  <h2>先看这 6 个数</h2>
+  <div class="cards">
+    <div class="card"><div class="lbl">毛利（元）</div><div class="val">3,117</div><div class="chg down">16,310 → 3,117（-80.9%）</div></div>
+    <div class="card"><div class="lbl">毛利率</div><div class="val">3.93%</div><div class="chg down">17.28% → 3.93%（-13.35pp）</div></div>
+    <div class="card"><div class="lbl">销售额（元）</div><div class="val">79,274</div><div class="chg down">94,376 → 79,274（-16.0%）</div></div>
+    <div class="card"><div class="lbl">销量（件）</div><div class="val">338</div><div class="chg down">389 → 338（-13.1%）</div></div>
+    <div class="card"><div class="lbl">仓储费（元）</div><div class="val" style="color:#c0392b">9,682</div><div class="chg down">1,758 → 9,682（+451%）</div></div>
+    <div class="card"><div class="lbl">广告 ACOS</div><div class="val" style="color:#27ae60">11.23%</div><div class="chg up">15.57% → 11.23%（-4.34pp）</div></div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>人话导读（3 句讲完）</h2>
+  <ol>
+    <li><b>卖得少了一点，但没少到让利润崩</b>——销量 389→338（-13%）、销售额 -16%，属于季节正常回落。</li>
+    <li><b>真正吃掉利润的是仓储费</b>——从 1,758 元飙到 9,682 元，光这一项就吃掉 7,924 元毛利，占跌幅的 60%。平摊到每件货上，仓储成本从 4.5 元/件涨到 28.6 元/件。</li>
+    <li><b>广告反而是亮点</b>——花费少了 13.7%，广告销售额多了 19.6%，ACOS 从 15.57% 降到 11.23%，点击单价（CPC）降了 25%。</li>
+  </ol>
+  <div class="note red"><b>但要先打个问号：</b>11 月的仓储费很可能是 BI 的"预估数"而不是真实账单——因为 SKU 明细里每个 SKU 的"仓储费÷销售额"都恰好=13.5%（明显是按销售额比例摊的占位值），而且 13.4% 的仓储费率比我们全部毛利率还高。真实数据要等 12 月初 Amazon 账单，或用 Amazon 后台"库存 → 库存规划 → 仓储费预览"现在先看真实体积。</div>
+</div>
+
+<div class="section">
+  <h2>名词解释（看不懂的先看这里）</h2>
+  <table>
+    <tr><th style="width:130px">名词</th><th>大白话解释</th></tr>
+    <tr><td>毛利 / 毛利率</td><td>卖出商品扣掉进货成本、头程、尾程配送、平台佣金、广告、仓储等所有费用后剩下的钱。毛利率=毛利÷销售额，越高越赚钱。</td></tr>
+    <tr><td>仓储费</td><td>把货放在 Amazon 仓库要交的"保管费"，按体积×存放时间算。10-12 月是旺季，费率会上调。</td></tr>
+    <tr><td>ACOS</td><td>广告花费÷广告带来的销售额。11.23% 意思是花 1 块钱广告费换回 8.9 块钱销售额，越低越好。</td></tr>
+    <tr><td>CPC</td><td>广告的"每次点击成本"——客户点一次广告我们要付多少钱，本周 $0.69（降了 25%）。</td></tr>
+    <tr><td>CVR（转化率）</td><td>点进商品的人里，最后下单的比例。本周 14.48%。</td></tr>
+    <tr><td>退款率</td><td>本周退款件数÷卖出件数=10.9%（按"已发货订单"口径，比出单口径准）。</td></tr>
+    <tr><td>负毛利 SKU</td><td>算完全部成本后倒亏钱的商品，通常因为退款、广告花超或定价太低。</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <h2>毛利去哪了（毛利桥）</h2>
+  <table>
+    <tr><th>项目</th><th>W44</th><th>W45</th><th>变化</th><th>对毛利的影响</th></tr>
+    <tr><td>销售额（元）</td><td>94,376</td><td>79,274</td><td>-15,102</td><td>-2,610（按上周毛利率折算）</td></tr>
+    <tr class="bad"><td><b>仓储费（元）</b></td><td>1,758</td><td>9,682</td><td>+7,924</td><td><b>-7,924（主因，占60%）</b></td></tr>
+    <tr class="good"><td>广告费合计（元）</td><td>3,577</td><td>3,075</td><td>-502</td><td>+502</td></tr>
+    <tr class="good"><td>促销折扣（元）</td><td>1,931</td><td>1,617</td><td>-315</td><td>+315</td></tr>
+    <tr class="good"><td>退款金额（元）</td><td>9,594</td><td>9,395</td><td>-199</td><td>+199</td></tr>
+    <tr><td>材料/尾程/佣金等（随销量联动）</td><td colspan="2">随销量下降同步减少</td><td>—</td><td>约 +2,600（抵消销售额下滑）</td></tr>
+    <tr><td colspan="4" style="text-align:right"><b>毛利合计</b></td><td><b>16,310 → 3,117（-13,193）</b></td></tr>
+  </table>
+  <div class="note">读法：销售额少了 15,102 元，但进货、配送、佣金也跟着少花，所以"卖得少"本身只伤毛利约 2,600 元；真正把毛利打穿的是仓储费多花的 7,924 元。</div>
+</div>
+
+<div class="section">
+  <h2>销量涨跌明细</h2>
+  <h3>🔻 下滑最多的 8 个款</h3>
+  <table><tr><th>SKU</th><th>销量（上周→本周）</th><th>变化</th><th>毛利（元）</th><th>毛利变化</th><th>库存判定(US23 FBA)</th></tr>
+  <tr class="bad"><td>OO8BLM18900</td><td>10→0</td><td>-10</td><td>532→-245</td><td>-779</td><td>真断货(在途112件)</td></tr><tr class="warn"><td>COMMON8BLM08400</td><td>11→2</td><td>-9</td><td>495→73</td><td>-422</td><td>—</td></tr><tr class="warn"><td>COMMON8BLM08800</td><td>8→1</td><td>-7</td><td>494→16</td><td>-477</td><td>—</td></tr><tr class="warn"><td>OO8BLM15900</td><td>8→1</td><td>-7</td><td>699→56</td><td>-643</td><td>—</td></tr><tr class="warn"><td>OO8BLM05500</td><td>9→3</td><td>-6</td><td>737→-171</td><td>-909</td><td>—</td></tr><tr class="warn"><td>OO8BLM15000</td><td>12→6</td><td>-6</td><td>947→331</td><td>-616</td><td>—</td></tr><tr class="warn"><td>OO8BLM05200</td><td>7→2</td><td>-5</td><td>1225→210</td><td>-1015</td><td>—</td></tr><tr class="warn"><td>OO8BLM04300</td><td>16→11</td><td>-5</td><td>827→285</td><td>-542</td><td>—</td></tr>
+  </table>
+  <div class="note">库存实查结果：<b>只有3个真断货</b>（OO8BLM18900 可用0/在途112件、OO8BLM16300 0/16、OO8BLM16800 0/16）；<b>其余30个都有货</b>，其中OO8BLM22300（84件）、OO8BLM21800（65件）、OO8BLM14500（64件）、COMMON8BLM07200（53件）库存充足却零单——查广告停投/排名，不是断货。</div>
+  <h3>🔺 上涨最多的 8 个款</h3>
+  <table><tr><th>SKU</th><th>销量（上周→本周）</th><th>变化</th><th>毛利（元）</th><th>毛利变化</th></tr>
+  <tr class="good"><td>ZC8BLM03500</td><td>6→13</td><td>+7</td><td>171→265</td><td>+94</td></tr><tr class="good"><td>OO8BLM28100</td><td>2→8</td><td>+6</td><td>-232→286</td><td>+519</td></tr><tr class="good"><td>OO8BLM25900</td><td>1→5</td><td>+4</td><td>31→-151</td><td>-184</td></tr><tr class="good"><td>ZC8BLM03600</td><td>1→5</td><td>+4</td><td>-200→158</td><td>+359</td></tr><tr class="good"><td>COMMON8BLM10800</td><td>16→20</td><td>+4</td><td>1003→615</td><td>-388</td></tr><tr class="good"><td>OO8BLM17100</td><td>1→5</td><td>+4</td><td>4→56</td><td>+52</td></tr><tr class="good"><td>OO8BLM20700</td><td>0→4</td><td>+4</td><td>-19→130</td><td>+150</td></tr><tr class="good"><td>OO8BLM14900</td><td>1→5</td><td>+4</td><td>6→86</td><td>+79</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <h2>广告：花钱少了，卖得多了</h2>
+  <table>
+    <tr><th>指标</th><th>W44</th><th>W45</th><th>变化</th></tr>
+    <tr><td>广告花费（$）</td><td>533.68</td><td>460.70</td><td class="good">-13.7%</td></tr>
+    <tr><td>广告销售额（$）</td><td>3,427.69</td><td>4,101.09</td><td class="good">+19.6%</td></tr>
+    <tr><td>广告订单</td><td>91</td><td>96</td><td class="good">+5</td></tr>
+    <tr><td>ACOS</td><td>15.57%</td><td>11.23%</td><td class="good">-4.34pp</td></tr>
+    <tr><td>CPC（$）</td><td>0.92</td><td>0.69</td><td class="good">-25%</td></tr>
+    <tr><td>CVR</td><td>15.61%</td><td>14.48%</td><td>-1.13pp</td></tr>
+    <tr><td>点击 / 曝光</td><td>583 / 56,754</td><td>663 / 66,532</td><td>+13.7% / +17.2%</td></tr>
+  </table>
+  <h3>⚠️ 还在烧钱但 0 单的活动（21 个，共 $104.82，占本周花费 23%）</h3>
+  <table><tr><th>活动名</th><th>花费 $</th><th>点击</th></tr>
+    <tr class="bad"><td style="text-align:left">SP-KW-BR-朱鹏锃-暖通空调鼓风机-B0CNG7HR6Y-车型词-批量:26072413</td><td>17.54</td><td>11</td></tr>
+    <tr class="bad"><td style="text-align:left">SP-KW-BR-朱鹏锃-鼓风机-B0H6PLLWZF- 降低 -年份大词-空调鼓风机-车型词-批量:26081810</td><td>11.30</td><td>10</td></tr>
+    <tr class="bad"><td style="text-align:left">SP-KW-BR-朱鹏锃-鼓风机-B0H6PVG6PM- 降低 -年份大词-空调鼓风机-车型词-批量:26081810</td><td>8.69</td><td>6</td></tr>
+    <tr class="bad"><td style="text-align:left">SP-KW-BR-朱鹏锃-鼓风机-B0H6PMLNPR- 降低 -年份大词-空调鼓风机-车型词-批量:26081810</td><td>7.98</td><td>7</td></tr>
+    <tr class="bad"><td style="text-align:left">SP-KW-BR-朱鹏锃-鼓风机-B0H4LP6L35- 降低 -年份大词-空调鼓风机-车型词-批量:26081810</td><td>7.56</td><td>6</td></tr>
+  </table>
+  <div class="note green"><b>值得复制的一条：</b>SD-KAX-空调鼓风机-MIX-CA-李悦榕-VCPM——花费从 $24.47 加到 $42.50，广告销售额从 $174 涨到 $654，ACOS 只有 6.5%。这是本周唯一"加钱还划算"的活动，同类 VCPM 定向可以往其他款复制。</div>
+</div>
+
+<div class="section">
+  <h2>亏钱的 SKU（本周负毛利 64 个，合计 -6,880 元）</h2>
+  <table><tr><th>SKU</th><th>本周销量</th><th>本周毛利</th><th>上周毛利</th></tr>
+  <tr class="bad"><td>OO8BLM28900</td><td>0</td><td>-800</td><td>-17</td></tr><tr class="bad"><td>OO8BLM22300</td><td>0</td><td>-438</td><td>129</td></tr><tr class="bad"><td>OO8BLM16700</td><td>0</td><td>-408</td><td>-9</td></tr><tr class="bad"><td>OO8BLM15800</td><td>1</td><td>-351</td><td>-24</td></tr><tr class="bad"><td>OO8BLM17400</td><td>0</td><td>-265</td><td>124</td></tr><tr class="bad"><td>OO8BLM18900</td><td>0</td><td>-246</td><td>533</td></tr><tr class="bad"><td>COMMON8BLM11300</td><td>1</td><td>-243</td><td>-102</td></tr><tr class="bad"><td>OO8BLM29900</td><td>1</td><td>-238</td><td>-177</td></tr><tr class="bad"><td>OO8BLM18400</td><td>0</td><td>-232</td><td>138</td></tr><tr class="bad"><td>OO8BLM16300</td><td>0</td><td>-216</td><td>175</td></tr>
+  </table>
+  <div class="note">其中 OO8BLM28900（-800）、OO8BLM22300（-438）、OO8BLM16700（-408）本周 0 销量却大额负毛利——典型的"退款冲减"型（上周卖出的订单这周退款），需要查退款原因。</div>
+</div>
+
+<div class="section">
+  <h2>下一步做什么</h2>
+  <h3><span class="tag p0">P0 立刻</span></h3>
+  <ol>
+    <li><b>核实仓储费</b>：Amazon 后台 → 库存 → 库存规划 → 仓储费预览，看每个 ASIN 的真实体积和预估费用；12 月账单出来后回填校准（BI 现在的是预估口径）</li>
+    <li><b>归零款分两类</b>：真断货3款（OO8BLM18900在途112/16300在途16/16800在途16，等到货）；有货归零30款重点查库存大户 OO8BLM22300(84件)/OO8BLM21800(65件)/OO8BLM14500(64件)/COMMON8BLM07200(53件)——查广告是否停投、排名是否下跌</li>
+    <li><b>停投 21 个烧钱 0 单活动</b>（$104.82/周，省下来一年 5 千多）</li>
+  </ol>
+  <h3><span class="tag p1">P1 本周</span></h3>
+  <ol start="4">
+    <li><b>清理滞销占仓</b>：10 月零销量但占仓的 13 个款（ZC8BLM01600/03300/04100/09400 等，约 390 元/月）+ 仓储费率>10% 的 19 个款（ZC8BLM03100 31.2%、OO8BLM19800 36.7%、OO8BLM18000 22% 等）——促销清或移海外仓</li>
+    <li><b>过一遍 64 个负毛利 SKU</b>：按退款冲减 / 广告超支 / 毛利倒挂三类分别处理</li>
+  </ol>
+  <h3><span class="tag p2">P2 持续</span></h3>
+  <ol start="6">
+    <li>把 SD-KAX-MIX-CA（李悦榕 VCPM）的低 ACOS 打法复制到其他高潜力款</li>
+    <li>下周开始把"仓储费"单列进周报（当前它已经是第二大费用项，仅次于材料成本）</li>
+  </ol>
+</div>
+
+<div class="footer">
+  数据源：BI 损益明细（finance，周粒度 202644/202645）+ 领星广告活动报告（11/1-11/7、10/25-10/31）｜生成时间：2026-11-11（库存实查修订版）<br>
+  口径说明：退款率=退款数量÷出库销量（损益口径）；毛利率=毛利÷销售额；广告指标来自领星活动级汇总；库存来自ERP MCP US23 FBA实查(2026-11-11)
+</div>
+</div></body></html>
