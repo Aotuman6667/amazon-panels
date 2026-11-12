@@ -87,7 +87,7 @@ tr:nth-child(even) td{background:#f5f7fb;}
 <div class="cards" id="kpis"></div>
 
 <div id="wk4cmp" style="margin:0 0 16px"></div>
-<div style="text-align:right;font-size:11px;color:#999;margin:-4px 0 6px">面板版本 <b id="pane-ver">v35.8</b> · 构建 2026-11-12 · 若看到旧内容请 Ctrl+Shift+R 强刷</div>
+<div style="text-align:right;font-size:11px;color:#999;margin:-4px 0 6px">面板版本 <b id="pane-ver">v35.9</b> · 构建 2026-11-12 · 若看到旧内容请 Ctrl+Shift+R 强刷</div>
 <div class="concl" id="concl"></div>
 <div class="panel"><h3>❓ 本周重点问题（W45）</h3><div id="qweek" class="diag" style="background:#fff7f0;border:1px solid #f0d0b0"></div></div>
 
@@ -459,6 +459,9 @@ tr:nth-child(even) td{background:#f5f7fb;}
 <div class="header">
   <div><h1>📊 KAX · 鼓风机产品等级分类</h1>
   <div class="sub">全部在售 <b>206</b> 个 ASIN（定义表口径）｜ 分级=综合评分：销量40% + 损益利润30% + 退款率20% + 定价利润10% ｜ 数据：定义表(OE号/价格) + BI损益(毛利/退款 10-12~11-10) + BI运营(30天销量)</div></div>
+</div>
+<div class="panel" style="border-left:4px solid #2E75B6"><h3>⭐ Q5 · ABCD 类产品销量提升 / 库存清理方案（本板块首端）</h3>
+  <div id="gr-q5" style="line-height:1.9"></div>
 </div>
 <div class="panel"><h3>一：等级分布总览</h3>
   <div class="note" id="gr-d0"></div>
@@ -1393,18 +1396,13 @@ $('concl').innerHTML=conclHtml;
    +'<br>⑤ 逐SKU明细（含库存四态 FBA/本地仓/海外仓/在途）见 <b>视图3 · 销售数据汇总</b>（切到 PT 品牌）。';
  })();
 
+ // Q5 已移到「视图2 · 产品等级分类」首端（用户要求），这里不再重复渲染
+ var _gq5=document.getElementById('gr-q5');
+ if(_gq5){ _gq5.innerHTML=nq5; }
  $('qweek').innerHTML='<div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed #e0c090">'+nq1+'</div>'
   +'<div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed #e0c090">'+nq2+'</div>'
   +'<div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed #e0c090">'+nq3+'</div>'
   +'<div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed #e0c090">'+nq4+'</div>'
-  +'<div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed #e0c090">'+nq5+'</div>'
-  +'<div>'+nq8+'</div>';
-
- $('qweek').innerHTML='<div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed #e0c090">'+nq1+'</div>'
-  +'<div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed #e0c090">'+nq2+'</div>'
-  +'<div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed #e0c090">'+nq3+'</div>'
-  +'<div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed #e0c090">'+nq4+'</div>'
-  +'<div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed #e0c090">'+nq5+'</div>'
   +'<div>'+nq8+'</div>';
  
 })();
