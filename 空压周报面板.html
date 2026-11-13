@@ -68,30 +68,43 @@ tr:nth-child(even) td{background:#f7f9fc;}
   <div style="flex:1;position:relative">
     <button id="todo-btn" class="tabbtn" style="background:#E36C09;color:#fff;text-align:center;border:none;width:100%;padding:9px 12px;border-radius:8px;font-weight:600;font-family:inherit;font-size:14px;cursor:pointer">✅ 待办事项 ▾</button>
     <div id="todo-menu" style="display:none;position:absolute;right:0;top:46px;z-index:300;background:#fff;border:1px solid #d6e0ec;border-radius:10px;box-shadow:0 10px 28px rgba(0,0,0,.18);padding:10px 14px;min-width:430px;max-width:min(92vw,560px);text-align:left">
-      <div style="font-size:12px;color:#888;margin-bottom:6px">▾ 点标题展开 ｜ 勾选 / 填备注自动保存（本机浏览器）</div>
+      <div style="font-size:12px;color:#888;margin-bottom:6px">点「打开面板」看诊断与建议 ｜ 勾选 / 备注自动保存（本机浏览器）</div>
       <details style="border-bottom:1px dashed #e6eef7;padding:5px 0" open>
         <summary style="cursor:pointer;font-weight:700;color:#1F4E79;font-size:13.5px"><input type="checkbox" data-todo="t1" style="margin-right:6px;vertical-align:-2px">1 PT评论治理</summary>
         <div style="padding:5px 0 4px 24px">
           <label style="display:block;font-size:13px;margin:3px 0;color:#333"><input type="checkbox" data-todo="t1_1" style="margin-right:6px;vertical-align:-2px">（1）差评 好评清理</label>
           <label style="display:block;font-size:13px;margin:3px 0;color:#333"><input type="checkbox" data-todo="t1_2" style="margin-right:6px;vertical-align:-2px">（2）vine链接</label>
-          <div contenteditable="true" data-todocontent="t1_note" style="font-size:12.5px;color:#666;border:1px dashed #cfdce9;border-radius:6px;padding:4px 6px;margin-top:4px">备注…</div>
+          <button onclick="openTodo(1)" style="margin-top:7px;display:block;background:#2E75B6;color:#fff;border:none;border-radius:7px;padding:6px 14px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit">📋 打开面板 · 看诊断与建议 →</button>
+          <div contenteditable="true" data-todocontent="t1_note" style="font-size:12.5px;color:#666;border:1px dashed #cfdce9;border-radius:6px;padding:4px 6px;margin-top:6px">备注…</div>
         </div>
       </details>
       <details style="border-bottom:1px dashed #e6eef7;padding:5px 0">
         <summary style="cursor:pointer;font-weight:700;color:#1F4E79;font-size:13.5px"><input type="checkbox" data-todo="t2" style="margin-right:6px;vertical-align:-2px">2 PT 变体链接治理</summary>
-        <div style="padding:5px 0 4px 24px"><div contenteditable="true" data-todocontent="t2_note" style="font-size:12.5px;color:#666;border:1px dashed #cfdce9;border-radius:6px;padding:4px 6px">备注…</div></div>
+        <div style="padding:5px 0 4px 24px">
+          <button onclick="openTodo(2)" style="display:block;background:#2E75B6;color:#fff;border:none;border-radius:7px;padding:6px 14px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit">📋 打开面板 · 看诊断与建议 →</button>
+          <div contenteditable="true" data-todocontent="t2_note" style="font-size:12.5px;color:#666;border:1px dashed #cfdce9;border-radius:6px;padding:4px 6px;margin-top:6px">备注…</div>
+        </div>
       </details>
       <details style="border-bottom:1px dashed #e6eef7;padding:5px 0">
         <summary style="cursor:pointer;font-weight:700;color:#1F4E79;font-size:13.5px"><input type="checkbox" data-todo="t3" style="margin-right:6px;vertical-align:-2px">3 PT 价格</summary>
-        <div style="padding:5px 0 4px 24px"><div contenteditable="true" data-todocontent="t3_note" style="font-size:12.5px;color:#666;border:1px dashed #cfdce9;border-radius:6px;padding:4px 6px">备注…</div></div>
+        <div style="padding:5px 0 4px 24px">
+          <button onclick="openTodo(3)" style="display:block;background:#2E75B6;color:#fff;border:none;border-radius:7px;padding:6px 14px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit">📋 打开面板 · 看诊断与建议 →</button>
+          <div contenteditable="true" data-todocontent="t3_note" style="font-size:12.5px;color:#666;border:1px dashed #cfdce9;border-radius:6px;padding:4px 6px;margin-top:6px">备注…</div>
+        </div>
       </details>
       <details style="border-bottom:1px dashed #e6eef7;padding:5px 0">
         <summary style="cursor:pointer;font-weight:700;color:#1F4E79;font-size:13.5px"><input type="checkbox" data-todo="t4" style="margin-right:6px;vertical-align:-2px">4 PT营销方案：全新机如何区别于市场竞对</summary>
-        <div style="padding:5px 0 4px 24px"><div contenteditable="true" data-todocontent="t4_note" style="font-size:12.5px;color:#666;border:1px dashed #cfdce9;border-radius:6px;padding:4px 6px">备注…</div></div>
+        <div style="padding:5px 0 4px 24px">
+          <button onclick="openTodo(4)" style="display:block;background:#2E75B6;color:#fff;border:none;border-radius:7px;padding:6px 14px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit">📋 打开面板 · 看诊断与建议 →</button>
+          <div contenteditable="true" data-todocontent="t4_note" style="font-size:12.5px;color:#666;border:1px dashed #cfdce9;border-radius:6px;padding:4px 6px;margin-top:6px">备注…</div>
+        </div>
       </details>
       <details style="padding:5px 0">
         <summary style="cursor:pointer;font-weight:700;color:#1F4E79;font-size:13.5px"><input type="checkbox" data-todo="t5" style="margin-right:6px;vertical-align:-2px">5 FBA发货和海外仓发货</summary>
-        <div style="padding:5px 0 4px 24px"><div contenteditable="true" data-todocontent="t5_note" style="font-size:12.5px;color:#666;border:1px dashed #cfdce9;border-radius:6px;padding:4px 6px">备注…</div></div>
+        <div style="padding:5px 0 4px 24px">
+          <button onclick="openTodo(5)" style="display:block;background:#2E75B6;color:#fff;border:none;border-radius:7px;padding:6px 14px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit">📋 打开面板 · 看诊断与建议 →</button>
+          <div contenteditable="true" data-todocontent="t5_note" style="font-size:12.5px;color:#666;border:1px dashed #cfdce9;border-radius:6px;padding:4px 6px;margin-top:6px">备注…</div>
+        </div>
       </details>
     </div>
   </div>
@@ -766,5 +779,209 @@ try{
 }
 });
 </script>
+<style>
+.tp-h{font-weight:700;color:#1F4E79;font-size:14.5px;margin:16px 0 6px;border-left:4px solid #2E75B6;padding-left:8px}
+.tp-h:first-child{margin-top:4px}
+.tp-tbl{width:100%;border-collapse:collapse;font-size:12.5px;margin:6px 0}
+.tp-tbl th{background:#dbe8f5;color:#1F4E79;padding:6px 8px;text-align:left;font-weight:700;border:1px solid #c5d8ea}
+.tp-tbl td{padding:6px 8px;border:1px solid #e3ecf5;color:#333}
+.tp-tbl tr:nth-child(even) td{background:#f7fafd}
+.tp-li{font-size:13px;color:#333;line-height:1.75;margin:3px 0}
+.tp-p0{background:#fdecea;border-left:4px solid #C00000;padding:8px 12px;border-radius:6px;margin:8px 0}
+.tp-p1{background:#fff7e6;border-left:4px solid #E36C09;padding:8px 12px;border-radius:6px;margin:8px 0}
+.tp-p2{background:#eef7ee;border-left:4px solid #00B050;padding:8px 12px;border-radius:6px;margin:8px 0}
+.tp-tag{display:inline-block;padding:1px 8px;border-radius:10px;font-size:11.5px;font-weight:700;color:#fff;margin-right:6px}
+.tp-note{font-size:12px;color:#888;margin-top:10px;line-height:1.7}
+.tp-kpi{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+.tp-kpi div{flex:1;min-width:150px;background:#f4f8fc;border:1px solid #dbe8f5;border-radius:8px;padding:8px 10px;font-size:12.5px;color:#555}
+.tp-kpi b{display:block;font-size:17px;color:#1F4E79;margin-bottom:2px}
+</style>
+
+<div id="tp-1" style="display:none">
+  <div class="tp-kpi">
+    <div><b>27 单</b>PT 周销量（W645）</div>
+    <div><b>2.60%</b>CVR（27单÷1,040 UV）</div>
+    <div><b>104 / 100 条</b>在榜两条评论数（BSR#25/#31）</div>
+    <div><b>616–1,125 条</b>ECCPP 同类评论数</div>
+  </div>
+  <div class="tp-h">📊 现状（数据源：bigdata BSR榜 9/23 ｜ BI运营 W641–W645）</div>
+  <table class="tp-tbl">
+    <tr><th>对比项</th><th>PHILTOP（我们）</th><th>ECCPP（头部竞对）</th><th>差距</th></tr>
+    <tr><td>BSR 在榜条数</td><td>2 条（#25 / #31）</td><td>6 条进 TOP10（共15条在榜）</td><td>−13 条</td></tr>
+    <tr><td>单链接评论数</td><td>104 / 100 条</td><td>616 / 1,125 / 978 / 1,017 / 832</td><td>约 1/6 ~ 1/11</td></tr>
+    <tr><td>星级</td><td>★4.5 / ★4.3</td><td>★3.8 ~ ★4.2</td><td>星级更好，但量差太多</td></tr>
+    <tr><td>价格带</td><td>$154.79 / $186.99</td><td>$75.53 ~ $110（中位≈$99）</td><td>高 40–70%</td></tr>
+  </table>
+  <div class="tp-h">🔍 诊断</div>
+  <div class="tp-li">① <b>评论量是最大转化瓶颈</b>：我们的星级（4.3–4.5）明显高于竞对（3.8–4.2），说明产品质量没问题，但评论数只有对手 1/6–1/11，买家在"高价 + 少评论"组合下不会下单——这就是 CVR 只有 2.6% 的主因。</div>
+  <div class="tp-li">② <b>没有持续拉评机制</b>：两条主力链接评论停在 100 条左右，说明上架后没跑过 Request a Review / Vine / 售后跟进，评论是"自然长"出来的。</div>
+  <div class="tp-li">③ <b>差评主要来自"不适配"</b>：PT 周退款 1 单左右，与空压类目退货主因（车型不匹配、装不上）一致 → 差评治理的前置动作其实是 fitment 信息治理。</div>
+  <div class="tp-h">✅ 我的建议</div>
+  <div class="tp-p0"><span class="tp-tag" style="background:#C00000">P0 本周</span><b>差评归因 + Request a Review 点满</b><br>
+    1）拉近 180 天 1–3 星评论，按「不适配 / 噪音异响 / 安装难度 / 物流」四类归因，逐条对应改五项与 A+（不适配类必须补 OE 号对照表和年份车型表）；<br>
+    2）后台「Request a Review」对**所有已交付订单**每周点满（免费、合规、见效最快），预计 4 周内单链接评论 +15~30 条。</div>
+  <div class="tp-p1"><span class="tp-tag" style="background:#E36C09">P1 2周</span><b>好评沉淀流程化</b><br>
+    建两段式 BSS 站内信（交付后 3 天：安装要点 + OE 对照；安装后 7 天：使用回访 + 留评引导），目标回复率 &gt;8%；对带图评论在 A+ 顶部做买家秀位（合规范围内放大好评影响力）。</div>
+  <div class="tp-p2"><span class="tp-tag" style="background:#00B050">P2 本月</span><b>Vine 批量拉新评</b><br>
+    上架 &lt;90 天、评论 ≤10 条的 PT ASIN 全部注册 Vine（每父体 30 条上限，$200/父体）。按 30 条评论的转化提升经验值，CVR 可从 2.6% 提到 3.5–4%，相当于同样流量多 10–14 单/周。</div>
+  <div class="tp-h">📏 衡量指标</div>
+  <div class="tp-li">父体评论数（月+30）｜ 1–3 星占比 &lt;5% ｜ CVR ≥3.5% ｜ 差评归因四类月度清账 ｜ Vine 评论条数</div>
+  <div class="tp-note">口径备注：评论数取 bigdata BSR 榜（2026-09-23 爬取），同一父体下子体共享评论不计入 SKU 级统计（平台机制限制）。</div>
+</div>
+
+<div id="tp-2" style="display:none">
+  <div class="tp-kpi">
+    <div><b>30 个</b>PT 在售 SKU（进销存 11/11）</div>
+    <div><b>91 件</b>FBA 可用库存（平均 3 件/SKU）</div>
+    <div><b>3 件</b>FBA 近30天销量</div>
+    <div><b>30.3 个月</b>PT 库销比</div>
+  </div>
+  <div class="tp-h">📊 现状（数据源：进销存报表(26) 2026-11-11 ｜ bigdata BSR榜）</div>
+  <table class="tp-tbl">
+    <tr><th>品牌</th><th>SKU数</th><th>FBA可用</th><th>FBA30天销量</th><th>库销比</th><th>说明</th></tr>
+    <tr><td><b>PHILTOP</b></td><td>30</td><td>91</td><td>3</td><td style="color:#C00000"><b>30.3 月</b></td><td>极散：平均 3 件/SKU，断不起也清不动</td></tr>
+    <tr><td>KAX</td><td>182</td><td>351</td><td>34</td><td>10.3 月</td><td>主力品牌，SKU 多但动销尚可</td></tr>
+    <tr><td>ZonCar</td><td>42</td><td>180</td><td>10</td><td>18.0 月</td><td>次主力，库存偏重</td></tr>
+  </table>
+  <div class="tp-h">🔍 诊断</div>
+  <div class="tp-li">① <b>链接碎片化摊薄了评论与流量</b>：30 个 SKU 分散在多条独立链接，评论/销量各自从 0 开始，等于把 2,079 个品牌的类目竞争拆成了 30 场小仗。</div>
+  <div class="tp-li">② <b>同 OE 互换件没并组</b>：大量 SKU 是同一 OE 号 / 可互换机型，却在互相抢排名和广告预算（自己人打自己人）。</div>
+  <div class="tp-li">③ <b>僵尸链接占库存与广告名额</b>：FBA 月销 3 件说明过半链接已无动销，却仍占着 91 件库存和广告位。</div>
+  <div class="tp-h">✅ 我的建议</div>
+  <div class="tp-p0"><span class="tp-tag" style="background:#C00000">P0 本月</span><b>按 OE 号归组，合并父体</b><br>
+    把「同 OE 号 + 同排量/同参数」的 SKU 合并为一个父体（年款/位置/颜色作为子体），评论自动聚合。目标：单链接评论中位数 100 → 300+，同库存覆盖多个搜索入口。</div>
+  <div class="tp-p1"><span class="tp-tag" style="background:#E36C09">P1 2周</span><b>清僵尸链接</b><br>
+    30 天 0 单且 0 库存的 PT ASIN：关闭 或 并入父体（保留 ASIN 历史，不硬删）。同步把这些 SKU 的广告预算挪给动销前 10 的链接。</div>
+  <div class="tp-p2"><span class="tp-tag" style="background:#00B050">P2 下月</span><b>互换链接交叉铺位</b><br>
+    对动销前 10 的 SKU 做交叉变体（同一批物理库存挂两个 OE 入口，B0HH 式），用最少库存吃到两份精准搜索流量。注意：同一 SKU 多链接时库存按 SKU 去重核算，不要重复计。</div>
+  <div class="tp-h">📏 衡量指标</div>
+  <div class="tp-li">父体数量（30 → ?）｜ 单链接评论中位数（100 → 300+）｜ 僵尸链接数（归零）｜ PT CVR ｜ PT 库销比（30.3 → &lt;12 月）</div>
+</div>
+
+<div id="tp-3" style="display:none">
+  <div class="tp-kpi">
+    <div><b>¥1,056</b>PT 成交均价（≈$155）</div>
+    <div><b>$75–110</b>ECCPP 价格带（6/10 条）</div>
+    <div><b>11.9%–23.4%</b>PT 毛利率周间波动</div>
+    <div><b>1.17%</b>PT 类目份额（#16）</div>
+  </div>
+  <div class="tp-h">📊 现状（数据源：BI损益 W641–W645 ｜ bigdata BSR榜 9/23 ｜ 市场模型 202609）</div>
+  <table class="tp-tbl">
+    <tr><th>品牌/链接</th><th>价格</th><th>评论数</th><th>类目份额</th><th>定位</th></tr>
+    <tr><td><b>PHILTOP #25</b></td><td>$154.79</td><td>104</td><td rowspan="2">1.17%（#16）</td><td>高价 + 低评论</td></tr>
+    <tr><td><b>PHILTOP #31</b></td><td>$186.99</td><td>100</td><td>最高价带</td></tr>
+    <tr><td>ECCPP（TOP10占6条）</td><td>$75.53–$110</td><td>616–1,125</td><td>13.1%（#2）</td><td>低价 + 高评论</td></tr>
+    <tr><td>A-Premium</td><td>多价位铺位</td><td>—</td><td>20.3%（#1）</td><td>父体矩阵霸位</td></tr>
+    <tr><td>类目 TOP10 中位价</td><td>≈$99</td><td>—</td><td>—</td><td>—</td></tr>
+  </table>
+  <div class="tp-h">🔍 诊断</div>
+  <div class="tp-li">① <b>我们在类目最高价带</b>（$150–190），比 ECCPP 高 40–70%，但评论只有其 1/6–1/10 → 溢价缺少支撑证据，转化被压。</div>
+  <div class="tp-li">② <b>毛利率周间剧烈波动（11.9%→23.4%）</b>：说明促销/Coupon 没有纪律，靠临时折扣拉单，价格体系不稳。</div>
+  <div class="tp-li">③ <b>降价解决不了问题</b>：淡季周销已到 27 单，跟着 ECCPP 打 $75–110 会把毛利率打到 10% 以下，且短期仍赢不了它的评论量。</div>
+  <div class="tp-h">✅ 我的建议</div>
+  <div class="tp-p0"><span class="tp-tag" style="background:#C00000">P0 立即</span><b>守价格带，不做直降</b><br>
+    用三件证据支撑溢价：① 全新总成（含离合器+皮带轮，不是只换泵体）② 2 年质保 ③ OE 号对照表 + 车型覆盖数。竞对降价不跟。</div>
+  <div class="tp-p1"><span class="tp-tag" style="background:#E36C09">P1 2周</span><b>分层定价</b><br>
+    高评论两条主力（#25/#31）守价不打折；零评论新品用 <b>Coupon 15–20%</b> 替代直降（保历史价与价格体系）；清库存款单独开清仓 ASIN，不污染主力链接价格。</div>
+  <div class="tp-p2"><span class="tp-tag" style="background:#00B050">P2 本月</span><b>红线价纪律</b><br>
+    每个 SKU 设红线价 = 现价 × 0.85，任何促销不得低于红线；低于红线的只能走清仓 ASIN。月度复核一次（面板已待接入红线价看板）。</div>
+  <div class="tp-h">📏 衡量指标</div>
+  <div class="tp-li">毛利率 ≥20%（周）｜ ASP 不低于 $150 ｜ Coupon 占比 ≤20% ｜ CVR ≥3.5% ｜ 退货率 ≤10%</div>
+</div>
+
+<div id="tp-4" style="display:none">
+  <div class="tp-kpi">
+    <div><b>$8.98M</b>类目月销售额（202609）</div>
+    <div><b>66,451 件</b>类目月销量</div>
+    <div><b>2,079 个</b>在售品牌</div>
+    <div><b>1.17%</b>PT 份额（#16）</div>
+  </div>
+  <div class="tp-h">📊 现状：类目竞争格局（数据源：市场预测 MCP，202609 完整月）</div>
+  <table class="tp-tbl">
+    <tr><th>#</th><th>品牌</th><th>份额</th><th>月销售额</th><th>月销量</th><th>打法特征</th></tr>
+    <tr><td>1</td><td>A-Premium</td><td><b>20.3%</b></td><td>$1,817,997</td><td>11,235 件</td><td>父子体矩阵霸位（搜索页近 1/4 位置）</td></tr>
+    <tr><td>2</td><td>ECCPP</td><td><b>13.1%</b></td><td>$1,174,593</td><td>9,538 件</td><td>低价 $75–110 + 高评论（600–1,125）+ 15 条 BSR 霸榜</td></tr>
+    <tr><td>3</td><td>BUYAUTOPARTS!</td><td>7.7%</td><td>$687,814</td><td>2,657 件</td><td>高价少件（ASP ≈$259）</td></tr>
+    <tr><td>4</td><td>PHOBOOS</td><td>5.6%</td><td>$504,130</td><td>3,604 件</td><td>中价 + BSR 11 条在榜</td></tr>
+    <tr><td>5</td><td>SCITOO</td><td>4.7%</td><td>$420,862</td><td>3,378 件</td><td>中价走量</td></tr>
+    <tr><td>16</td><td><b>PHILTOP（我方）</b></td><td>1.17%</td><td>$143,611</td><td>833 件</td><td>高价带（$155–187）</td></tr>
+  </table>
+  <div class="tp-h">🔍 诊断</div>
+  <div class="tp-li">① <b>类目是"低价+高评论"双寡头结构</b>：A-Premium + ECCPP 拿走 33.4% 份额，靠的是父体矩阵铺位和评论壁垒，不是产品差异。</div>
+  <div class="tp-li">② <b>"全新 vs 再制造"的差异在买家认知里是模糊的</b>：搜索页上 remanufactured 与 brand new 混排，我们的核心价值（全新总成、无再制造风险、质保更长）没有显性表达 → 等于按竞对的价格逻辑被比价。</div>
+  <div class="tp-li">③ <b>PT 缺内容资产</b>：A+ 无 OE 对照表、无安装视频、无 NEW vs REMAN 对比图 → 高价带缺证据链。</div>
+  <div class="tp-h">✅ 我的建议</div>
+  <div class="tp-p0"><span class="tp-tag" style="background:#C00000">P0 2周</span><b>把"全新"打成显性卖点</b><br>
+    标题/五点/A+ 统一三句话：<b>100% Brand New — Not Remanufactured</b> ｜ <b>Includes Clutch &amp; Pulley (Full Assembly)</b> ｜ <b>2-Year Warranty</b>；主图第 2 张做「NEW vs REMAN」结构对比图（新件 vs 再制造件的轴承/密封差异）。</div>
+  <div class="tp-p1"><span class="tp-tag" style="background:#E36C09">P1 本月</span><b>补齐内容资产</b><br>
+    A+ 三件套：OE 号对照表（买家查号主路径）、覆盖车型年份表、3 分钟安装视频；Q&amp;A 预置 10 条（适配判定、异响、加注冷冻油量、离合器间隙）。</div>
+  <div class="tp-p2"><span class="tp-tag" style="background:#00B050">P2 持续</span><b>差异化词 + 竞对防守</b><br>
+    主打差异化长尾：<i>brand new ac compressor / ac compressor with clutch / new vs remanufactured ac compressor</i>；对 ECCPP、A-Premium 的品牌词用 SB 低价位防守（只守不攻，控制 ACOS&lt;25%）。</div>
+  <div class="tp-h">📏 衡量指标</div>
+  <div class="tp-li">自然流量占比（目标 &gt;70%）｜ 差异化词自然排名（进前 3 页）｜ A+ 转化提升率 ｜ PT 份额 1.17% → 2% ｜ CVR ≥3.5%</div>
+</div>
+
+<div id="tp-5" style="display:none">
+  <div class="tp-kpi">
+    <div><b>438 件</b>FBA(US22) 可售 / 16.85 月</div>
+    <div><b>2,018 件</b>海外仓 DF / 14.01 月</div>
+    <div><b>578 件</b>PO 在库 / 100% 超90天</div>
+    <div><b>35 单</b>本周销量（W645，-30%）</div>
+  </div>
+  <div class="tp-h">📊 现状（数据源：ERP实时 11/12 ｜ 进销存(26) 11/11 ｜ VC库存表(8) 11/06 ｜ BI损益 W641–W645）</div>
+  <table class="tp-tbl">
+    <tr><th>渠道</th><th>库存</th><th>在途</th><th>近30天销量</th><th>库销比</th><th>判断</th></tr>
+    <tr><td>FBA(US22)</td><td>438</td><td>0</td><td>≈33（损益近4周）</td><td style="color:#C00000"><b>16.85 月</b></td><td>严重超期，停止补货</td></tr>
+    <tr><td>DF（海外仓）</td><td>2,018</td><td>294</td><td>≈175</td><td>14.01 月</td><td>供给池过重</td></tr>
+    <tr><td>PO（VC）</td><td>578</td><td>0</td><td>74（VC近30天）</td><td>7.81 月</td><td>100% 库龄超 90 天</td></tr>
+    <tr><td>全 FBA 店（进销存）</td><td>622</td><td>—</td><td>47</td><td>13.2 月</td><td>含 US19/US37，同趋势</td></tr>
+  </table>
+  <div class="tp-li" style="margin-top:6px">周销量走势：137（W638）→ 96 → 73 → 69 → 38 → <b>35（W645）</b>，淡季已确认进入底部区间。</div>
+  <div class="tp-h">🔍 诊断</div>
+  <div class="tp-li">① <b>现在的问题不是"发多少"，而是"停发 + 消化"</b>：11 月淡季，三渠道库销比全部 7–17 个月，任何新补货都是加库存不加速度。</div>
+  <div class="tp-li">② <b>PT 库存极散</b>：91 件分散在 30 个 SKU（平均 3 件/个），既断不起也清不动，是最难处理的结构。</div>
+  <div class="tp-li">③ <b>PO 是最硬的呆滞</b>：578 件里 577 件库龄 >90 天（100%），且金额小、单价低 → 只能靠捆绑/清仓，不能靠降价（降了也是白送利润）。</div>
+  <div class="tp-h">✅ 我的建议</div>
+  <div class="tp-p0"><span class="tp-tag" style="background:#C00000">P0 立即</span><b>停发</b><br>
+    12 月前除「FBA30天销量 &gt;5 件/SKU」的爆款外，<b>暂停向 FBA 与海外仓补货</b>；海外仓在途 294 件到仓后只做 FBA 小批量试销（单 SKU 每次 ≤20 件，7–10 天一轮）。</div>
+  <div class="tp-p1"><span class="tp-tag" style="background:#E36C09">P1 2周</span><b>移仓集中 + 激活</b><br>
+    PT 的 91 件从 30 个 SKU 集中到动销前 5 个 SKU，其余就地清仓；海外仓库龄 &gt;180 天的 SKU 按动销排序，小批量移到 FBA 试销（FBA 转化率高于海外仓直发）。</div>
+  <div class="tp-p2"><span class="tp-tag" style="background:#00B050">P2 本月</span><b>清仓机制</b><br>
+    PO 578 件：捆绑（空压+鼓风机/配件组合）与清仓 ASIN 双轨，不碰主力链接价格；DF 2,018 件：按库龄分档阶梯降价（每档 −5%，两周评估一次），目标回收 ≥30% 库存金额。</div>
+  <div class="tp-h">📏 衡量指标</div>
+  <div class="tp-li">全渠道库销比 &lt;6 月 ｜ 超 90 天库存占比（现 100% → &lt;60%）｜ 清仓回收额 ｜ FBA 在途 = 0 的连续周数 ｜ 单 SKU 库存 &gt;5 件的 SKU 占比</div>
+  <div class="tp-note">说明：FBA/DF 库存取 ERP 实时（11/12），近30天销量用损益近4周；PO 取《VC库存销售汇总(8)》10/27 快照（该表不含金额列，故只看件数与库龄）。</div>
+</div>
+
+<div id="tp-overlay" style="display:none;position:fixed;inset:0;z-index:900;background:rgba(15,30,50,.45);padding:22px;overflow:auto">
+  <div style="max-width:1080px;margin:0 auto;background:#fff;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.3);overflow:hidden">
+    <div style="display:flex;justify-content:space-between;align-items:center;background:linear-gradient(90deg,#1F4E79,#2E75B6);color:#fff;padding:12px 18px">
+      <div id="tp-title" style="font-weight:700;font-size:16px"></div>
+      <button onclick="closeTodo()" style="background:rgba(255,255,255,.22);color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:13.5px;cursor:pointer">✕ 关闭</button>
+    </div>
+    <div id="tp-body" style="padding:14px 20px 24px;max-height:calc(100vh - 130px);overflow:auto"></div>
+  </div>
+</div>
+<script>
+var TP_TITLES={1:'1 · PT评论治理',2:'2 · PT 变体链接治理',3:'3 · PT 价格',4:'4 · PT营销方案：全新机如何区别于市场竞对',5:'5 · FBA发货和海外仓发货'};
+function openTodo(n){
+  var src=document.getElementById('tp-'+n), ov=document.getElementById('tp-overlay');
+  if(!src||!ov){return;}
+  document.getElementById('tp-title').textContent=TP_TITLES[n]||('');
+  document.getElementById('tp-body').innerHTML=src.innerHTML;
+  ov.style.display='block';
+  document.body.style.overflow='hidden';
+}
+function closeTodo(){
+  document.getElementById('tp-overlay').style.display='none';
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ closeTodo(); } });
+document.addEventListener('click',function(e){
+  var ov=document.getElementById('tp-overlay');
+  if(ov && ov.style.display==='block' && e.target===ov){ closeTodo(); }
+});
+</script>
+
 </body>
 </html>
