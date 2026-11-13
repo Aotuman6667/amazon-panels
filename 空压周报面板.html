@@ -65,6 +65,65 @@ tr:nth-child(even) td{background:#f7f9fc;}
 <div class="tabs" style="position:sticky;top:0;z-index:99;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.12);">
   <a class="tabbtn" style="background:var(--blue2);color:#fff;text-align:center;text-decoration:none;flex:1;padding:9px 12px;border-radius:8px;font-weight:600" href="#ov-anchor">📊 周报总览</a>
   <a class="tabbtn" style="background:var(--blue);color:#fff;text-align:center;text-decoration:none;flex:1;padding:9px 12px;border-radius:8px;font-weight:600" href="#inv-anchor">📦 库存监控（三渠道）</a>
+  <div style="flex:1;position:relative">
+    <button id="todo-btn" class="tabbtn" style="background:#E36C09;color:#fff;text-align:center;border:none;width:100%;padding:9px 12px;border-radius:8px;font-weight:600;font-family:inherit;font-size:14px;cursor:pointer">✅ 待办事项 ▾</button>
+    <div id="todo-menu" style="display:none;position:absolute;right:0;top:46px;z-index:300;background:#fff;border:1px solid #d6e0ec;border-radius:10px;box-shadow:0 10px 28px rgba(0,0,0,.18);padding:10px 14px;min-width:430px;max-width:min(92vw,560px);text-align:left">
+      <div style="font-size:12px;color:#888;margin-bottom:6px">▾ 点标题展开 ｜ 勾选 / 填备注自动保存（本机浏览器）</div>
+      <details style="border-bottom:1px dashed #e6eef7;padding:5px 0" open>
+        <summary style="cursor:pointer;font-weight:700;color:#1F4E79;font-size:13.5px"><input type="checkbox" data-todo="t1" style="margin-right:6px;vertical-align:-2px">1 PT评论治理</summary>
+        <div style="padding:5px 0 4px 24px">
+          <label style="display:block;font-size:13px;margin:3px 0;color:#333"><input type="checkbox" data-todo="t1_1" style="margin-right:6px;vertical-align:-2px">（1）差评 好评清理</label>
+          <label style="display:block;font-size:13px;margin:3px 0;color:#333"><input type="checkbox" data-todo="t1_2" style="margin-right:6px;vertical-align:-2px">（2）vine链接</label>
+          <div contenteditable="true" data-todocontent="t1_note" style="font-size:12.5px;color:#666;border:1px dashed #cfdce9;border-radius:6px;padding:4px 6px;margin-top:4px">备注…</div>
+        </div>
+      </details>
+      <details style="border-bottom:1px dashed #e6eef7;padding:5px 0">
+        <summary style="cursor:pointer;font-weight:700;color:#1F4E79;font-size:13.5px"><input type="checkbox" data-todo="t2" style="margin-right:6px;vertical-align:-2px">2 PT 变体链接治理</summary>
+        <div style="padding:5px 0 4px 24px"><div contenteditable="true" data-todocontent="t2_note" style="font-size:12.5px;color:#666;border:1px dashed #cfdce9;border-radius:6px;padding:4px 6px">备注…</div></div>
+      </details>
+      <details style="border-bottom:1px dashed #e6eef7;padding:5px 0">
+        <summary style="cursor:pointer;font-weight:700;color:#1F4E79;font-size:13.5px"><input type="checkbox" data-todo="t3" style="margin-right:6px;vertical-align:-2px">3 PT 价格</summary>
+        <div style="padding:5px 0 4px 24px"><div contenteditable="true" data-todocontent="t3_note" style="font-size:12.5px;color:#666;border:1px dashed #cfdce9;border-radius:6px;padding:4px 6px">备注…</div></div>
+      </details>
+      <details style="border-bottom:1px dashed #e6eef7;padding:5px 0">
+        <summary style="cursor:pointer;font-weight:700;color:#1F4E79;font-size:13.5px"><input type="checkbox" data-todo="t4" style="margin-right:6px;vertical-align:-2px">4 PT营销方案：全新机如何区别于市场竞对</summary>
+        <div style="padding:5px 0 4px 24px"><div contenteditable="true" data-todocontent="t4_note" style="font-size:12.5px;color:#666;border:1px dashed #cfdce9;border-radius:6px;padding:4px 6px">备注…</div></div>
+      </details>
+      <details style="padding:5px 0">
+        <summary style="cursor:pointer;font-weight:700;color:#1F4E79;font-size:13.5px"><input type="checkbox" data-todo="t5" style="margin-right:6px;vertical-align:-2px">5 FBA发货和海外仓发货</summary>
+        <div style="padding:5px 0 4px 24px"><div contenteditable="true" data-todocontent="t5_note" style="font-size:12.5px;color:#666;border:1px dashed #cfdce9;border-radius:6px;padding:4px 6px">备注…</div></div>
+      </details>
+    </div>
+  </div>
+<script>
+(function(){
+  var KEY='kya_todo_v1', st={};
+  try{ st=JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){ st={}; }
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(st)); }catch(e){} }
+  var boxes=document.querySelectorAll('[data-todo]');
+  for(var i=0;i<boxes.length;i++){
+    (function(el){ var k=el.getAttribute('data-todo');
+      if(st[k]===true){ el.checked=true; }
+      el.addEventListener('change', function(){ st[k]=el.checked; save(); });
+    })(boxes[i]);
+  }
+  var eds=document.querySelectorAll('[data-todocontent]');
+  for(var j=0;j<eds.length;j++){
+    (function(el){ var k=el.getAttribute('data-todocontent');
+      if(st['c_'+k]){ el.textContent=st['c_'+k]; }
+      el.addEventListener('input', function(){ st['c_'+k]=el.textContent; save(); });
+    })(eds[j]);
+  }
+  var btn=document.getElementById('todo-btn'), menu=document.getElementById('todo-menu');
+  if(btn&&menu){
+    btn.addEventListener('click', function(e){ e.stopPropagation();
+      menu.style.display = (menu.style.display==='block' ? 'none' : 'block'); });
+    document.addEventListener('click', function(e){
+      if(menu.style.display==='block' && !menu.contains(e.target) && e.target!==btn){ menu.style.display='none'; } });
+  }
+})();
+</script>
+
 </div>
 <div id="ov-anchor" style="scroll-margin-top:70px"></div>
 <div id="ov-anchor" style="scroll-margin-top:64px"></div>
