@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>鼓风机周分析 W45→W46（2026-11-17）</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft YaHei",-apple-system,sans-serif;background:#f5f6f8;color:#1a1a1a;line-height:1.6}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 18px 60px}
+header{background:linear-gradient(135deg,#1F4E79,#2d6da3);color:#fff;padding:28px 26px;border-radius:14px;margin-bottom:18px}
+header h1{font-size:24px;font-weight:700;margin-bottom:6px}
+header .sub{font-size:13px;opacity:.88}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:16px 0 22px}
+.kpi{background:#fff;border-radius:10px;padding:14px 16px;border-left:4px solid #2d6da3;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.kpi.good{border-left-color:#2e7d32} .kpi.bad{border-left-color:#c62828} .kpi.warn{border-left-color:#ef6c00}
+.kpi-t{font-size:12px;color:#777} .kpi-v{font-size:22px;font-weight:700;margin:4px 0} .kpi-s{font-size:12px;color:#555}
+section{background:#fff;border-radius:12px;padding:20px 22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+h2{font-size:17px;color:#1F4E79;margin-bottom:12px;padding-left:10px;border-left:4px solid #1F4E79}
+h2 .tag{font-size:11px;background:#ffe082;color:#7a5c00;padding:2px 8px;border-radius:10px;margin-left:8px;vertical-align:middle;font-weight:400}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+th{background:#1F4E79;color:#fff;padding:8px 6px;font-weight:600;text-align:center;font-size:12px}
+td{padding:7px 6px;border-bottom:1px solid #eee;text-align:center}
+tr.good td{background:#f1f8e9} tr.bad td{background:#ffebee} tr.warn td{background:#fff8e1}
+.alert{background:#fff3e0;border-left:4px solid #ef6c00;padding:12px 16px;border-radius:8px;margin:10px 0;font-size:13px}
+.alert.red{background:#ffebee;border-left-color:#c62828}
+.note{font-size:12px;color:#888;margin-top:10px;line-height:1.7}
+ul{margin:8px 0 0 20px;font-size:13.5px} li{margin-bottom:6px}
+.p{font-size:13.5px;margin-bottom:10px}
+footer{text-align:center;font-size:12px;color:#999;padding:20px 0}
+</style></head><body><div class="wrap">
+<header>
+<h1>鼓风机周分析 W45 → W46（2026-11-01 ～ 11-14 完整两周）</h1>
+<div class="sub">数据源：BI损益明细周粒度 + 领星广告活动级 + ERP US23 FBA库存｜退款率=退款数量÷出库销量（损益口径）</div>
+</header>
+<div class="alert"><b>一句话：销量止跌回升（+2.1%），但毛利跌20.3%——三刀：退款+15件、广告ACOS恶化2.96pp、优惠券新增659元。</b><br>
+积极信号：8个款销量上涨（05500 3→9、17500 0→5、15500 3→8、08500 9→14）；问题焦点：广告花钱多了卖得少了（花费+15.3%/销售-9.0%）。</div>
+<div class="kpi-grid"><div class="kpi good"><div class="kpi-t">销量</div><div class="kpi-v">345件</div><div class="kpi-s">338 → 345（+2.1%）</div></div><div class="kpi good"><div class="kpi-t">销售额</div><div class="kpi-v">¥82,077</div><div class="kpi-s">¥79,274 → ¥82,077（+3.5%）</div></div><div class="kpi bad"><div class="kpi-t">毛利</div><div class="kpi-v">¥5,834</div><div class="kpi-s">¥7,322 → ¥5,834（<b>-20.3%</b>）</div></div><div class="kpi bad"><div class="kpi-t">毛利率</div><div class="kpi-v">7.11%</div><div class="kpi-s">9.24% → 7.11%（<b>-2.13pp</b>）</div></div><div class="kpi bad"><div class="kpi-t">退款率</div><div class="kpi-v">15.1%</div><div class="kpi-s">11.0% → 15.1%（37→52件，<b>+4.1pp</b>）</div></div><div class="kpi bad"><div class="kpi-t">广告ACOS</div><div class="kpi-v">14.04%</div><div class="kpi-s">11.08% → 14.04%（<b>+2.96pp</b>）</div></div><div class="kpi warn"><div class="kpi-t">仓储费</div><div class="kpi-v">¥5,658</div><div class="kpi-s">¥5,475 → ¥5,658（日均¥808）</div></div><div class="kpi warn"><div class="kpi-t">负毛利SKU</div><div class="kpi-v">99个</div><div class="kpi-s">合计 -¥8,118</div></div></div>
+
+<section>
+<h2>整体对比 <span class="tag">W45 11/1-7 → W46 11/8-14</span></h2>
+<table><tr><th>指标</th><th>W45</th><th>W46</th><th>变化</th></tr>
+<tr class="good"><td>销量</td><td>338件</td><td>345件</td><td>+2.1%</td></tr>
+<tr class="good"><td>销售额</td><td>¥79,274</td><td>¥82,077</td><td>+3.5%</td></tr>
+<tr class="bad"><td>毛利</td><td>¥7,322</td><td>¥5,834</td><td><b>-20.3%</b></td></tr>
+<tr class="bad"><td>毛利率</td><td>9.24%</td><td>7.11%</td><td><b>-2.13pp</b></td></tr>
+<tr class="bad"><td>退款件</td><td>37件</td><td>52件</td><td>+15件（+40.5%）</td></tr>
+<tr class="bad"><td>退款率</td><td>11.0%</td><td>15.1%</td><td><b>+4.1pp</b></td></tr>
+<tr class="warn"><td>退款金额</td><td>¥9,395</td><td>¥10,346</td><td>+10.1%</td></tr>
+<tr class="warn"><td>仓储费</td><td>¥5,475</td><td>¥5,658</td><td>+3.3%（日均808）</td></tr>
+<tr class="warn"><td>SP广告</td><td>¥2,790</td><td>¥3,290</td><td><b>+17.9%</b></td></tr>
+<tr class=""><td>SD广告</td><td>¥285</td><td>¥269</td><td>-5.6%</td></tr>
+<tr class=""><td>材料成本</td><td>¥22,927</td><td>¥24,014</td><td>+4.7%</td></tr>
+<tr class=""><td>尾程</td><td>¥17,149</td><td>¥17,469</td><td>+1.9%</td></tr>
+<tr class=""><td>佣金</td><td>¥8,391</td><td>¥8,584</td><td>+2.3%</td></tr>
+<tr class=""><td>促销</td><td>¥1,617</td><td>¥1,791</td><td>+10.8%</td></tr>
+<tr class="warn"><td>优惠券</td><td>¥0</td><td>¥659</td><td>W46新增</td></tr>
+<tr class="good"><td>平台费净</td><td>-¥638</td><td>-¥165</td><td>少支出¥473</td></tr>
+</table>
+</section>
+
+<section>
+<h2>广告：花钱多了、卖得少了 <span class="tag">最大问题</span></h2>
+<table><tr><th>指标</th><th>W45</th><th>W46</th><th>变化</th></tr>
+<tr class="warn"><td>花费$</td><td>460.70</td><td>531.10</td><td>+15.3%</td></tr>
+<tr class="bad"><td>广告销售额$</td><td>4,157.09</td><td>3,783.70</td><td><b>-9.0%</b></td></tr>
+<tr class=""><td>订单</td><td>97</td><td>98</td><td>+1.0%</td></tr>
+<tr class=""><td>点击</td><td>663</td><td>740</td><td>+11.6%</td></tr>
+<tr class=""><td>曝光</td><td>66,521</td><td>67,497</td><td>+1.5%</td></tr>
+<tr class="good"><td>CTR</td><td>1.00%</td><td>1.10%</td><td>+0.10pp</td></tr>
+<tr class="bad"><td>CVR</td><td>14.63%</td><td>13.24%</td><td><b>-1.39pp</b></td></tr>
+<tr class="warn"><td>CPC$</td><td>0.69</td><td>0.72</td><td>+4.3%</td></tr>
+<tr class="bad"><td>ACOS</td><td>11.08%</td><td><b>14.04%</b></td><td><b>+2.96pp</b></td></tr>
+</table>
+<div class="note">花费多花$70.4，广告销售额少$373.4——点击多了77次但转化率掉了1.39pp。需要查新增花费投向（哪些活动在低效烧钱）。</div>
+</section>
+
+<section>
+<h2>销量结构</h2>
+<div class="p"><b>上涨8款</b>：</div>
+<table><tr><th>SKU</th><th>销量（W45→W46）</th><th>变化</th><th>毛利（元）</th><th>毛利变化</th></tr><tr class="good"><td>OO8BLM05500</td><td>3→9</td><td>+6</td><td>-240→350</td><td>+591</td></tr><tr class="good"><td>COMMON8BLM08500</td><td>9→14</td><td>+5</td><td>460→404</td><td>-56</td></tr><tr class="good"><td>OO8BLM15500</td><td>3→8</td><td>+5</td><td>317→238</td><td>-79</td></tr><tr class="good"><td>OO8BLM17500</td><td>0→5</td><td>+5</td><td>-238→207</td><td>+446</td></tr><tr class="good"><td>OO8BLM04500</td><td>0→4</td><td>+4</td><td>-22→163</td><td>+186</td></tr><tr class="good"><td>OO8BLM05900</td><td>0→4</td><td>+4</td><td>-79→280</td><td>+360</td></tr><tr class="good"><td>OO8BLM19600</td><td>8→12</td><td>+4</td><td>283→616</td><td>+333</td></tr><tr class="good"><td>OO8BLM23000</td><td>1→5</td><td>+4</td><td>-20→159</td><td>+180</td></tr></table>
+<div class="p" style="margin-top:16px"><b>下滑8款</b>：</div>
+<table><tr><th>SKU</th><th>销量（W45→W46）</th><th>变化</th><th>毛利（元）</th><th>毛利变化</th></tr><tr class="warn"><td>COMMON8BLM10800</td><td>20→4</td><td>-16</td><td>1183→140</td><td>-1043</td></tr><tr class="warn"><td>OO8BLM14200</td><td>10→2</td><td>-8</td><td>590→-124</td><td>-715</td></tr><tr class="warn"><td>OO8BLM05800</td><td>9→2</td><td>-7</td><td>246→-133</td><td>-379</td></tr><tr class="bad"><td>OO8BLM14900</td><td>5→0</td><td>-5</td><td>121→10</td><td>-111</td></tr><tr class="warn"><td>OO8BLM15000</td><td>6→1</td><td>-5</td><td>505→27</td><td>-478</td></tr><tr class="warn"><td>COMMON8BLM11700</td><td>5→1</td><td>-4</td><td>195→-94</td><td>-290</td></tr><tr class="warn"><td>OO8BLM18200</td><td>6→2</td><td>-4</td><td>415→32</td><td>-383</td></tr><tr class="warn"><td>ZC8BLM03500</td><td>13→9</td><td>-4</td><td>595→420</td><td>-175</td></tr></table>
+<div class="note">W45有量→W46归零 27 个（OO8BLM14900 5→0、COMMON8BLM08000 3→0、OO8BLM26400 3→0等），需逐款查库存与广告。</div>
+</section>
+
+<section>
+<h2>负毛利99个SKU -¥8,118 <span class="tag">TOP20</span></h2>
+<table><tr><th>SKU</th><th>W46销量</th><th>W46毛利</th><th>W46退款件</th><th>W46 SP$</th></tr><tr class="bad"><td>OO8BLM15900</td><td>0</td><td>-757</td><td>3</td><td>58</td></tr><tr class="bad"><td>COMMON8BLM10500</td><td>1</td><td>-470</td><td>2</td><td>0</td></tr><tr class="bad"><td>OO8BLM15600</td><td>1</td><td>-377</td><td>1</td><td>61</td></tr><tr class="bad"><td>OO8BLM19900</td><td>3</td><td>-308</td><td>2</td><td>37</td></tr><tr class="bad"><td>COMMON8BLM12900</td><td>0</td><td>-284</td><td>0</td><td>14</td></tr><tr class="bad"><td>COMMON8BLM07600</td><td>5</td><td>-265</td><td>2</td><td>135</td></tr><tr class="bad"><td>COMMON8BLM08000</td><td>0</td><td>-263</td><td>2</td><td>0</td></tr><tr class="bad"><td>OO8BLM17300</td><td>1</td><td>-247</td><td>1</td><td>37</td></tr><tr class="bad"><td>OO8BLM22600</td><td>0</td><td>-227</td><td>1</td><td>0</td></tr><tr class="bad"><td>OO8BLM21400</td><td>1</td><td>-222</td><td>2</td><td>18</td></tr><tr class="bad"><td>COMMON8BLM08300</td><td>0</td><td>-221</td><td>1</td><td>0</td></tr><tr class="bad"><td>OO8BLM19100</td><td>0</td><td>-211</td><td>1</td><td>9</td></tr><tr class="bad"><td>OO8BLM17900</td><td>2</td><td>-208</td><td>1</td><td>20</td></tr><tr class="bad"><td>OO8BLM20000</td><td>1</td><td>-202</td><td>1</td><td>20</td></tr><tr class="bad"><td>OO8BLM20300</td><td>1</td><td>-201</td><td>1</td><td>50</td></tr><tr class="bad"><td>OO8BLM05400</td><td>0</td><td>-189</td><td>1</td><td>8</td></tr><tr class="bad"><td>OO8BLM17100</td><td>2</td><td>-178</td><td>0</td><td>30</td></tr><tr class="bad"><td>OO8BLM05200</td><td>2</td><td>-173</td><td>1</td><td>0</td></tr><tr class="bad"><td>COMMON8BLM08400</td><td>3</td><td>-161</td><td>1</td><td>0</td></tr><tr class="bad"><td>OO8BLM14300</td><td>4</td><td>-147</td><td>1</td><td>90</td></tr></table>
+<div class="note">负毛利集中在"销量0-3件但有退款/广告费"的款：OO8BLM15900（0销量3退款-757元）、COMMON8BLM10500（1销量2退款-470元）、OO8BLM15600、OO8BLM19900。</div>
+</section>
+
+<section>
+<h2>P0/P1 动作</h2>
+<ul>
+<li><b>P0-1 广告止损</b>：花费+15.3%但销售-9.0%、ACOS 11.08%→14.04%——逐活动查新增花费投向，砍掉ACOS>20%且0单的活动（本周内）</li>
+<li><b>P0-2 退款排查</b>：退款率11.0%→15.1%（+4.1pp）——重点查 OO8BLM15900（0销量3退款）、COMMON8BLM10500（1销量2退款）、OO8BLM15600、OO8BLM19900，按退款原因分类处理</li>
+<li><b>P0-3 负毛利99款</b>：合计-8,118元，逐款判断涨价/停投/清仓</li>
+<li><b>P1-1 归零27款</b>：先拉US23 FBA库存，可用>0 → 查广告/排名；可用=0 → 看是否真断货</li>
+<li><b>P1-2 优惠券评估</b>：W46新增659元，对比带来的增量销售是否覆盖成本</li>
+<li><b>P1-3 仓储费</b>：周均782→808元，仍需Amazon后台核实真实体积/费率</li>
+</ul>
+</section>
+
+<footer>生成时间：2026-11-17｜口径：BI周粒度（周日至周六）｜W45=202645（11/1-7）、W46=202646（11/8-14）｜退款率=退款数量÷出库销量</footer>
+</div></body></html>
