@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>鼓风机最新分析 11/12（W46前5天 vs W45同期）</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft YaHei",-apple-system,sans-serif;background:#f5f6f8;color:#1a1a1a;line-height:1.6}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 18px 60px}
+header{background:linear-gradient(135deg,#1F4E79,#2d6da3);color:#fff;padding:28px 26px;border-radius:14px;margin-bottom:18px}
+header h1{font-size:24px;font-weight:700;margin-bottom:6px}
+header .sub{font-size:13px;opacity:.88}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:16px 0 22px}
+.kpi{background:#fff;border-radius:10px;padding:14px 16px;border-left:4px solid #2d6da3;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.kpi.good{border-left-color:#2e7d32} .kpi.bad{border-left-color:#c62828} .kpi.warn{border-left-color:#ef6c00}
+.kpi-t{font-size:12px;color:#777} .kpi-v{font-size:22px;font-weight:700;margin:4px 0} .kpi-s{font-size:12px;color:#555}
+section{background:#fff;border-radius:12px;padding:20px 22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+h2{font-size:17px;color:#1F4E79;margin-bottom:12px;padding-left:10px;border-left:4px solid #1F4E79}
+h2 .tag{font-size:11px;background:#ffe082;color:#7a5c00;padding:2px 8px;border-radius:10px;margin-left:8px;vertical-align:middle;font-weight:400}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+th{background:#1F4E79;color:#fff;padding:8px 6px;font-weight:600;text-align:center;font-size:12px}
+td{padding:7px 6px;border-bottom:1px solid #eee;text-align:center}
+tr.good td{background:#f1f8e9} tr.bad td{background:#ffebee} tr.warn td{background:#fff8e1}
+.big{font-size:15px;font-weight:700}
+.alert{background:#fff3e0;border-left:4px solid #ef6c00;padding:12px 16px;border-radius:8px;margin:10px 0;font-size:13px}
+.alert.red{background:#ffebee;border-left-color:#c62828}
+.note{font-size:12px;color:#888;margin-top:10px;line-height:1.7}
+ul{margin:8px 0 0 20px;font-size:13.5px} li{margin-bottom:6px}
+.p{font-size:13.5px;margin-bottom:10px}
+footer{text-align:center;font-size:12px;color:#999;padding:20px 0}
+</style></head><body><div class="wrap">
+<header>
+<h1>鼓风机最新分析 · 11/8-11/12（W46前5天）</h1>
+<div class="sub">对比基准：11/1-11/5（W45同期前5天）｜同天数5天vs5天｜数据源：BI损益明细日粒度 + 领星广告 + ERP US23 FBA库存（11/12）</div>
+</header>
+<div class="alert"><b>一句话：销量止跌回升（237→245，+3.4%），但毛利继续跌（-34.2%）——退款+7件和仓储费高位是两大杀手。</b><br>
+广告实查发现：30个有货归零款中18个5天全0单（库存约529件），其中OO8BLM14500有44/51个广告被暂停、OO8BLM05700有20/24暂停——<b>不是需求没了，是广告停了</b>。</div>
+<div class="kpi-grid"><div class="kpi good"><div class="kpi-t">销量（5天）</div><div class="kpi-v">245件</div><div class="kpi-s">237 → 245（+3.4%）</div></div><div class="kpi good"><div class="kpi-t">销售额</div><div class="kpi-v">¥58,929</div><div class="kpi-s">¥55,218 → ¥58,929（+6.7%）</div></div><div class="kpi bad"><div class="kpi-t">毛利</div><div class="kpi-v">¥3,103</div><div class="kpi-s">¥4,716 → ¥3,103（<b>-34.2%</b>）</div></div><div class="kpi bad"><div class="kpi-t">毛利率</div><div class="kpi-v">5.26%</div><div class="kpi-s">8.54% → 5.26%（<b>-3.28pp</b>）</div></div><div class="kpi warn"><div class="kpi-t">退款件</div><div class="kpi-v">35件</div><div class="kpi-s">28 → 35（+7件，退款额¥8,840）</div></div><div class="kpi warn"><div class="kpi-t">仓储费</div><div class="kpi-v">¥4,096</div><div class="kpi-s">¥3,925 → ¥4,096（日均¥819）</div></div><div class="kpi "><div class="kpi-t">广告花费</div><div class="kpi-v">$367.30</div><div class="kpi-s">$351.66 → $367.30（+4.4%）</div></div><div class="kpi warn"><div class="kpi-t">ACOS</div><div class="kpi-v">13.15%</div><div class="kpi-s">12.67% → 13.15%（+0.48pp）</div></div></div>
+
+<section>
+<h2>销量结构：谁在涨、谁在跌 <span class="tag">同天数对比</span></h2>
+<div class="p"><b>上涨3个款</b>（+4单以上）：</div>
+<table><tr><th>SKU</th><th>销量（11/1-5→11/8-12）</th><th>变化</th><th>毛利（元）</th><th>毛利变化</th></tr><tr class="good"><td>OO8BLM15500</td><td>0→8</td><td>+8</td><td>111→250</td><td>+139</td></tr><tr class="good"><td>OO8BLM17500</td><td>0→5</td><td>+5</td><td>-8→161</td><td>+170</td></tr><tr class="good"><td>OO8BLM05500</td><td>2→6</td><td>+4</td><td>-176→410</td><td>+587</td></tr></table>
+<div class="p" style="margin-top:16px"><b>下滑8个款</b>（-4单以上）：</div>
+<table><tr><th>SKU</th><th>销量（11/1-5→11/8-12）</th><th>变化</th><th>毛利（元）</th><th>毛利变化</th></tr><tr class="warn"><td>COMMON8BLM10800</td><td>14→3</td><td>-11</td><td>972→78</td><td>-894</td></tr><tr class="warn"><td>OO8BLM14200</td><td>9→2</td><td>-7</td><td>373→-107</td><td>-481</td></tr><tr class="warn"><td>OO8BLM05800</td><td>7→2</td><td>-5</td><td>119→-120</td><td>-240</td></tr><tr class="warn"><td>OO8BLM15000</td><td>6→1</td><td>-5</td><td>515→47</td><td>-468</td></tr><tr class="warn"><td>OO8BLM04300</td><td>9→5</td><td>-4</td><td>660→-112</td><td>-773</td></tr><tr class="bad"><td>OO8BLM13900</td><td>4→0</td><td>-4</td><td>-21→-224</td><td>-202</td></tr><tr class="bad"><td>OO8BLM14900</td><td>4→0</td><td>-4</td><td>100→37</td><td>-63</td></tr><tr class="warn"><td>ZC8BLM03500</td><td>11→7</td><td>-4</td><td>726→269</td><td>-456</td></tr></table>
+<div class="note">其余181个款销量变化在±3单以内。上涨款合计+17单，下滑款合计-45单，靠大盘微增和款数摊平后整体净+8单。</div>
+</section>
+
+<section>
+<h2>30个有货归零款：11/8-12 恢复情况 <span class="tag">5恢复 / 7零星 / 18持续0</span></h2>
+<table><tr><th>SKU</th><th>ASIN</th><th>FBA可用</th><th>W44销量</th><th>11/8-12销量</th><th>状态</th></tr><tr class="good"><td>OO8BLM22300</td><td>B0H6PNVQV7</td><td>84</td><td>5</td><td>3</td><td>✅已恢复</td></tr><tr class="bad"><td>OO8BLM21800</td><td>B0H6PQH56X</td><td>65</td><td>3</td><td>0</td><td>🔴持续0</td></tr><tr class="bad"><td>OO8BLM14500</td><td>B0H6PMJJX2</td><td>64</td><td>2</td><td>0</td><td>🔴持续0</td></tr><tr class="bad"><td>COMMON8BLM07200</td><td>B0D8J22WSK</td><td>53</td><td>1</td><td>0</td><td>🔴持续0</td></tr><tr class="bad"><td>OO8BLM15700</td><td>B0H6PJ99LR</td><td>45</td><td>1</td><td>0</td><td>🔴持续0</td></tr><tr class="bad"><td>OO8BLM29200</td><td>B0H6PMM5BY</td><td>41</td><td>1</td><td>0</td><td>🔴持续0</td></tr><tr class="bad"><td>OO8BLM16900</td><td>B0H4LW9NWV</td><td>36</td><td>2</td><td>0</td><td>🔴持续0</td></tr><tr class="bad"><td>OO8BLM05300</td><td>B0D8J1YZGK</td><td>35</td><td>1</td><td>0</td><td>🔴持续0</td></tr><tr class="bad"><td>OO8BLM05700</td><td>B0D8HYV14L</td><td>35</td><td>1</td><td>0</td><td>🔴持续0</td></tr><tr class="good"><td>COMMON8BLM12600</td><td>B0D8HYBTRJ</td><td>30</td><td>2</td><td>3</td><td>✅已恢复</td></tr><tr class="warn"><td>OO8BLM04500</td><td>B0GR4RFKPZ</td><td>30</td><td>1</td><td>2</td><td>零星</td></tr><tr class="warn"><td>OO8BLM18400</td><td>B0H4LP88SH</td><td>29</td><td>2</td><td>1</td><td>零星</td></tr><tr class="warn"><td>OO8BLM04400</td><td>B0D8HXX5D6</td><td>27</td><td>1</td><td>1</td><td>零星</td></tr><tr class="good"><td>COMMON8BLM09000</td><td>B0D8HZGN1N</td><td>25</td><td>2</td><td>3</td><td>✅已恢复</td></tr><tr class="bad"><td>OO8BLM27400</td><td>B0H7C1YHSF</td><td>25</td><td>2</td><td>0</td><td>🔴持续0</td></tr><tr class="bad"><td>OO8BLM03800</td><td>B0GG7Q9YFZ</td><td>20</td><td>1</td><td>0</td><td>🔴持续0</td></tr><tr class="bad"><td>OO8BLM19100</td><td>B0H6PGLRYC</td><td>19</td><td>1</td><td>0</td><td>🔴持续0</td></tr><tr class="good"><td>OO8BLM05900</td><td>B0D8J454BK</td><td>18</td><td>1</td><td>3</td><td>✅已恢复</td></tr><tr class="good"><td>OO8BLM17500</td><td>B0H6PMLNPR</td><td>18</td><td>3</td><td>5</td><td>✅已恢复</td></tr><tr class="bad"><td>OO8BLM21400</td><td>B0H4LNPKK8</td><td>18</td><td>1</td><td>0</td><td>🔴持续0</td></tr><tr class="warn"><td>OO8BLM23300</td><td>B0H4LVGK42</td><td>18</td><td>2</td><td>2</td><td>零星</td></tr><tr class="bad"><td>COMMON8BLM10300</td><td>B0GGBNNRNH</td><td>16</td><td>1</td><td>0</td><td>🔴持续0</td></tr><tr class="bad"><td>ZC8BLM03400</td><td>B0CNFZB5BF</td><td>15</td><td>1</td><td>0</td><td>🔴持续0</td></tr><tr class="warn"><td>COMMON8BLM09900</td><td>B0D8J24YLD</td><td>13</td><td>2</td><td>1</td><td>零星</td></tr><tr class="bad"><td>OO8BLM04200</td><td>B0D8HZCYDS</td><td>12</td><td>2</td><td>0</td><td>🔴持续0</td></tr><tr class="bad"><td>OO8BLM24000</td><td>B0H7C776HQ</td><td>12</td><td>2</td><td>0</td><td>🔴持续0</td></tr><tr class="bad"><td>ZC8BLM02700</td><td>B0CNG51HQS</td><td>10</td><td>1</td><td>0</td><td>🔴持续0</td></tr><tr class="warn"><td>OO8BLM20200</td><td>B0H4LRHXZ4</td><td>9</td><td>1</td><td>2</td><td>零星</td></tr><tr class="bad"><td>COMMON8BLM11500</td><td>B0D8J2MXF8</td><td>8</td><td>1</td><td>0</td><td>🔴持续0</td></tr><tr class="warn"><td>OO8BLM17400</td><td>B0H6PVG6PM</td><td>8</td><td>3</td><td>1</td><td>零星</td></tr></table>
+<div class="alert red"><b>🔴 18个持续0（5天全0，库存约529件）</b>：OO8BLM21800（65件）、OO8BLM14500（64件）、COMMON8BLM07200（53件）、OO8BLM15700（45件）、OO8BLM29200（41件）、OO8BLM16900（36件）、OO8BLM05300（35件）、OO8BLM05700（35件）、OO8BLM27400（25件）、OO8BLM03800（20件）、OO8BLM19100（19件）、OO8BLM21400（18件）、COMMON8BLM10300（16件）、ZC8BLM03400（15件）、OO8BLM04200（12件）、OO8BLM24000（12件）、ZC8BLM02700（10件）、COMMON8BLM11500（8件）<br><br>
+<b>广告实查（商品级报告）</b>：OO8BLM22300（84件库存）51个广告记录里45个暂停；OO8BLM14500（64件）51个里44个暂停、剩余7个11月0花费；OO8BLM05700 24个里20个暂停；COMMON8BLM12600 21个里15个暂停。</div>
+</section>
+
+<section>
+<h2>广告表现（5天对比）</h2>
+<table><tr><th>指标</th><th>11/1-5</th><th>11/8-12</th><th>变化</th></tr>
+<tr class=""><td>花费$</td><td>351.66</td><td>367.30</td><td>+4.4%</td></tr>
+<tr class=""><td>广告销售额$</td><td>2,774.56</td><td>2,793.47</td><td>+0.7%</td></tr>
+<tr class="good"><td>订单</td><td>64</td><td>71</td><td>+10.9%</td></tr>
+<tr class=""><td>点击</td><td>484</td><td>510</td><td>+5.4%</td></tr>
+<tr class=""><td>曝光</td><td>47,873</td><td>50,958</td><td>+6.4%</td></tr>
+<tr class=""><td>CTR</td><td>1.01%</td><td>1.00%</td><td>-0.01pp</td></tr>
+<tr class="good"><td>CVR</td><td>13.22%</td><td>13.92%</td><td>+0.70pp</td></tr>
+<tr class=""><td>CPC$</td><td>0.73</td><td>0.72</td><td>-1.4%</td></tr>
+<tr class="warn"><td>ACOS</td><td>12.67%</td><td>13.15%</td><td>+0.48pp</td></tr>
+</table>
+<div class="note">投放量微增但效率略降：花费+4.4%换来订单+10.9%（CVR改善），ACOS升0.48pp在可接受范围。</div>
+</section>
+
+<section>
+<h2>毛利为什么跌34.2%：三个原因</h2>
+<ul>
+<li><b>① 退款增加</b>：退款件 28→35（+7件），退款额 ¥7,153→¥8,840（+23.6%）——其中 <b>11/9 退款¥2,169（当日毛利-606元）</b>、<b>11/11 退款¥3,136（当日毛利-1,158元）</b>两个负毛利日</li>
+<li><b>② 仓储费高位</b>：5天 ¥3,925→¥4,096（日均¥785→¥819）——10月日均仅¥223，11月翻了3.7倍</li>
+<li><b>③ 成本随销售额涨</b>：材料¥16,210→¥17,333、尾程¥11,839→¥12,339、佣金¥5,618→¥6,037——销售额+6.7%带来的正常联动</li>
+</ul>
+</section>
+
+<section>
+<h2>建议动作</h2>
+<ul>
+<li><b>P0-1 恢复被暂停广告27个</b>：4个库存大户（22300/14500/05700/12600）——操作对照表已出（鼓风机P0恢复暂停活动_操作对照表_1112.xlsx），确认后批量执行</li>
+<li><b>P0-2 18个持续0款逐款查广告</b>：库存529件躺着，优先 21800（65件）/14500（64件）/07200（53件）</li>
+<li><b>P0-3 查11/9、11/11退款原因</b>：两天退款合计¥5,305，直接吃掉当日毛利</li>
+<li><b>P1 核实11月仓储费</b>：日均¥800 vs 10月¥223，需Amazon后台查真实体积/费率</li>
+<li><b>大盘背景</b>：11月类目大盘持平（-0.2%），我店-10.8% → 市占率从2.0%掉到1.77%，恢复广告是最直接的夺回手段</li>
+</ul>
+</section>
+
+<footer>生成时间：2026-11-12｜口径：同天数5天vs5天｜退款率=退款数量÷出库销量（损益口径）｜库存=ERP MCP US23 FBA（11/12快照）｜广告=领星活动级汇总</footer>
+</div></body></html>
