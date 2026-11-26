@@ -1115,32 +1115,6 @@ $('concl').innerHTML=conclHtml;
    +'<br>③ <b>广告不要按淡季砍</b>：淡季ACOS天然虚高（分母小），一砍就丢排名，等旺季回来要花3倍钱重新养。改成<b>只砍0单高花费</b>（见Q2），有效率的活动维持；'
    +'<br>④ <b>价格：提价其实有效，别被「简单平均」骗了</b>——加权客单价 W44 $'+(function(){try{var A=D.avgs.week.all||{},K=Object.keys(A).sort();return A[K[0]].usd_w}catch(e){return '-'}})()+' → W47 $'+(function(){try{var A=D.avgs.week.all||{},K=Object.keys(A).sort();return A[K[K.length-1]].usd_w}catch(e){return '-'}})()+'，四周基本持平；真正掉下去的是 '+(function(){try{var A=D.avgs.week.all||{},K=Object.keys(A).sort();var lo=K[0];K.forEach(function(k){if(A[k].usd_w<A[lo].usd_w)lo=k});return 'W'+String(lo).slice(-2)}catch(e){return '-'}})()+'。新品毛利率 W47 '+f1(n5.gm?n5.gm[cur]:null)+'%。<b>要量靠广告精准度，不靠降价</b>。'
 
-   +'<br><br><b>【广告维度体检：钱花偏了 —— 出单的不投，不出的在烧】</b>'
-   +'<div style="margin:9px 0;padding:11px 14px;background:#fff8e6;border-left:4px solid #E0A800;border-radius:6px;line-height:1.95;font-size:10.8px">'
-   +(function(){var A=D.adq1||{}; if(!A.total) return '数据未加载';
-     var T=A.total, U=A.underinvest||{}, W=A.waste||{}, hh='';
-     hh+='<b>本周广告盘</b>：花费 $'+T.spend.toFixed(2)+'｜广告销售 $'+T.adsales.toFixed(2)+'｜ACOS <b>'+T.acos+'%</b>（健康）｜广告单 '+T.adqty+' 个 / 总销量 '+T.vol+' 台（占 '+(T.vol?((T.adqty/T.vol)*100).toFixed(1):'-')+'%）<br><br>';
-     hh+='<b style="color:#C00000">① 有产出的款几乎没投（'+(U.n||0)+' 个）</b><br>';
-     hh+='这 '+(U.n||0)+' 个 ASIN 贡献 <b>'+U.vol+' 台（占全店 '+(U.volpct||0)+'%）</b>，广告费却只花了 <b>$'+U.spend+'（占 '+(U.spendpct||0)+'%）</b>——全靠自然单在扛。<br>';
-     hh+='<table style="margin:7px 0;font-size:10.2px;line-height:1.75"><tr><th>ASIN</th><th>本周销量</th><th>自然单</th><th>广告单</th><th>广告花费</th><th>类目排名变化</th></tr>';
-     (U.items||[]).forEach(function(x){
-       var dr = (x.drank===null||x.drank===undefined)?'—':(x.drank>0?('<span style="color:#00A650">↑'+x.drank+'</span>'):('<span style="color:#C00000">↓'+Math.abs(x.drank)+'</span>'));
-       hh+='<tr><td>'+x.asin+'</td><td style="text-align:center"><b>'+x.vol+'</b></td><td style="text-align:center">'+x.nature+'</td>'
-         +'<td style="text-align:center">'+x.adqty+'</td><td style="text-align:center">$'+x.spend.toFixed(2)+'</td>'
-         +'<td style="text-align:center">'+x.prank+'→'+x.rank+' '+dr+'</td></tr>';
-     });
-     hh+='</table>';
-     hh+='<b>最刺眼的是销量第一名 '+((U.items||[])[0]||{}).asin+'</b>：'+((U.items||[])[0]||{}).vol+' 台、自然单 '+((U.items||[])[0]||{}).nature+' 个，广告只花 <b>$'+((((U.items||[])[0]||{}).spend)||0).toFixed(2)+'</b>，排名反而从 '+((U.items||[])[0]||{}).prank+' 掉到 '+((U.items||[])[0]||{}).rank+'——<b>不是卖不动，是没人给它导流</b>。<br><br>';
-     hh+='<b style="color:#C00000">② 高花费低产出（'+(W.n||0)+' 个，$'+W.spend+' = 总花费 '+(W.spendpct||0)+'%）</b><br>';
-     hh+='其中 <b>'+(W.zero_n||0)+' 个本周广告销售为 $0</b>，合计白烧 <b>$'+W.zero_spend+'</b>：';
-     (W.items||[]).filter(function(x){return x.adsales<=0;}).forEach(function(x,i){ if(i<6) hh+=(i?('、'):'')+x.asin+'（$'+x.spend.toFixed(2)+'）'; });
-     hh+='。<br>另有 ACOS 失控的：';
-     (W.items||[]).filter(function(x){return x.adsales>0;}).forEach(function(x,i){ if(i<4) hh+=(i?('、'):'')+x.asin+'（ACOS '+x.acos+'%，$'+x.spend.toFixed(2)+' 只回 $'+x.adsales.toFixed(2)+'）'; });
-     hh+='。<br><br>';
-     hh+='<b>③ 一句结论</b>：ACOS '+T.acos+'% 看着健康，是因为<b>钱都压在了少数几个本来就能卖的款上</b>；真正该投的头部自然单款没预算，该停的 0 单款还在烧。这不是「控费不精准」的小问题，是<b>投放方向反了</b>。<br>';
-     hh+='<b>动作</b>：把 ② 里 '+(W.zero_n||0)+' 个 0 销售款的钱（$'+W.zero_spend+'）挪给 ① 的前 3 个款（'+((U.items||[]).slice(0,3).map(function(x){return x.asin;}).join('、'))+'），周预算 $'+W.zero_spend+' 全部转投，预期能把这 3 个款的排名往回拉。';
-     return hh; })()
-   +'</div>'
    +'<br>⑤ <b>提前压11月节点</b>：11月黑五网一是淡季里唯一的需求脉冲，库存和广告节奏要在<b>11/10前</b>到位，别等节点到了才调。';
  })();
 
@@ -1162,7 +1136,14 @@ $('concl').innerHTML=conclHtml;
   var h='<div style="margin:16px 0 8px;padding:12px 15px;background:#f0f7ff;border-left:4px solid '+accent+';border-radius:6px">';
   h+='<b style="color:'+accent+';font-size:12.5px">📉 子表：'+gname+'捆绑变体组 · 排名下滑归因（两段对比）</b>';
   h+='<div style="margin:6px 0 9px;font-size:10.4px;color:#555;line-height:1.85">';
-  h+='<b>段A（前月）</b> '+J.segA+'　→　<b>段B（后月）</b> '+J.segB+'<br>';
+  var _B=D.bundle2seg||{};
+  var _sA=J.segA||_B.segA||'—', _sB=J.segB||_B.segB||'—';
+  var _nd=function(s){ var p=String(s||'').split('~'); if(p.length<2) return '';
+    var a=new Date(p[0]+'T00:00:00'), b=new Date(p[1]+'T00:00:00');
+    var n=Math.round((b-a)/86400000)+1; return isNaN(n)?'':('（'+n+' 天）'); };
+  var _fmt=function(s){ return String(s||'—').replace('~',' ~ '); };
+  h+='<b>段A（前段）</b> <b style="color:#C00000">'+_fmt(_sA)+'</b>'+_nd(_sA)
+    +'　→　<b>段B（后段）</b> <b style="color:#C00000">'+_fmt(_sB)+'</b>'+_nd(_sB)+'<br>';
   h+='口径：按 <b>ASIN 逐链接</b>汇总 BI 运营明细（销量/流量/销售额），同商品编码多链接不重复计｜只列<b>销量下滑 ≥5 件</b>的款｜FBA可用/在途=ERP 2026-11-25 实时快照';
   h+='</div>';
 
